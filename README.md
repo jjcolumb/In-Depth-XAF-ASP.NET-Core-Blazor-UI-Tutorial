@@ -281,3 +281,457 @@ The ASP.NET Core Blazor application handles this event in a solution template. W
 #### Query Data
 As you can see in the code above, XAF uses an Object Space object to manipulate persistent objects (see Create, Read, Update and Delete Data).
 
+## Implement Custom Business Classes and Reference Properties (XPO)
+This lesson explains the following concepts:
+
+* How to implement business classes from scratch 
+* How to implement object references to existing classes 
+* How XAF generates UI for referenced objects 
+
+### Step-by-Step Instructions
+1. Add the following Department and Position persistent classes to the Contact.cs file.
+
+```csharp
+namespace MySolution.Module.BusinessObjects {
+    // ...    
+    [DefaultClassOptions]
+    [System.ComponentModel.DefaultProperty(nameof(Title))]
+    public class Department : BaseObject {
+        public Department(Session session) : base(session) { }
+        private string title;
+        public string Title {
+            get { return title; }
+            set { SetPropertyValue(nameof(Title), ref title, value); }
+        }
+        private string office;
+        public string Office {
+            get { return office; }
+            set { SetPropertyValue(nameof(Office), ref office, value); }
+        }
+    }
+    [DefaultClassOptions]
+    [System.ComponentModel.DefaultProperty(nameof(Title))]
+    public class Position : BaseObject {
+        public Position(Session session) : base(session) { }
+        private string title;
+        public string Title {
+            get { return title; }
+            set { SetPropertyValue(nameof(Title), ref title, value); }
+        }
+    }
+}
+```
+
+2. Add the Department and Position properties to the Contact class:
+
+```csharp
+[DefaultClassOptions]
+public class Contact : Person {
+    //...
+    private Department department;
+    public Department Department {
+        get {return department;}
+        set {SetPropertyValue(nameof(Department), ref department, value);}
+    }
+    private Position position;
+    public Position Position {
+        get {return position;}
+        set {SetPropertyValue(nameof(Position), ref position, value);}
+    }
+    //...
+}
+```
+
+The Contact class now exposes the Position and Department reference properties.
+
+3. Run the application. 
+
+After you run the application you can see that the navigation control displays two new items: Department and Position. You can click the new items to access department and position lists.
+
+* Department detail form:
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/6104a7a2-3e1b-4b10-bbc8-2e59e9461a22)
+
+* Department list:
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/c11de21b-e4c9-4f65-aa57-bd086ca33308)
+
+In the Contact Detail View, XAF creates lookup editors for Department and Position. These editors use a special type of View - Lookup List View. Typically, this View includes a single column that displays values from the class’s default property. See additional information about default properties later in this topic. 
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/180e4288-b599-4ea9-ba79-5e2504602ed4)
+
+Users can select Department or Position values from the dropdown lists. Note that Lookup editors support incremental filtering.
+
+### Detailed Explanation
+#### Default Property
+The Position and Department classes are decorated with the DefaultProperty attribute. This attribute specifies the default property of the class. You can specify the most descriptive property of your class in the DefaultProperty attribute, and its values will then be displayed in the following:
+
+* Detail form captions 
+* The leftmost column of a List View 
+* Lookup List Views 
+Refer to the Data Annotations in Data Model topic for more information.
+
+## Set a Many-to-Many Relationship (XPO)
+This lesson explains how to create a many-to-many relationship between business objects and how XAF generates the UI for such relationships.
+
+### Step-by-Step Instructions
+1. Right-click the Business Objects folder in the MySolution.Module project, and choose Add | Class…. Change the file name to Task.cs and click Add. Replace the new file’s content with the following code:
+
+```csharp
+using DevExpress.ExpressApp.Model;
+using DevExpress.Persistent.Base;
+using DevExpress.Persistent.BaseImpl;
+using DevExpress.Xpo;
+
+namespace MySolution.Module.BusinessObjects {
+    [DefaultClassOptions]
+    [ModelDefault("Caption", "Task")]
+    public class DemoTask : Task {
+        public DemoTask(Session session) : base(session) { }
+        [Association("Contact-DemoTask")]
+        public XPCollection<Contact> Contacts {
+            get {
+                return GetCollection<Contact>(nameof(Contacts));
+            }
+        }
+    }
+}
+```
+
+2. Add the Tasks property in the Contact class implementation.
+
+```csharp
+[DefaultClassOptions]
+public class Contact : Person {
+    //...
+    [Association("Contact-DemoTask")]
+    public XPCollection<DemoTask> Tasks {
+        get {
+            return GetCollection<DemoTask>(nameof(Tasks));
+        }
+    }
+}
+```
+
+3. Run the application. 
+
+In the Contact detail view, the application displays the following elements:
+    1. A list of assigned tasks;
+    2. The New button - allows users to add a new assigned task; 
+    3. The Link button - allows users to assign the current contact an existing task.     
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/d0bcebe9-9dde-4855-9a97-29be5fb75737)
+
+You can find the same UI in the Tasks detail view. 
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/4b337d5a-1380-492a-a0ef-e9860f5f2b1b)
+
+### Detailed Explanation
+#### Add an Association
+In the DemoTask class, AssociationAttribute is applied to the Contacts property of the XPCollection type. This property represents a collection of associated Contacts. XPO uses the Association attribute to set a relationship between objects. The Contacts property getter implementation - the GetCollection method - is used to return a collection.
+
+```csharp
+[Association("Contact-DemoTask")]
+public XPCollection<Contact> Contacts {
+    get {
+        return GetCollection<Contact>(nameof(Contacts));
+    }
+}
+```
+In the Contact class, the Tasks property is the second part of the Contact-DemoTask relationship. Note that the Association attribute must be applied to this property as well. 
+
+```csharp
+[DefaultClassOptions]
+public class Contact : Person {
+    //...
+    [Association("Contact-DemoTask")]
+    public XPCollection<DemoTask> Tasks {
+        get {
+            return GetCollection<DemoTask>(nameof(Tasks));
+        }
+    }
+}
+```
+
+> NOTE: Do not modify the XPCollection property declaration demonstrated above. If you manipulate the collection or introduce any additional settings within the declaration, it may cause unpredictable behavior.
+
+After you run the application, XPO will generate the intermediate tables and relationships.
+
+#### Change Application Model in Code
+The DemoTask class is decorated with the ModelDefaultAttribute attribute. The attribute parameters specify that the Caption property of the Application Model’s BOModel | DemoTask node is set to “Task”. 
+
+You can apply the ModelDefault attribute to a business class or its member to change any property of the Application Model’s BOModel | <Class> or BOModel | <Class> | OwnMembers | <Member> node.
+
+## Set a One-to-Many Relationship (XPO)
+This lesson explains how to create a one-to-many relationship between business objects and how XAF generates the UI for such a relationship.
+
+### Step-by-Step Instructions
+1. To implement the “One” part of the Department-Contacts relationship, decorate the Contact class’ Department property with the `AssociationAttribute`.
+
+```csharp
+[DefaultClassOptions]
+public class Contact : Person {
+    //...
+    private Department department;
+    [Association("Department-Contacts")]
+    public Department Department {
+        get {return department;}
+        set {SetPropertyValue(nameof(Department), ref department, value);}
+    }
+    //...
+}
+```
+
+Refer to the following help topic for information on the Association attribute: Set a Many-to-Many Relationship (XPO).
+
+2. To implement the “Many” part of the Department-Contacts relationship, add the Contacts property to the Department class and decorate this property with the Association attribute.
+
+```csharp
+public class Department : BaseObject {
+    //...
+    [Association("Department-Contacts")]
+    public XPCollection<Contact> Contacts {
+        get {
+            return GetCollection<Contact>(nameof(Contacts));
+        }
+    }
+}
+```
+
+3. Run the application. 
+
+Open the Department detail view. You can see the Contacts group. To add objects to the Contacts collection, use the New or Link button in this tab. The Link button allows users to add references to existing Contact objects.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/d9a2d084-72af-4f8c-8dbc-78429f3112d1)
+
+To remove a reference to an object from this collection, use the Unlink button.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/8493c6f9-cb49-44d9-858b-dfe0d8a5f953)
+
+> TIP: If you create a new Department and then create a new Contact in the Contacts collection, the associated Department is not immediately visible in the Detail View of the newly created Contact. The link between these objects is added later when you save the Contact. To change this behavior, use the XafApplication.LinkNewObjectToParentImmediately property. When the property value is true, the application creates a link and saves it immediately after you click New.
+
+## Initialize Business Object Properties (XPO)
+This lesson explains how to initialize properties in newly created business objects. 
+
+For this purpose, you will add the Priority property to the DemoTask class created in the Set a Many-to-Many Relationship (XPO) lesson. Then you will override the AfterConstruction method to initialize the new property.
+
+### Step-by-Step Instructions
+1. Add the Priority property to the DemoTask class and declare the Priority enumeration, as shown below:
+
+```csharp
+public class DemoTask : Task {
+    // ...
+    private Priority priority;
+    public Priority Priority {
+        get { return priority; }
+        set {
+            SetPropertyValue(nameof(Priority), ref priority, value);
+        }
+    }
+    //...
+}
+public enum Priority {
+    Low,
+    Normal,
+    High
+}
+```
+
+2. To initialize the newly added Priority property when a DemoTask object is created, override the AfterConstruction method, as shown below:
+
+```csharp
+[DefaultClassOptions]
+[ModelDefault("Caption", "Task")]
+public class DemoTask : Task {
+    //...
+    public override void AfterConstruction() {
+        base.AfterConstruction();
+        Priority = Priority.Normal;
+    }
+    //...
+}
+```
+
+3. Run the application. 
+
+Create a new DemoTask object. In the Task detail view, the Priority property is set to Priority.Normal, as declared in the code above. 
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/028a003f-95b9-46ea-844b-65679dc4cc9a)
+
+Note that XAF generates a combo box for the Priority property. The combo box items are the enumeration values declared in the step 2.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/284d1c95-1e8a-489e-abe9-f9af6a7fa25c)
+
+### Detailed Explanation
+#### Initialize Property Values
+The AfterConstruction method is executed when a new business object is created. In this tutorial, you override this method to set the Priority property to Priority.Normal when a new DemoTask object is created. 
+
+## Implement Dependent Reference Properties (XPO)
+This lesson explains how to implement properties whose values can depend on other properties. 
+
+You will add a new Manager property to the Contact class. The editor for this property will display a list of managers who work in the same department.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/93ad42c2-800e-476b-bd11-994f5c185bd7)
+
+### Step-by-Step Instructions
+1. Add a new Manager property of the Contact type to the Contact class. 
+
+```csharp
+[DefaultClassOptions]
+public class Contact : Person {
+    //...
+    private Contact manager;
+    public Contact Manager {
+       get { return manager; }
+       set { SetPropertyValue(nameof(Manager), ref manager, value); }
+    }
+    //...
+}
+```
+
+2. Apply the DataSourceProperty and DataSourceCriteria attributes to the newly added property.
+
+```csharp
+[DefaultClassOptions]
+public class Contact : Person {
+    //...
+    [DataSourceProperty("Department.Contacts", DataSourcePropertyIsNullMode.SelectAll)]
+    [DataSourceCriteria("Position.Title = 'Manager' AND Oid != '@This.Oid'")]
+    public Contact Manager {
+        // ...
+    }
+    // ...
+}
+```
+
+3. Run the application.
+
+Add the following objects:
+
+* a Department object (for example, “Developer Department”) 
+* multiple Contact objects with the Department property set to “Developer Department” 
+* multiple Position objects (for example, “Manager”, “Developer”). 
+
+For the newly added contacts, set the Position property to:
+
+* “Manager” (for multiple Contact objects); 
+* “Developer” (for other Contact objects). 
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/54f71b21-1d0f-46c3-8ee6-1453220c3728)
+
+Create a new Contact object. In the Contact Detail View, specify the Department property and expand the Manager lookup editor. Notice the following:
+
+* The Department property of the listed objects is the same as those you specified above. 
+* The Position property is set to “Manager” for each of the listed objects. 
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/62b8a8de-45b9-4c09-9c66-158c798459f6)
+
+### Detailed Explanation
+You can use integrated XAF designers to implement the same behavior without code. For details, refer to the following lesson: Filter Data Source for a Lookup Editor.
+
+#### The DataSourceProperty Attribute
+The DataSourceProperty attribute accepts two parameters. The first one specifies the path to the lookup list. The second parameter is optional. It specifies how the lookup items are populated if the application could not find any items from the path.
+
+In this tutorial, the second parameter is set to SelectAll. You can also set the SelectNothing or CustomCriteria values. In the latter case, a third parameter is required to specify criteria.
+
+#### The DataSourceCriteria Attribute
+With the DataSourceCriteria attribute applied, the Manager lookup editor contains Contact objects that satisfy the criteria specified in the attribute parameter.
+
+## Implement Property Value Validation in Code (XPO)
+This lesson explains how to set validation rules for business classes and their properties. XAF applies these rules when a user executes the specified operation (for example, saves an edited object). 
+
+In this lesson you will create a rule that requires that the Position.Title property must not be empty. The application will apply the rule when a user saves a Position object. 
+
+> NOTE:
+> To use XAF Validation functionality, install the DevExpress.ExpressApp.Validation.Blazor NuGet package and register the Validation module in your project. 
+The project wizard adds this package to all new applications with the enabled security options.
+
+### Step-by-Step Instructions
+1. Apply the RuleRequiredFieldAttribute attribute to the Title property in the Position class. As a parameter, specify the context that triggers the rule (for example, DefaultContexts.Save):
+
+```csharp
+using DevExpress.Persistent.Validation;
+//...
+[DefaultClassOptions]
+[System.ComponentModel.DefaultProperty(nameof(Title))]
+public class Position : BaseObject {
+   //...
+   private string title;
+   [RuleRequiredField(DefaultContexts.Save)]
+   public string Title {
+      get { return title; }
+      set { SetPropertyValue(nameof(Title), ref title, value); }
+   }
+}
+```
+
+2. Run the application. 
+
+Click the New button to create a new Position object. Leave the Title property empty and click Save. The error message is displayed:
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/e0856a00-3a74-4173-a916-f7f028d3f018)
+
+### Detailed Explanation
+The RuleRequiredField attribute defines a validation rule that ensures that the Position.Title property has a value when the Position object is saved.
+
+The Validation System offers a number of Rules and Contexts. For details, refer to the Validation Rules topic. The Application Model stores all rules so that an admin can add and edit Rules and Contexts with the Model Editor (see the Implement Property Value Validation in the Application Model topic).
+
+## Filter Data Source for a Lookup Editor (XPO)
+This lesson explains how to filter data displayed in a lookup editor. This editor appears in a Detail View for reference properties and contains a list of objects of another related class. 
+
+### Step-by-Step Instructions
+1. Specify a Many-to-Many relationship between the Position and Department classes. For more information, refer to the following topic: Set a Many-to-Many Relationship (XPO).
+
+```csharp
+[DefaultClassOptions]
+[System.ComponentModel.DefaultProperty(nameof(Title))]
+ public class Department : BaseObject {
+   //...
+   [Association("Departments-Positions")]
+   public XPCollection<Position> Positions {
+      get { return GetCollection<Position>(nameof(Positions)); }
+   }
+}
+
+[DefaultClassOptions]
+[System.ComponentModel.DefaultProperty(nameof(Title))]
+public class Position : BaseObject {
+      //...
+   [Association("Departments-Positions")]
+   public XPCollection<Department> Departments {
+      get { return GetCollection<Department>(nameof(Departments)); }
+   }
+}
+```
+
+2. Open the Model.DesignedDiffs.xafml file in the Model Editor. Navigate to the BOModel | MySolution.Module.BusinessObjects node. Expand the Contact child node and select the OwnMembers | Position child node. 
+
+Make the following changes to the node’s properties:
+
+* Set the DataSourceProperty property to Department.Positions. 
+* Set the DataSourcePropertyIsNullMode property to SelectAll.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/6ee2b286-3344-4acd-8723-61c8c49d4dd9)
+
+3. In the Contact class (BusinessObjects\Contact.cs), replace the Department property declaration with the following code:
+
+```csharp
+[Association("Department-Contacts", typeof(Department)), ImmediatePostData]
+public Department Department {
+   get {return department;}
+   set {
+      SetPropertyValue(nameof(Department), ref department, value);
+       // Clear Position and Manager properties if the Department has changed.
+      if(!IsLoading) {
+         Position = null;
+         if(Manager != null && Manager.Department != value) {
+            Manager = null;
+         }
+      }
+   }
+}
+```
+
+4.Run the application. Open a department’s Detail View and Link several Position items to this department.
+
+5. Open the Detail View of a contact that belongs to this department. The Position editor dropdown lists the positions you linked in the previous step:
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/65d0ea49-7e55-4d96-9020-8102707c286a)

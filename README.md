@@ -1,4 +1,4 @@
-![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/75fc0389-5ffd-4ad9-be49-cf7270117924)# In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial
+# In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial
 
 While we continue to extend the capabilities of XAF’s ASP.NET Core Blazor UI, you can deliver intuitive user experiences for the ASP.NET Core Blazor platform today. This tutorial documents how to build an application to store contacts and other related objects using XAF’s ASP.NET Core Blazor UI. 
 

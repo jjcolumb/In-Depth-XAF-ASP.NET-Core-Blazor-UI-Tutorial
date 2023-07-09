@@ -1,4 +1,4 @@
-# In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/75fc0389-5ffd-4ad9-be49-cf7270117924)# In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial
 
 While we continue to extend the capabilities of XAF’s ASP.NET Core Blazor UI, you can deliver intuitive user experiences for the ASP.NET Core Blazor platform today. This tutorial documents how to build an application to store contacts and other related objects using XAF’s ASP.NET Core Blazor UI. 
 
@@ -1522,6 +1522,596 @@ The PercentCompleted display text includes the percentage sign: ‘%’.
 
 > NOTE: In .NET 5, the libraries used for globalization functionality has been changed. Refer to the following topic for details: Globalization APIs use ICU libraries on Windows.
 If a current thread’s culture is set to a culture that includes only the language and not the country (for example, “de” or “en”), the currency symbol renders as an international currency symbol (`¤`), for example: `100,00 ¤`.
-Refer to the following topics for details: 
-* ICU Localization - Currency symbol. 
-* `CurrencySymbol`. 
+Refer to the following topics for details:
+> * ICU Localization - Currency symbol. 
+> * `CurrencySymbol`. 
+
+## Use a Multiline Editor for String Properties
+This lesson explains how to display a multiline editor for string properties. 
+
+The instructions below explain how to enable a multiline text box for the Web Page Address property editor in the Contact Detail View.
+
+### Step-by-Step Instructions
+1. Open the Model.DesignedDiffs.xafml file in the Model Editor. 
+2. Navigate to the BOModel | MySolutuon.Module.BusinessObjects | Contact | OwnMembers node. 
+3. For the WebPageAddress child node, set the properties as follows:
+
+* Set the RowCount property to 2. This creates a two-line editor for the WebPageAddress property.
+* Set the Size property to 100. This allows a user to enter up to 100 symbols. You can also apply the `FieldSize` attribute in code.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/d3da8498-dc62-4f54-a4af-69a44ddea948)
+
+4. Run the application. Open a Detail List for a Contact object. The Web Page Address property uses a two-line text box editor.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/794854fa-b89a-43d7-b3e9-33dd0508b372)
+
+## Add an Item to the Navigation Control
+This lesson explains how to add an item to the navigation control. 
+
+The instructions below describe how to add the Notes item to the navigation control. When a user clicks this item, the application displays a List View for the Note business class added in the following lesson: Add an Action that Displays a Pop-Up Window.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/1d99baf1-ed07-4102-9db5-0007060af364)
+
+### Step-by-Step Instructions
+1. Open the Model.DesignedDiffs.xafml file in the Model Editor. In the tree view, navigate to the NavigationItems | Items | Default | Items node. To add a child item to a navigation item, right-click the Items node and select Add… | NavigationItem in the context menu:
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/0aaed6c0-0c16-4876-9f85-ea13cbc87da8)
+
+2. Specify the following properties for the new item:
+
+* Set the View property to `Note_ListView`. 
+* Set the Caption property to `Notes`. 
+* Set the Id property to `Note`. 
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/9696c943-bda4-45ea-937a-fecb1166c3dc)
+
+3. Run the application. You can see the new navigation item that allows you to add and edit plain text notes. 
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/c6edee0a-e50d-4370-9b21-3ecac48da936)
+
+## Implement Property Value Validation in the Application Model
+This lesson explains how to check whether a property value meets a predefined criteria. This functionality becomes available if you install the Validation Module.
+
+The instructions below explain how to prevent a user from marking a task as completed before the task has started (`DemoTask.Status` is `NotStarted`).
+
+### Step-by-Step Instructions
+1. Open the Model.DesignedDiffs.xafml file in the Model Editor. Navigate to the Validation | Rules node. Add a new validation rule: right-click the Rules node and select Add… | RuleCriteria.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/5cd77f6b-5abf-4629-a88a-5a7b2c816a2b)
+
+2. Set the values of the following properties for the node:
+
+* TargetType to “MySolution.Module.BusinessObjects.DemoTask” 
+* Criteria to `Status != 'NotStarted'` 
+* ID to `TaskStarted` 
+* TargetContextIDs to `MarkCompleted` 
+* CustomMessageTemplate to `Cannot set the task as completed because it has not started`. 
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/ee514c54-4bb5-4fb0-8143-4373499045c4)
+
+The Criteria property value must respect the Criteria Language Syntax. To set the criteria, click the ellipsis button (EllipsisButton) to the right of the Criteria value and invoke the Filter Builder dialog. In this dialog, you can visually design a criteria expression.
+
+3. In the ActionDesign | Actions | Task.MarkCompleted node, set the ValidationContexts property to `MarkCompleted`.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/53c1147f-ed50-4a4e-a3fa-c520ee436213)
+
+> TIP: You can use the Save or Delete contexts. The validation of Rules with these contexts occurs when a user saves or deletes an object (see Validation Rules).
+
+4. Change the caption of the MarkCompleted Action to `Mark Completed`.
+
+5. Run the application. Assign the “Not Started” value to the Status property of one of the existing DemoTask objects. Click the Mark Completed button. The following Validation Error dialog appears:
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/fdd57774-53b6-4b22-b0ca-cde7bf43b98c)
+
+You can also add a rule to a class or property in code. For additional information, refer to the following topic: Implement Property Value Validation in Code (XPO).
+
+The following topic lists all available rule types and their descriptions: Validation Rules.
+
+## Customize the View Items Layout
+This lesson explains how to customize the default editor layout in a Detail View. The instructions below use the Contact Detail View as an example.
+
+### Step-by-Step Instructions
+1. Open the Model.DesignedDiffs.xafml file in the Model Editor. 
+2. Navigate to the Views | MySolution.Module.BusinessObjects | Contact | Contact_DetailView | Layout node. 
+3. The Model Editor displays a design surface that imitates the Contact Detail View. To change the editor layout, right-click the View’s empty space and choose Customize Layout.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/ba8dc337-9579-4271-a868-e4556eb1b2b4)
+
+The Customization form allows you to add, remove, and reorder items.
+
+* To remove an item, drag it from the Detail View to the Customization Form. 
+* To add an item, drag it from the Customization Form to the Detail View. 
+* To reorder items, drag editors to create a new layout and save changes.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/dcc6e06d-0aee-4be4-89bd-cb5415727eff)
+
+For more information about the Customization form and the Layout Tree View tab and its context menu, refer to the Default Runtime Customization topic.
+
+4. Explore additional layout customization options available in the context menu. Click the Layout Tree View tab on the Customization Form. Right-click a tree node to invoke a context menu.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/74b86878-741f-49d8-bf1c-90319fb997d0)
+
+5. Run the application to see the Contact Detail View’s new layout.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/7be844ee-9bb4-43d2-a424-07fe4986e3ea)
+
+> TIP: To reset changes you made to the layout, right-click Contact_DetailView | Layout and choose Reset Differences.
+
+## Localize UI Elements
+This lesson explains how to localize an XAF ASP.NET Core Blazor application. It describes how to translate UI elements into German and create a multi-language application.
+
+### Step-by-Step Instructions
+1. Add the `DevExpress.ExpressApp.de`, `DevExpress.ExpressApp.Blazor.de`, and `DevExpress.ExpressApp.Security.de` packages to the MySolution.Blazor.Server project.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/6ddc2e99-dbdf-453e-9c34-10968e0ec400)
+
+The packages are available only for the following languages: German (de), Spanish (es), and Japanese (ja). For other languages, use the Localization Service to download satellite assemblies. See the Localize Standard XAF Modules and DevExpress Controls Used in an Application topic for more information on how to use this service to localize XAF modules.
+
+2. In the MySolution.Blazor.Server project, open the appsettings.json file. Add the German language to the DevExpress:ExpressApp:Languages section and enable the runtime language switcher:
+
+```json
+{ 
+    // ... 
+    "DevExpress": { 
+        "ExpressApp": { 
+            "Languages": "en;de",
+            "ShowLanguageSwitcher": true,  
+             // ...
+        } 
+    } 
+}
+```
+
+See the Current Culture in XAF ASP.NET Core Blazor Applications help section for more information on how an XAF ASP.NET Core Blazor application determines the default language.
+
+3. Open the Model.DesignedDiffs.xafml file in the Model Editor. Focus the MySolution node and click Languages Manager… in the Language combo box on the Model Editor Toolbar.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/b8cb60fe-de98-4ede-9659-1fc961731a8c)
+
+4. Add the target language in the invoked dialog and click OK. 
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/15049a53-1242-489a-8134-0b86154882cf)
+
+5. Restart Visual Studio to load localized values from satellite assemblies. 
+
+6. In the Solution Explorer, right-click the *Model.DesignedDiffs.Localization.de.xafml* file and open its Properties window. Make sure that the Build Action field is set to Embedded resource.
+
+7. Select the newly added language in the Language combo box.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/2e35fa9e-53c9-403f-835f-c17152370eb8)
+
+8. The localization packages translate standard strings/messages used in XAF. You also need to translate the strings that are unique to your current application (such as object or property names). To do that, locate properties denoted by the “globe” glyph in all the nodes and child nodes and assign a German translation to them.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/0d679c55-640d-4857-9031-30c0ae0e5722)
+
+9. Run the application. Click the gear icon to display the settings menu and switch the language to German.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/d51e7d93-4c1a-43ea-9f56-0dc38cbaa2ea)
+
+10. Check whether you translated all required items.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/74f4e973-08b6-4374-b3c8-76871f8583a7)
+
+## Display a Nested Property Editor in a Detail View
+This lesson explains how to make a property (its editor) visible in a Detail View. The instructions below show how to locate the Department.Office nested property and make it visible in the Contact Detail View.
+
+### Step-by-Step Instructions
+1. Open the Model.DesignedDiffs.xafml file in the Model Editor.
+
+2. Navigate to the Views | MySolution.Module.BusinessObjects | Contact node. Expand the Contact_DetailView child node and click the Layout node.
+
+3. The Model Editor displays a design surface that imitates the Contact Detail View. Right-click the View’s empty space and choose Customize Layout.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/1b0c0cf9-0f0e-41da-97c5-c68712fd7b96)
+
+4. In the invoked Customization window, click the Add button.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/3e4b733a-500b-4f9f-97d2-91ed3b2cd166)
+
+5. In the Object Model dialog, expand the Department node, check the Office checkbox, and click OK.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/e0ce5698-93ae-4481-b476-51404b9c50ed)
+
+6. The Office: item appears on the Hidden Items tab of the Customization window:
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/dcd3d5ca-1b95-40ed-b7c9-7d2ed10106b2)
+
+7. Drag the Office: item to the required position of the Contact Detail View. 
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/ba6a2ab5-13b4-4257-836a-404588d89d04)
+
+8. Run the application, open the Contact Detail View, and find the Office editor:
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/79dc2c46-3aa4-4877-b833-d00ff363b8bf)
+
+
+## Change Field Visibility in a List View
+This lesson explains how to select columns displayed in a List View. The steps below describe how to customize the Contact List View at design time.
+
+## Step-by-Step Instructions
+1. Open the Model.DesignedDiffs.xafml file in the Model Editor.
+
+2. Click the Views | MySolution.Module.BusinessObjects | Contact_ListView | Columns node to open the Grid List Editor Designer. Right-click the table header and select Column Chooser.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/d5631c17-252f-4301-bc35-f0f1f7652226)
+
+3. Drag items to and from the Customization window to display the following columns in the List View: *FullName*, *Department*, *Position*, and *Email*.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/3695529c-62e9-48b4-949b-93e5466bb4e9)
+
+You can also resize and group columns in the Grid List Editor Designer. See the following help section for more information: Design-Time Customization.
+
+To reset column settings, right-click the Views | MySolution.Module.BusinessObjects | Contact_ListView | Columns node and select Reset Differences.
+
+4. Run the application. The Contact List View displays the FullName, Department, Position, and Email columns.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/ee355982-3da5-47ad-9095-17c312f93c43)
+
+## Change List View Filters
+This lesson describes three techniques used to filter a List View. Filters will be applied to the Contact List View.
+
+### Show a Filter Action
+This technique allows end users to apply predefined filters to a List View.
+
+1. Open the Model.DesignedDiffs.xafml file in the Model Editor. Navigate to the Views | MySolution.Module.BusinessObjects | Contact_ListView node. Right-click the Filters child node and select Add | ListViewFilterItem. For the new node, set the Id property to *Development Department Contacts*. Set the Criteria property to `[Department.Title] = 'Development Department'`. 
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/1789f78f-fdab-4285-a632-5044bc8ec6cf)
+
+Criteria properties use Criteria Language Syntax.
+
+You can also construct a filter criteria in the Filter Builder dialog. To open this dialog, click the ellipsis button (EllipsisButton) to the right of the Criteria value.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/da70fe85-3bee-48f0-afa2-9c56941cbd6a)
+
+2. Add another child node to the Filters node. Set the Id property to Developers and the Criteria property to `[Position.Title] = 'Developer'`.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/1d4629d4-bdc1-47eb-8ea3-bdc5aedb581c)
+
+3. Add one more child node to the Filters node. Set the Id property to All Contacts and leave the Criteria property empty. This item will display all Contact objects in the List View.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/9bc69e6f-62e3-4846-8d8d-21ed3365c128)
+
+4. For the Filters node, set the CurrentFilter property to Developers. The Developers filter will be initially applied to the Contact List View.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/d30369a9-1b30-4c0a-98c2-bd374a9f2c2f)
+
+5. Run the application and check that the SetFilter Action is available.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/ea5d6b6c-5732-4f9e-ae69-6ebf7fe38b2f)
+
+### Set a Static Filter in the Model Editor
+The Model Editor also allows you to filter List View records without any indication in the UI.
+
+1. In the MySolution.Module project, open the Model.DesignedDiffs.xafml file in the Model Editor. Navigate to the Views | MySolution.Module.BusinessObjects | Contact | Contact_ListView node. Set its Criteria property to `Position.Title = 'Developer'`. 
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/b0e70099-3161-48d1-bc78-349e408bc82c)
+
+2. Run the application and check that the Contact List View displays only developers.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/1444428e-5a41-4023-8ef2-cc9c5c08d0d0)
+
+### Set a Filter in Code
+You can create filters that cannot be disabled in the application UI nor in the Model Editor.
+
+1. In the Solution Explorer, right-click the Controllers folder in the *MySolution.Module* project, and choose Add DevExpress Item | New Item… to invoke the Template Gallery.
+
+2. Select the XAF Controllers | View Controller Visual Studio template. Specify *FilterListViewController* as the new item’s name and click Add Item.
+
+3. In the autogenerated *FilterListViewController.cs* file, inherit the controller from the `ObjectViewController<ViewType, ObjectType>`:
+
+```csharp
+using DevExpress.Data.Filtering;
+using DevExpress.ExpressApp;
+using MySolution.Module.BusinessObjects;
+// ...
+
+public partial class FilterListViewController : ObjectViewController<DetailView, Contact> {
+    public FilterListViewController() {
+        InitializeComponent();
+    }
+    // ...
+}
+```
+
+4. Override the `OnActivated` method:
+
+```csharp
+public partial class FilterListViewController : ObjectViewController<DetailView, Contact> {
+    // ...       
+    protected override void OnActivated() {
+        base.OnActivated();
+        //Specify a filter criteria.
+        View.CollectionSource.Criteria["Developers"] = CriteriaOperator.FromLambda<Contact>(c => c.Position.Title == "Developer");
+    }
+    // ...
+}
+```
+
+5. Run the application and check the filter in the Contact List View.
+
+## Group List View Data
+This topic explains how to group List View data and uses the Department and Position properties created in the previous steps to group the Contact List View data.
+
+### Step-by-Step Instructions
+1. Open the Model.DesignedDiffs.xafml file in the Model Editor.
+
+2. Click the Views | MySolution.Module.BusinessObjects | Contact | Contact_ListView | Columns node to open the Grid List Editor Designer. Right-click the table header and select the Show Group By Box item.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/e8fac31b-adda-46b9-9078-d5d13b8f21d5)
+
+3. The Group Panel appears above the column headers. 
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/c8cb887d-fefc-47ca-8cde-2294aea9b1fa)
+
+4. Drag the Department and Position column headers to the Group Panel. Note that multiple columns in the group area create nested groups. 
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/6176c53e-0584-4c2e-a11d-e44b39657ddd)
+
+When you add a column to the Group Panel, the column’s `GroupIndex` property value changes. You can also directly specify a column’s `GroupIndex` property to group List View data. See the following topic for more information: List View Columns Customization.
+
+You can hide the Group Panel to prevent users from changing groups. Navigate to the Views | MySolution.Module.BusinessObjects | Contact | Contact_ListView node and set its IsGroupPanelVisible property to `False`.
+
+5. Run the application. The Contact List View is grouped by the Department and Position fields and the Group Panel is displayed. 
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/76913318-77f3-40bb-b24c-9326528de323)
+
+6. Users can also drag columns to and from the Group Panel to group and ungroup List View Data.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/56a4f84a-b65c-45ba-b08b-358d798a9ba9)
+
+
+# Additional Modules
+The eXpressApp Framework supplies some features in separate assemblies called modules. For information on how to add and use these features in your applications, see the following lessons:
+
+* Attach Files to Objects 
+* Create Several View Variants 
+
+## Attach Files to Objects (.NET 6)
+This lesson describes how to attach file collections to business objects. In this tutorial, we will add the File Attachment Module to an ASP.NET Core Blazor application, and implement new business classes: Resume to store a Contact’s resume information and PortfolioFileData to save file data collection items
+
+### Step-by-Step Instructions
+1. Add the DevExpress.ExpressApp.FileAttachment.Blazor NuGet package to the *MySolution.Blazor.Server* project. See the following topic for more information on how to install DevExpress NuGet packages: Install DevExpress Controls Using NuGet Packages. 
+
+2. In the *Startup.cs* file, call the `AddFileAttachments(IModuleBuilder<IBlazorApplicationBuilder>, Action<FileAttachmentsOptions>)` method to add the File Attachment Module to your application:
+
+```csharp
+public class Startup {
+// ...
+    public void ConfigureServices(IServiceCollection services) {
+        // ...
+        services.AddXaf(Configuration, builder => {
+            builder.UseApplication<MySolutionBlazorApplication>();
+            builder.Modules
+                .AddConditionalAppearance()
+                // ...
+                .AddFileAttachments()
+            // ...
+        });
+        // ...
+    }
+}
+```
+If you add the File Attachment Module when you create an XAF application, the Solution Wizard generates the code used to add the File Attachment Module automatically.
+
+3. Right-click the *Business Objects* folder in the *MySolution.Module* project and choose Add Item | Class… Specify Resume.cs as the new file name and click Add.
+
+4. Replace the generated class declaration with the following code:
+
+```csharp
+using DevExpress.Persistent.Base;
+using DevExpress.Persistent.BaseImpl;
+using DevExpress.Xpo;
+using MySolution.Module.BusinessObjects;
+
+namespace MySolution.Module.BusinessObjects {
+    [DefaultClassOptions]
+    [ImageName("BO_Resume")]
+    public class Resume : BaseObject {
+        public Resume(Session session) : base(session) {}
+        private Contact contact;
+        [Association("Contact-Resumes")]
+        public Contact Contact {
+            get { return contact; }
+            set { SetPropertyValue(nameof(Contact), ref contact, value); }
+        }
+        [Aggregated, Association("Resume-PortfolioFileData")]
+        public XPCollection<PortfolioFileData> Portfolio {
+            get { return GetCollection<PortfolioFileData>(nameof(Portfolio)); }
+        }
+    }
+}
+```
+
+5. Add the `Resume` property to the `Contact` class:
+
+```csharp
+namespace MySolution.Module.BusinessObjects {
+    [DefaultClassOptions]
+    public class Contact : Person {
+        // ...
+        [Association("Contact-Resumes")]
+        public XPCollection<Resume> Resumes {
+            get { return GetCollection<Resume>(nameof(Resumes)); }
+        }
+    }
+}
+```
+
+6. Add another class to the MySolution.Module project and name it PortfolioFileData. Replace the generated class declaration with the following code:
+
+```csharp
+using DevExpress.Persistent.BaseImpl;
+using DevExpress.Xpo;
+
+namespace MySolution.Module.BusinessObjects {
+    public class PortfolioFileData : FileAttachmentBase {
+        public PortfolioFileData(Session session) : base(session) { }
+        private Resume resume;
+        [Association("Resume-PortfolioFileData")]
+        public Resume Resume {
+            get { return resume; }
+            set { SetPropertyValue(nameof(Resume), ref resume, value); }
+        }
+        public override void AfterConstruction() {
+            base.AfterConstruction();
+            documentType = DocumentType.Unknown;
+        }
+        private DocumentType documentType;
+        public DocumentType DocumentType {
+            get { return documentType; }
+            set { SetPropertyValue(nameof(DocumentType), ref documentType, value); }
+        }
+    }
+    public enum DocumentType {
+        SourceCode = 1, Tests = 2, Documentation = 3,
+        Diagrams = 4, ScreenShots = 5, Unknown = 6
+    };
+}
+```
+In this lesson, we derive `PortfolioFileData` from the `FileAttachmentBase` class in the XPO-based application and from the `FileAttachment` class in the EF Core-based application. `FileAttachmentBase` and `FileAttachment` are Business Class Library classes. These classes can store files in the database. For more information about file attachment properties, see the following topics: File Attachment Properties in XPO/EF Core.
+
+In the XPO-based application, we initialize the `PortfolioFileData.DocumentType` property in the `AfterConstruction()` method that is called after the corresponding object’s creation. See the following topic for details: How to: Initialize Business Objects with Default Property Values in XPO.
+
+7. In EF Core-based applications, add the `Required` attribute to the `Resume` property in the `PortfolioFileData` class.
+
+```csharp
+using DevExpress.Persistent.BaseImpl.EF;
+
+namespace MySolution.Module.BusinessObjects {
+    [ImageName("BO_FileAttachment")]
+    public class PortfolioFileData : FileAttachment {
+        public PortfolioFileData()
+            : base() {
+            DocumentType = DocumentType.Unknown;
+        }
+        //..           
+        [Required]
+        public virtual Resume Resume { get; set; }
+        //...
+        }
+    }
+    //...
+}
+```
+
+The `Resume` and `PortfolioFileData` classes are connected with a One-to-Many relationship. For more information on how to create a one-to-many relationship between business objects, see the following topics: Set a One-to-Many Relationship (XPO/EF Core).
+
+In the EF Core-based application, a deletion of a master object does not delete the related objects. In this lesson, we use the `Required` attribute to configure the associations between classes. This way you can delete the referenced objects with the master object and avoid integrity violation.
+
+Alternatively, you can use the Fluent API and specify the `OnDelete` method for the `Portfolio-Resume` relationship as described in the following topic: The Fluent API OnDelete Method.
+
+8. Add the `RuleRequiredFieldAttribute` attribute to the `Resume` property to implement property value validation:
+
+```csharp
+using DevExpress.Persistent.BaseImpl;
+using DevExpress.Xpo;
+
+namespace MySolution.Module.BusinessObjects {
+    public class PortfolioFileData : FileAttachmentBase {
+        public PortfolioFileData(Session session) : base(session) { }
+        private Resume resume;
+        [Association("Resume-PortfolioFileData")]
+        [RuleRequiredField(DefaultContexts.Save)]
+        public Resume Resume {
+            get { return resume; }
+            set { SetPropertyValue(nameof(Resume), ref resume, value); }
+        }
+        //...
+    }
+    //..
+}
+```
+
+For additional information on validation, refer to the following article: Validation (Prevent Data Errors).
+
+9. In EF Core-based applications, open the *MySolution.Module.BusinessObjects\MySolutionDbContext.cs* file and add the properties of `Resume`, `PortfolioFileData`, and `FileAttachments` types to the `DbContext`:
+
+```csharp
+public class MySolutionDbContext : DbContext {
+    //...
+    public DbSet<Resume> Resumes { get; set; }
+    public DbSet<PortfolioFileData> PortfolioFileData { get; set; }
+    public DbSet<FileAttachment> FileAttachments { get; set; }
+}
+```
+
+10. Add a migration and update the database. See the following section for details: Use a DBMS: Setup Migrations.
+
+11. Run the application. Open the Resume List View and create a new Resume object. Fill the Contact field and add a new Portfolio File Data object. In the Portfolio File Data window, specify the Document Type and select the file that you wish to attach.
+
+Users can click the file link to download the resume file.
+
+To get a file stored within a `PortfolioFileData` object in code, use the `IFileData.SaveToStream` method of its `File` property.
+
+## Create Multiple View Variants (.NET 6)
+This lesson explains how to create multiple customized variants of the same View, and allow a user to choose the desired View variant at runtime.
+
+Variants are available for List Views and Detail Views. In this lesson, we create two variants of the Contact List View in the Model Editor. We reference the View Variants Module and add the Change Variant Action to switch between these View variants.
+
+### Step-by-Step Instructions
+1. Add the `DevExpress.ExpressApp.ViewVariantsModule` NuGet package to the *MySolution.Module* project. See the following topic for more information on how to install DevExpress NuGet packages: Install DevExpress Controls Using NuGet Packages.
+
+2. In the *MySolution.Module\Module.cs* file, add the View Variants Module to the `ModuleBase.RequiredModuleTypes` list:
+
+```csharp
+using DevExpress.ExpressApp.ViewVariantsModule;
+
+namespace MySolution.Module {
+    public sealed partial class MySolutionModule : ModuleBase {
+        public MySolutionModule() {
+            // ...
+            RequiredModuleTypes.Add(typeof(ViewVariantsModule));
+        }
+        // ...
+    }
+}
+```
+
+3. Build the project.
+
+4. Invoke the Model Editor for the MySolution.Module project. Right-click the Views node and select Add… | ListView.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/a0c3854b-cc39-4e49-8ee2-0399a70830d9)
+
+5. For the new node, set the Id property to *Contact_ListView_AllColumns* and the ModelClass property to *MySolution.Module.BusinessObjects.Contact*.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/5f10e1b9-ce4d-40ea-a565-fef9bfc7b28f)
+
+6. Right-click the newly created node and select Generate Content. The Model Editor uses information from the Contact class (the BOModel | Contact node) and its ancestors to generate columns. As a result, *Contact_ListView_AllColumns* contains all Contact columns.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/025d152f-9288-4e89-b072-2bac5900f594)
+
+7. Right-click the Views node and select Add… | ListView. For the new node, set the Id property to *Contact_ListView_Varied* and the ModelClass property to *MySolution.Module.BusinessObjects.Contact*. Do not generate content for this node.
+
+8. Expand the newly added *Contact_ListView_Varied* node, right-click the Variants child node, and select Add… | Variant.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/0de07486-6ef3-4674-a332-0bd7c8fd86d5)
+
+9. Set the View property to `Contact_ListView` and the Id and Caption properties to `Multiple columns`.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/4ce49b49-b679-4c54-89a2-056a7166634c)
+
+10. Right-click the Variants node and select Add… | Variant. For the new node, set the View property to `Contact_ListView_AllColumns`, and the Id and Caption properties to `All columns`.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/d1671bc0-b120-4ccb-93fb-78e3175611d5)
+
+11. Navigate to the NavigationItems | Items | Default | Items | Contact node. Set its View property to `Contact_ListView_Varied`.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/d60de92e-12cd-48a9-a1ee-0a28e94749b4)
+
+12. Run the Blazor Application. Select the Contact item. The Contact List View contains the Change Variant Action. The Change Variant Action includes items specified in the Model Editor.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/75404a35-b031-4690-94a7-635fc388a5c1)
+
+### Additional Information
+#### Specify Variant Sort Order
+You can use the Index property to specify the sort order of variants in the Change Variant Action drop-down list. Additionally, you can set the Current property of the Variants node to specify the default variant.
+
+#### Add View Variants to the Navigation Control
+Invoke the Model Editor and set the GenerateRelatedViewVariantsGroup property of the NavigationItems node to true to add View variants to the navigation control.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/f69dad29-1f7f-44eb-af6b-92fc3b12742c)
+
+As a result, the Contact navigation item exposes child items for each View variant.
+
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/3485e86c-3904-41fa-bef9-c56806650c16)

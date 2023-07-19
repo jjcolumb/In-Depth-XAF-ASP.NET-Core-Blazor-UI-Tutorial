@@ -2,7 +2,8 @@
 
 While we continue to extend the capabilities of XAF’s ASP.NET Core Blazor UI, you can deliver intuitive user experiences for the ASP.NET Core Blazor platform today. This tutorial documents how to build an application to store contacts and other related objects using XAF’s ASP.NET Core Blazor UI. 
 
-![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/9792ce26-5370-4919-bb95-eeefe1cc834b)
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/2fb62d4c-bd5d-4602-9588-2677c29ff038)
+
 
 If you are new to XAF, be sure to review our [XAF product](https://www.devexpress.com/products/net/application_framework/) page for important background information on our award-winning application framework.
 
@@ -63,7 +64,8 @@ You can design a business model in any of the following ways:
 
 Once you complete the tutorial, your basic ASP.NET Core Blazor CRUD application will look as shown in the image below.
 
-![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/c2e7c254-8cb0-4e34-a0e4-f9cbb1469e86)
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/5a718a0c-9d18-4006-9805-92b7a9b0aa7c)
+
 
 # Create a Solution (XPO)
 
@@ -82,34 +84,39 @@ At the end of this lesson, you can run the application for the first time.
     
 2.  Select  **DevExpress v22.1  XAF Template Gallery**  and click  **Next**. Specify the project’s name (“MySolution”) and click  **Create**.
     
-    ![Create a new XAF project](https://docs.devexpress.com/eXpressAppFramework/images/spm_newproject_blazor.png?v=22.1)
+   ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/631824c0-69aa-49f9-9475-d4091a3b842c)
+
     
 3.  In the invoked Template Gallery window, switch to the  **.NET Core**  section. Select  **XAF Solution Wizard (.NET Core)**  and click  **Run Wizard**.
     
-    ![Select "XAF Solution Wizard (.NET Core)" in the Template Gallery](https://docs.devexpress.com/eXpressAppFramework/images/MainDemo_TemplateGallery_RunWizard.png?v=22.1)
+   ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/bd227acf-8d91-4d27-bb3f-b4acdad57d71)
+
     
 4.  On the first page of the Solution Wizard, you can select the target platform. Since this tutorial only demonstrates the Blazor UI, select the  **Web (ASP.NET Core Blazor)**  option and click  **Next**.
     
-    ![Select the "Web (ASP.NET Core Blazor)" platform](https://docs.devexpress.com/eXpressAppFramework/images/SPM_SolutionWizard_Platform_Blazor.png?v=22.1)
+  ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/7d5ffb5f-8649-4a1c-8b6c-8dae60448fe3)
+
     
 5.  Choose the  [DevExpress eXpress Persistent Objects](https://docs.devexpress.com/XPO/7969/product-information/main-features?v=22.1)  ORM library.
     
-    ![Select the ORM tool](https://docs.devexpress.com/eXpressAppFramework/images/btutor_solution_wizard_2.png?v=22.1)
-    
+   ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/ce4f917c-668c-4488-915a-69f32cee240b)
+
 6.  Choose the authentication type for your application. In this tutorial, we use  **Standard**. Click  **Next**.
     
-    ![Select "Standard" authentication type](https://docs.devexpress.com/eXpressAppFramework/images/btutorial_solution_wizard_3.png?v=22.1)
+   ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/65f2383c-af1c-4c70-b505-037b061624df)
+
     
 7.  Select the ready-to-use XAF modules you want to add to your application. This tutorial requires the  **Validation**  module. Click  **Finish**.
     
-    ![Select "Validation" module](https://docs.devexpress.com/eXpressAppFramework/images/btutor_solution_wizard_4.png?v=22.1)
-    
+   ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/7af6f1d6-cea4-44b8-8b41-3f77e6164b58)
+
     The solution contains the following projects:
     
     -   **MySolution.Blazor.Server**  - the ASP.NET Core Blazor application project that automatically generates the ASP.NET Core Blazor CRUD user interface. This project depends on the  _MySolution.Module_.
     -   **MySolution.Module**  - the  [module](https://docs.devexpress.com/eXpressAppFramework/118046/application-shell-and-base-infrastructure/application-solution-components/modules?v=22.1)  project that contains platform-independent code.
         
-        ![Solution Explorer view](https://docs.devexpress.com/eXpressAppFramework/images/btutorial_bmd_lesson1_2.png?v=22.1)
+       ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/73ff27a5-2867-4821-b517-d6d4dc2533e6)
+
         
     
     Refer to the  [Application Solution Structure](https://docs.devexpress.com/eXpressAppFramework/118045/application-shell-and-base-infrastructure/application-solution-components/application-solution-structure?v=22.1)  topic for information on the XAF solution structure.
@@ -118,9 +125,11 @@ At the end of this lesson, you can run the application for the first time.
     
     The following images show the resulting ASP.NET Core Blazor application. Log in as “Admin” and use an empty string as the password.
     
-    ![Login window of your application](https://docs.devexpress.com/eXpressAppFramework/images/btutorial_bmd_lesson1_3.png?v=22.1)
+  ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/22e74d91-0cc2-4411-bced-2b16b5d92d45)
+
     
-    ![Detail View of the Admin user in your application](https://docs.devexpress.com/eXpressAppFramework/images/btutorial_bmd_lesson1_4.png?v=22.1)
+  ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/948a5241-72a8-42db-841d-0319acdcd1d1)
+
     
 
 ## Initial Connection to Database
@@ -195,11 +204,13 @@ In this lesson, you will learn how to implement business classes for your applic
         
         List View displays the  **Contact**  list. If users click the  **New**  button or click an existing record, the application shows a detail form ([Detail View](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views?v=22.1)) filled with editors for each data field.
         
-        ![XAF ASP.NET Core Blazor App List View](https://docs.devexpress.com/eXpressAppFramework/images/btutor_bmd_lesson2_listview.png?v=22.1)
+       ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/97c4164e-f936-47f3-b9f2-82453e6ca1e6)
+
         
     -   A  **Detail View**
         
-        ![XAF ASP.NET Core Blazor App Detail View](https://docs.devexpress.com/eXpressAppFramework/images/btutor_bmd_lesson2_detailview.png?v=22.1)
+        ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/fa0f648c-8dd2-44a1-ae20-bc1f0e9fcde5)
+
         
 
 ## Detailed Explanation
@@ -245,7 +256,9 @@ In this tutorial the business objects class is decorated with the  [DefaultClass
 
 -   The  **Contact**  item is added to the main page’s navigation control. Users can click this item to access the associated  [List View](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views?v=22.1).
     
-    ![](https://docs.devexpress.com/eXpressAppFramework/images/btutor-bmd-lesson2-navigationitem.png?v=22.1)
+   ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/eb48c8f8-35ad-42eb-aca8-81798652f9b1)
+
+
     
 -   **Contact**  objects can be used as a data source to generate reports (see  [Create a Report in Visual Studio](https://docs.devexpress.com/eXpressAppFramework/112734/getting-started/in-depth-tutorial-winforms-webforms/extra-modules/create-a-report-in-visual-studio?v=22.1)).
 
@@ -259,7 +272,8 @@ XAF transforms captions from camel-case to space-separated strings, form titles 
 
 You can use the grid features in a List View at runtime: rearrange columns, and sort and filter data:
 
-![](https://docs.devexpress.com/eXpressAppFramework/images/tutorial-blazor-buildmodel-listview.gif?v=22.1)
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/87576281-feb1-4f65-ac8c-c1078fdde812)
+
 
 # Supply Initial Data (XPO)
 
@@ -297,7 +311,8 @@ You can use the grid features in a List View at runtime: rearrange columns, and 
     
 2.  Run the application. Select the  **Contact**  item in the navigation control. Notice that the new contact, “Mary Tellitson”, appears on the list to the right.
     
-    ![xaf ASP.NET Core Blazor supply initial data](https://docs.devexpress.com/eXpressAppFramework/images/tutorial_bmd_lesson2_5.png?v=22.1)
+  ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/55421825-d9b7-4062-9566-d154706ec52c)
+
     
 
 ## Detailed Explanation
@@ -398,20 +413,23 @@ This lesson explains the following concepts:
     
     -   Department detail form:
         
-        ![xaf ASP.NET Core Blazor detail view](https://docs.devexpress.com/eXpressAppFramework/images/btutor_bmd_custom_department_detail.png?v=22.1)
-        
+      ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/bfff4ef5-b622-4e99-887e-40c63e93cd61)
+
     -   Department list:
         
-        ![xaf ASP.NET Core Blazor list view](https://docs.devexpress.com/eXpressAppFramework/images/btutor_bmd_custom_department_list.png?v=22.1)
+     ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/c26d36cc-179c-4e40-a9f1-80a3b7fb7e8c)
+
         
     
     In the  **Contact**  Detail View, XAF creates lookup editors for  **Department**  and  **Position**. These editors use a special type of  [View](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views?v=22.1)  - Lookup List View. Typically, this View includes a single column that displays values from the class’s default property. See additional information about default properties later in this topic.
     
-    ![xaf ASP.NET Core Blazor detail view lookup editor](https://docs.devexpress.com/eXpressAppFramework/images/btutor_bmd_contact_detail_view.png?v=22.1)
+  ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/ae43a917-c22c-4dac-873d-8ea680edac6c)
+
     
     Users can select  **Department**  or  **Position**  values from the dropdown lists. Note that Lookup editors support incremental filtering:
     
-    ![xaf ASP.NET Core Blazor detail view lookup editor incremental filtering](https://docs.devexpress.com/eXpressAppFramework/images/tutorial_blazor_bmd_lookup_incremental_filtering.gif?v=22.1)
+  ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/ed127eea-a884-4a16-bca8-a159d55b9b3f)
+(https://docs.devexpress.com/eXpressAppFramework/images/tutorial_blazor_bmd_lookup_incremental_filtering.gif?v=22.1)
     
 
 ## Detailed Explanation
@@ -485,11 +503,13 @@ Before you proceed, take a moment to review the previous lesson: [Inherit from t
     2.  The  **New**  button - allows users to add a new assigned task;
     3.  The  **Link**  button - allows users to assign the current contact an existing task.
     
-    ![many-to-many relationship UI](https://docs.devexpress.com/eXpressAppFramework/images/btutor_bmd_lesson5_contact_tasks.png?v=22.1)
+  ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/f1b22b03-deac-4248-bc1e-3b3d04d4644c)
+
     
     You can find the same UI in the  **Tasks**  detail view.
     
-    ![many-to-many relationship UI](https://docs.devexpress.com/eXpressAppFramework/images/btutor_bmd_lesson5_task_conntacts.png?v=22.1)
+   ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/db3b8cf7-44a9-4214-824f-5139b9c64ab7)
+
     
 
 ## Detailed Explanation
@@ -591,11 +611,13 @@ Before you proceed, take a moment to review the previous lessons:
     
     Open the  **Department**  detail view. You can see the  **Contacts**  group. To add objects to the  **Contacts**  collection, use the  **New**  or  **Link**  button in this tab. The  **Link**  button allows users to add references to existing  **Contact**  objects.
     
-    ![blazor one-to-many relation new link button](https://docs.devexpress.com/eXpressAppFramework/images/btutorial_bmd_lesson6.png?v=22.1)
+   ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/a4a1656a-61dc-4d24-8757-b12d77eff526)
+
     
     To remove a reference to an object from this collection, use the  **Unlink**  button.
     
-    ![blazor one-to-many relation unlink button](https://docs.devexpress.com/eXpressAppFramework/images/btutorial_bmd_lesson6_unlink.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/a46750a4-53b0-4bca-8cce-79b9e5e59fa7)
+
     
 
 >TIP
@@ -660,11 +682,13 @@ Before you proceed, take a moment to review the previous lessons:
     
     Create a new  **DemoTask**  object. In the Task detail view, the  **Priority**  property is set to  `Priority.Normal`, as declared in the code above.
     
-    ![xaf ASP.NET Core Blazor nitialize property value](https://docs.devexpress.com/eXpressAppFramework/images/tutorial_bmd_lesson12.png?v=22.1)
+   ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/6e2cbf82-8bdb-41e7-a482-405b58f60942)
+
     
-    Note that XAF generates a combo box for the  **Priority**  property. The combo box items are the enumeration values declared in the step 2.
+Note that XAF generates a combo box for the  **Priority**  property. The combo box items are the enumeration values declared in the step 2.
     
-    ![blazor combobox for enum](https://docs.devexpress.com/eXpressAppFramework/images/btutor_bmd_combobox_for_enum.png?v=22.1)
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/25123438-9e12-4207-bdad-c2c24b6b169d)
+
     
 
 ## Detailed Explanation
@@ -678,7 +702,8 @@ This lesson explains how to implement properties whose values can depend on othe
 
 You will add a new  **Manager**  property to the  **Contact**  class. The editor for this property will display a list of managers who work in the same department.
 
-![](https://docs.devexpress.com/eXpressAppFramework/images/btutor_lookup_filter.png?v=22.1)
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/26e9cbad-aa8e-4b28-8baa-b190ddf1ff97)
+
 
 >NOTE
 Before you proceed, take a moment to review the following lessons:
@@ -737,14 +762,16 @@ Before you proceed, take a moment to review the following lessons:
     -   “Manager” (for multiple  **Contact**  objects);
     -   “Developer” (for other  **Contact**  objects).
     
-    ![xaf ASP.NET Core Blazor list view](https://docs.devexpress.com/eXpressAppFramework/images/btutor_bmd_managers.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/423d5331-f76c-4bee-a34a-9b2c404059a4)
+
     
     Create a new  **Contact**  object. In the  **Contact**  Detail View, specify the  **Department**  property and expand the  **Manager**  lookup editor. Notice the following:
     
     -   The  **Department**  property of the listed objects is the same as those you specified above.
     -   The  **Position**  property is set to “Manager” for each of the listed objects.
     
-    ![xaf ASP.NET Core Blazor prefilter lookup items](https://docs.devexpress.com/eXpressAppFramework/images/btutorial_bmd_department_dependent_properties.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/b75d0ab8-1454-4e55-a774-edeecefb0a91)
+
     
 
 ## Detailed Explanation
@@ -860,7 +887,8 @@ Before you proceed, take a moment to review the following lessons:
     -   Set the  **DataSourceProperty**  property to  `Department.Positions`.
     -   Set the  **DataSourcePropertyIsNullMode**  property to  `SelectAll`.
     
-    ![XAF ASP.NET Core Blazor filter lookup editor](https://docs.devexpress.com/eXpressAppFramework/images/tutorial_uic_filter-lookup-editor.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/e1864139-0986-4330-a74e-fc6e0bafe7d7)
+
     
 3.  In the  _Contact_  class (_BusinessObjects\Contact.cs_), replace the  `Department`  property declaration with the following code:
   
@@ -888,7 +916,8 @@ Before you proceed, take a moment to review the following lessons:
     
 5.  Open the Detail View of a contact that belongs to this department. The  **Position**  editor dropdown lists the positions you linked in the previous step:
     
-    ![XAF ASP.NET Core Blazor filter lookup editor](https://docs.devexpress.com/eXpressAppFramework/images/blazor-tutorial-uic-filter-lookup-contact-positions.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/1f9d614c-0c38-4bb0-a8e7-a8233da681d9)
+
 
 # Extend Functionality
 
@@ -926,7 +955,8 @@ A  **Simple Action**  is a button that executes custom code when a user clicks i
 
 The instructions below demonstrate how to add the  **Clear tasks**  button to the  **Contact**  Detail View. A click on this button clears all  **Tracked Tasks**  of the specific  **Contact**.
 
-![Blazor simple action button](https://docs.devexpress.com/eXpressAppFramework/images/blazor-simple-action-button.png?v=22.1)
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/2037b4c7-c3dd-4afc-88a1-13534022fcd3)
+
 
 >NOTE
 Before you proceed, take a moment to review the previous lessons:
@@ -938,7 +968,8 @@ Before you proceed, take a moment to review the previous lessons:
 
 1.  Add a View Controller. In the  **Solution Explorer**, right-click the  _Controllers_  folder in the  _MySolution.Module_  project and choose  **Add DevExpress Item**  |  **New Item…**  to invoke the  [Template Gallery](https://docs.devexpress.com/eXpressAppFramework/113455/installation-upgrade-version-history/visual-studio-integration/template-gallery?v=22.1). Select the  **XAF Controllers** | **View Controller**  Visual Studio template, specify  _ClearContactTasksController_  as the new item’s name and click  **Add Item**.
     
-    ![Tutorial_EF_Lesson1_1](https://docs.devexpress.com/eXpressAppFramework/images/tutorial_netcore_add_viewcontroller.png?v=22.1)
+  ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/a09d959c-b02a-44ff-9f08-6e83585bcbf3)
+
     
 2.  Visual Studio displays an autogenerated  _ClearContactTasksController.cs_  file with a single View Controller declaration. In the controller constructor, specify the controller properties:
    
@@ -1111,7 +1142,8 @@ Before you proceed, take a moment to review the previous lessons:
     
     Select the  **Task**  item in the navigation control (the  **Find Task by Subject**  editor is the Action you implemented). Type a word from an existing task’s  **Subject**  into this editor and press Enter. The application displays a detail form with this task.
     
-    ![blazor tutorial parameterized action](https://docs.devexpress.com/eXpressAppFramework/images/blazor_tutorial_parameterized_action.gif?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/2e578011-0306-4edd-abf2-46f927ba54bf)
+
 
     ## Detailed Explanation
 
@@ -1262,17 +1294,21 @@ In this tutorial, you will implement the ability to add notes from a predefined 
     
     Open a  **Task**  item’s Detail View. The Detail View toolbar displays the  **Show Notes**  button. This is the action implemented in this lesson.
     
-    ![Blazor tutorial popup window action](https://docs.devexpress.com/eXpressAppFramework/images/blazor-tutorial-popupwindowaction-1.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/c654db0e-e8e0-495f-afcd-a8a164c6e39f)
+
     
     Click the button to open the popup window. The popup window displays a list view for the  **Note**  objects. Create several  **Note**  objects.
     
-    ![Blazor tutorial popup window action](https://docs.devexpress.com/eXpressAppFramework/images/blazor-tutorial-popupwindowaction-2.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/9356f45a-a4b7-45f6-ab68-3bde9689d43f)
+
     
-    ![Blazor tutorial popup window action](https://docs.devexpress.com/eXpressAppFramework/images/blazor-tutorial-popupwindowaction-3.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/84903b4b-a29c-45ed-b48f-0b09372a1663)
+
     
     Select a  **Note**  object in the list and click  **OK**. After that, the  **Task.Description**  property value changes.
     
-    ![Pop-up window action](https://docs.devexpress.com/eXpressAppFramework/images/blazor-tutorial-popupwindowaction.gif?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/678076e3-a6d1-4b87-9c59-22ba3524edcb)
+
     
     >TIP
     For an example of how to create and show a Detail View, refer to the [How to: Create and Show a Detail View of the Selected Object in a Popup Window](https://docs.devexpress.com/eXpressAppFramework/118760/ui-construction/ways-to-access-ui-elements-and-their-controls/how-to-create-and-show-a-detail-view-of-the-selected-object-in-a-popup-window?v=22.1) topic.
@@ -1285,7 +1321,8 @@ This lesson explains how to create an Action that supports option selection.
 
 In this lesson, you will implement a new View Controller with a  `SingleChoiceAction`. This action will allow users to select values for the  `Task.Priority`  and  `Task.Status`  properties.
 
-![Blazor tutorial action option selection](https://docs.devexpress.com/eXpressAppFramework/images/blazor-tutorial-action-option-selection.png?v=22.1)
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/3af3d0dc-8473-43b3-bd8e-e961a360539c)
+
 
 >NOTE
 Before you proceed, take a moment to review the following lessons:
@@ -1367,7 +1404,8 @@ Before you proceed, take a moment to review the following lessons:
     -   The root level contains items whose captions correspond to the  `DemoTask.Priority`  and  `DemoTask.Status`  property names. The  [CaptionHelper](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Utils.CaptionHelper?v=22.1)  object returns item captions.
     -   The nested level contains the  `Priority`  and  `Status`  enumeration values. The  [EnumDescriptor](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Utils.EnumDescriptor?v=22.1)  object returns item captions.
     
-    ![option selection action tree items](https://docs.devexpress.com/eXpressAppFramework/images/blazor-tutorial-option-selection-action-tree-items.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/60c0f4db-c66b-46f8-8f28-19f3121b9c16)
+
     
     When you populate the  [ChoiceActionBase.Items](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ChoiceActionBase.Items?v=22.1)  collection in a Controller constructor as shown in the code above, you can use the  [Model Editor](https://docs.devexpress.com/eXpressAppFramework/112830/installation-upgrade-version-history/visual-studio-integration/model-editor?v=22.1)‘s  **ActionDesign** | **Actions** | **_<Action>_**  |  **ChoiceActionItems**  node to set an image name, a shortcut, and a localized caption for the added items.
     
@@ -1433,9 +1471,11 @@ Before you proceed, take a moment to review the following lessons:
     
     To change the  **Priority**  or  **Status**  property of the selected  **Task**  objects, select an item in the Action’s drop-down list:
     
-    ![Blazor tutorial action option selection in list view](https://docs.devexpress.com/eXpressAppFramework/images/btutorial_ef_lesson5_3listview.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/3f964770-7678-4129-b0d1-473e0d6c6c68)
+
     
-    ![Blazor tutorial action option selection in detailed view](https://docs.devexpress.com/eXpressAppFramework/images/btutorial_ef_lesson5_3.png?v=22.1)
+   ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/2e0b1a5f-19b6-4e62-aa77-837af1307fde)
+
 
 # Add a Simple Action using an Attribute
 
@@ -1551,7 +1591,8 @@ Before you proceed, take a moment to review the following lessons:
     -   [Data Types Supported by built-in Editors](https://docs.devexpress.com/eXpressAppFramework/113014/business-model-design-orm/data-types-supported-by-built-in-editors?v=22.1)
 3.  Run the application and open the  **Contact**  Detail View. The  **Birthday**  editor shows a scrollable date picker in its drop-down window:
     
-    ![ ASP.NET Core Blazor access editor settings change editor null text](https://docs.devexpress.com/eXpressAppFramework/images/btutorial_ef_access_editor_setttings.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/fdca1ad4-e231-41ea-b802-98ca7dec104f)
+
 
 # Access the Grid Component in a List View (.NET 6)
 
@@ -1638,7 +1679,8 @@ An Action Container is a control that displays an action or a set of actions.
 
 The instructions below explain how to move the  `ClearTasksAction`  from the  **View**  Action Container to the  **Edit**  Action Container.
 
-![Current location and target location of the Clear Tasks button](https://docs.devexpress.com/eXpressAppFramework/images/blazor-tutorial-rearrange-action-buttons.png?v=22.1)
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/db05d3a4-f825-4fa2-b32f-c032a821b7b8)
+
 
 >NOTE
 Before you proceed, take a moment to review the following lessons:
@@ -1650,7 +1692,8 @@ Before you proceed, take a moment to review the following lessons:
 1.  Open the  _Model.DesignedDiffs.xafml_  file in the  [Model Editor](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor?v=22.1).
 2.  In the  **Model Editor**, navigate to the  **ActionDesign**  |  **ActionToContainerMapping**  node. Expand the  **View**  node that is the  **View**  Action Container. Drag the  **ClearTasksAction**  child node to the  **Edit**  node. Set the node’s  **Index**  to  `0`.
     
-    ![Rearrangement of Actions in Model Editor](https://docs.devexpress.com/eXpressAppFramework/images/blazor-rearrange-actions.gif?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/c21d4f75-6b86-48a9-b1da-c329eb3ceab7)
+
     
     Child nodes of the  **ActionToContainerMapping**  node correspond to Action Containers of your application. The Actions are mapped to Action Containers according to the  [Category](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.Category?v=22.1)  property values.
     
@@ -1658,8 +1701,9 @@ Before you proceed, take a moment to review the following lessons:
     
 3.  Run the application. In the  **Contact**  detail view, the  **Clear Task**  button appears to the left of the  **Delete**  button.
     
-    ![New location of the Clear Tasks button](https://docs.devexpress.com/eXpressAppFramework/images/blazor-tutorial-rearrange-actions.png?v=22.1)
-    
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/234cd428-8bb5-477d-b846-534476a11baa)
+
+
 
 >TIP
 You can handle the [ActionControlsSiteController.CustomizeContainerActions](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.ActionControlsSiteController.CustomizeContainerActions?v=22.1) event to change an Action location in code.
@@ -1684,18 +1728,21 @@ Before you proceed, take a moment to review the following lessons:
     -   Set the  **ConfirmationMessage**  property to  `Are you sure you want to clear all the tasks?`.
 3.  Run the application and open the  **Contact**  Detail View. Hover the mouse pointer over the  **Clear Tasks**  button to see the tooltip.
     
-    ![Clear Tasks button's new tooltip](https://docs.devexpress.com/eXpressAppFramework/images/blazor-tutorial-action-settings.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/884e74b9-b14b-4cee-a95b-2d9c68eabe15)
+
     
 4.  Click the button to show the confirmation message.
     
-    ![New confirmation message for ClearTasksAction](https://docs.devexpress.com/eXpressAppFramework/images/blazor-tutorial-action-settings-messagebox.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/df4821b0-9667-4352-a2a7-5ccb2b04eab5)
+
 
 # Format a Business Object Caption
 
 
 This lesson explains how to format a caption of a business object’s detail form.
 
-![Current Detail View caption in Blazor UI](https://docs.devexpress.com/eXpressAppFramework/images/blazor_tutorial_BO-caption.png?v=22.1)
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/2c8c36d2-ed5e-4aaf-a5da-0c8ddc77e409)
+
 
 >NOTE
 Before you proceed, take a moment to review the following lessons:
@@ -1708,11 +1755,13 @@ Before you proceed, take a moment to review the following lessons:
 2.  In the  **Model Editor**, navigate to the  **BOModel**  |  **MySolution.Module.BusinessObjects**  node. Select the  **Contact**  node.
 3.  Set the  **ObjectCaptionFormat**  property value to  `{0:FullName} from {0:Department}`  in the class properties shown on the right.
     
-    ![ObjectCaptionFormat property in Model Editor](https://docs.devexpress.com/eXpressAppFramework/images/blazor-tutorial-format-bo-caption.png?v=22.1)
+   ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/bc1335ae-47f3-4406-8022-3fdf2a287dd9)
+
     
 4.  Run the application. Open the detail form for a  **Contact**  object. You can now see the custom caption:
     
-    ![New Detail View caption in Blazor UI](https://docs.devexpress.com/eXpressAppFramework/images/blazor-tutorial-format-bo-caption-result.png?v=22.1)
+   ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/f899ed04-5cc0-4b7c-b1e0-fcb06c050dd7)
+
 
 # Create a Calculated Property
 
@@ -1791,7 +1840,8 @@ Before you proceed, take a moment to review the following lessons:
     
 5.  Run the application. Select the  **Payment**  item in the navigation control, and click “New”. In the  **Payment**  Detail View, change the  **Rate**  and  **Hours**  properties to see how this affects the  **Amount**  property.
     
-    ![xaf ASP.NET Core Blazor calculable property](https://docs.devexpress.com/eXpressAppFramework/images/blazor-tutorial-calculable-property.gif?v=22.1)
+   ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/4ea6c08c-9c8b-493f-8988-aa98c5304182)
+
     
 
 
@@ -1813,17 +1863,20 @@ Before you proceed, take a moment to review the following lessons:
 2.  Navigate to the  **BOModel**  |  **DevExpress.Persistent.BaseImpl.EF**  |  **Task**  |  **OwnMembers**  node.
 3.  For the  **DueDate**  and  **StartDate**  child nodes, set the value of the  [DisplayFormat](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.PropertyEditor.DisplayFormat?v=22.1)  property to  `D`  - a long date pattern.
     
-    ![XAF ASP.NET Core Blazor date time mask display format](https://docs.devexpress.com/eXpressAppFramework/images/tutorial_uic_datetime_mask.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/2a5b8d65-6bdd-49a3-90fd-e160d1fde644)
+
     
     Note that the value of the  **EditMask**  property is  `d`  - a short day pattern.
     
 4.  For the  **PercentCompleted**  child node, set the  **DisplayFormat**  property to  `{0:N0}%`.
     
-    ![XAF ASP.NET Core Blazor percent integer display format](https://docs.devexpress.com/eXpressAppFramework/images/tutorial_uic_integer_display_format.png?v=22.1)
+   ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/28600895-28f3-488c-8108-73f21e71f60a)
+
     
 5.  Run the application. Invoke a Detail List for the  **DemoTask**  class.
     
-    ![Tutorial_UIC_Lesson8_5](https://docs.devexpress.com/eXpressAppFramework/images/blazor-tutorial-editmask-display-format.gif?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/acdddb78-85b7-498c-8b57-edab09c05e8a)
+
     
     Note how text format changes when  **StartDate**  and  **DueDate**  editors receive or lose focus. If you focus an editor, its  **EditMask**  takes effect (`d`  - short date pattern). If an editor loses input focus, its  **DisplayFormat**  takes over (`D`  - long date pattern).
     
@@ -1873,13 +1926,15 @@ This lesson explains how to add an item to the navigation control.
 
 The instructions below describe how to add the  **Notes**  item to the navigation control. When a user clicks this item, the application displays a List View for the  **Note**  business class added in the following lesson:  [Add an Action that Displays a Pop-Up Window](https://docs.devexpress.com/eXpressAppFramework/402158/getting-started/in-depth-tutorial-blazor/extend-functionality/add-an-action-that-displays-a-pop-up-window?v=22.1).
 
-![XAF ASP.NET Core Blazor add navbar item](https://docs.devexpress.com/eXpressAppFramework/images/blazor-tutorial-add-navigation-item-notes.png?v=22.1)
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/3131bafd-64af-4320-a26d-d68f90d4a020)
+
 
 ## Step-by-Step Instructions
 
 1.  Open the  _Model.DesignedDiffs.xafml_  file in the  [Model Editor](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor?v=22.1). In the tree view, navigate to the  **NavigationItems** | **Items** | **Default** | **Items**  node. To add a child item to a navigation item, right-click the  **Items**  node and select  **Add…**  |  **NavigationItem**  in the context menu:
     
-    ![XAF ASP.NET Core Blazor add navigation item](https://docs.devexpress.com/eXpressAppFramework/images/blazor_tutorial_uic_add_navigation_item.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/a062d659-ec87-4aa6-905b-2c2a7f153243)
+
     
 2.  Specify the following properties for the new item:
     
@@ -1887,11 +1942,13 @@ The instructions below describe how to add the  **Notes**  item to the navigatio
     -   Set the  **Caption**  property to  `Notes`.
     -   Set the  **Id**  property to  `Note`.
     
-    ![Navigation item properties](https://docs.devexpress.com/eXpressAppFramework/images/blazor_tutorial_add_navgation_item_properties.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/917b083f-d3cf-4b03-adec-6af0721ddcec)
+
     
 3.  Run the application. You can see the new navigation item that allows you to add and edit plain text notes.
     
-    ![XAF ASP.NET Core Blazor add navigation item](https://docs.devexpress.com/eXpressAppFramework/images/blazor_tutorial_add_navigation_item_result.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/84f18b78-6dd4-40cc-aafa-7821cf6b6044)
+
 
 # Implement Property Value Validation in the Application Model
 
@@ -1907,7 +1964,8 @@ Before you proceed, take a moment to review the following lesson:
 
 1.  Open the  _Model.DesignedDiffs.xafml_  file in the  [Model Editor](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor?v=22.1). Navigate to the  **Validation**  |  **Rules**  node. Add a new validation rule: right-click the  **Rules**  node and select  **Add…**  |  **RuleCriteria**.
     
-    ![XAF ASP.NET Core Blazor validation in model editor](https://docs.devexpress.com/eXpressAppFramework/images/blazor_tutorial_uic_validation.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/f7c51984-42da-499e-a125-c6ac63985f4d)
+
     
 2.  Set the values of the following properties for the node:
     
@@ -1917,13 +1975,15 @@ Before you proceed, take a moment to review the following lesson:
     -   **TargetContextIDs**  to  `MarkCompleted`
     -   **CustomMessageTemplate**  to  `Cannot set the task as completed because it has not started.`
     
-    ![XAF ASP.NET Core Blazor validation in model editor](https://docs.devexpress.com/eXpressAppFramework/images/blazor_tutorial_uic_validation_settings.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/5aa88f53-3657-4a53-b01a-217ab2450910)
+
     
     The  **Criteria**  property value must respect the  [Criteria Language Syntax](https://docs.devexpress.com/CoreLibraries/4928/devexpress-data-library/criteria-language-syntax?v=22.1). To set the criteria, click the ellipsis button (![EllipsisButton](https://docs.devexpress.com/eXpressAppFramework/images/ellipsisbutton116182.png?v=22.1)) to the right of the  **Criteria**  value and invoke the  **Filter Builder**  dialog. In this dialog, you can visually design a criteria expression.
     
 3.  In the  **ActionDesign**  |  **Actions**  |  **Task.MarkCompleted**  node, set the  **ValidationContexts**  property to  `MarkCompleted`.
     
-    ![Tutorial_UIC_Lesson14_2_1](https://docs.devexpress.com/eXpressAppFramework/images/blazor_tutorial_uic_validation_context.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/0af8cd3b-0ef6-46ba-a772-01a15fde9352)
+
     
     >TIP
     You can use the **Save** or **Delete** contexts. The validation of Rules with these contexts occurs when a user saves or deletes an object (see [Validation Rules](https://docs.devexpress.com/eXpressAppFramework/113008/validation/validation-rules?v=22.1)).
@@ -1932,7 +1992,8 @@ Before you proceed, take a moment to review the following lesson:
     
 5.  Run the application. Assign the “Not Started” value to the  **Status**  property of one of the existing  **DemoTask**  objects. Click the  **Mark Completed**  button. The following  **Validation Error**  dialog appears:
     
-    ![XAF ASP.NET Core Blazor validation error message](https://docs.devexpress.com/eXpressAppFramework/images/blazor_tutorial_uic_validation_error_message.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/77a0e858-6e6d-4827-962b-3280028e0d3d)
+
     
 
 You can also add a rule to a class or property in code. For additional information, refer to the following topic:  [Implement Property Value Validation in Code (XPO)](https://docs.devexpress.com/eXpressAppFramework/402165/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-xpo/implement-property-value-validation-in-code-xpo?v=22.1).
@@ -1950,7 +2011,8 @@ This lesson explains how to customize the default editor layout in a Detail View
 2.  Navigate to the  **Views**  |  **MySolution.Module.BusinessObjects**  |  **Contact**  |  **Contact_DetailView**  |  **Layout**  node.
 3.  The Model Editor displays a design surface that imitates the Contact Detail View. To change the editor layout, right-click the View’s empty space and choose  **Customize Layout**.
     
-    ![Customize Layout context menu](https://docs.devexpress.com/eXpressAppFramework/images/blazor-tutorial-customize-layout-context-menu.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/ce3cbbae-254a-4a60-8674-2ba48cb8f0eb)
+
     
     The  **Customization**  form allows you to add, remove, and reorder items.
     
@@ -1958,18 +2020,21 @@ This lesson explains how to customize the default editor layout in a Detail View
     -   To add an item, drag it from the  **Customization Form**  to the  **Detail View**.
     -   To reorder items, drag editors to create a new layout and save changes.
         
-        ![XAF ASP.NET Core Blazor customize edit form layout](https://docs.devexpress.com/eXpressAppFramework/images/blazor-tutorial-customize-layout-dragndrop.gif?v=22.1)
+        ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/593cca75-88a3-484c-8ffd-b1739b4edb1a)
+
         
     
     For more information about the  **Customization**  form and the  **Layout Tree View**  tab and its context menu, refer to the  [Default Runtime Customization](https://docs.devexpress.com/WindowsForms/2307/controls-and-libraries/form-layout-managers/layout-and-data-layout-controls/design-time-and-runtime-customization/default-runtime-customization?v=22.1)  topic.
     
 4.  Explore additional layout customization options available in the context menu. Click the  **Layout Tree View**  tab on the  **Customization Form**. Right-click a tree node to invoke a context menu.
     
-    ![Customization form context menu](https://docs.devexpress.com/eXpressAppFramework/images/blazor_tutorial_customize_layout_ungroup.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/3671b596-80d3-4972-a269-775be9cbc9ab)
+
     
 5.  Run the application to see the  **Contact**  Detail View’s new layout.
     
-    ![XAF ASP.NET Core Blazor customize edit form layout](https://docs.devexpress.com/eXpressAppFramework/images/blazor-tutorial-customize-layout-result.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/760f6b00-d589-4f0b-9b05-6365ebd931fd)
+
     
 
 >TIP
@@ -1989,7 +2054,8 @@ For more information on localization, review the following topics:
 
 1.  [Add](https://docs.microsoft.com/en-us/nuget/consume-packages/install-use-packages-visual-studio)  the  _DevExpress.ExpressApp.de_,  _DevExpress.ExpressApp.Blazor.de_, and  _DevExpress.ExpressApp.Security.de_  packages to the  **MySolution.Blazor.Server**  project.
     
-    ![Install DevExpress.ExpressApp.de nuget package](https://docs.devexpress.com/eXpressAppFramework/images/blazor-tutorial-localize-ui-elements-nuget.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/7b47f1a9-6904-4d58-9345-f533d15f3cfc)
+
     
     The packages are available only for the following languages: German (de), Spanish (es), and Japanese (ja). For other languages, use the  [Localization Service](https://docs.devexpress.com/LocalizationService/16235/localization-service?v=22.1)  to download satellite assemblies. See the  [Localize Standard XAF Modules and DevExpress Controls Used in an Application](https://docs.devexpress.com/eXpressAppFramework/113301/localization/localize-standard-xaf-modules-and-devexpress-controls-used-in-an-application?v=22.1)  topic for more information on how to use this service to localize XAF modules.
     
@@ -2014,11 +2080,13 @@ For more information on localization, review the following topics:
     
 3.  Open the  _Model.DesignedDiffs.xafml_  file in the  [Model Editor](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor?v=22.1). Focus the  _MySolution_  node and click  **Languages Manager…**  in the  **Language**  combo box on the  [Model Editor Toolbar](https://docs.devexpress.com/eXpressAppFramework/113327/ui-construction/application-model-ui-settings-storage/model-editor/menu-toolbars?v=22.1).
     
-    ![Run language manager](https://docs.devexpress.com/eXpressAppFramework/images/blazor-tutorial-run-languages-manager.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/99515ef0-43a1-44fa-bb0e-693f7608d660)
+
     
 4.  Add the target language in the invoked dialog and click  **OK**.
     
-    ![The language manager](https://docs.devexpress.com/eXpressAppFramework/images/blazor-tutorial-languages-manager.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/d5a7e757-07b5-4986-9a77-3058c555e2a1)
+
     
 5.  Restart Visual Studio to load localized values from satellite assemblies.
     
@@ -2026,18 +2094,22 @@ For more information on localization, review the following topics:
     
 7.  Select the newly added language in the  **Language**  combo box.
     
-    ![Select language](https://docs.devexpress.com/eXpressAppFramework/images/tutorial_uic_lesson11_0_1115628.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/065ee6f9-ec7c-4c07-92cb-933f7f289fe7)
+
     
 8.  The localization packages translate standard strings/messages used in XAF. You also need to translate the strings that are unique to your current application (such as object or property names). To do that, locate properties denoted by the “globe” glyph in all the nodes and child nodes and assign a German translation to them.
     
-    ![Localize captions](https://docs.devexpress.com/eXpressAppFramework/images/blazor-tutorial-localize-captions.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/208d1481-b28b-4388-9aec-25f5f533a6d8)
+
     
 9.  Run the application. Click the gear icon to display the settings menu and switch the language to German.
     
-    ![Language Switcher](https://docs.devexpress.com/eXpressAppFramework/images/blazor-tutorial-lang-switcher.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/f6f5086e-a2b1-436f-926e-5aca09805324)
+
     
 10.  Check whether you translated all required items.
-![Localize captions](https://docs.devexpress.com/eXpressAppFramework/images/blazor-tutorial-localized-app.png?v=22.1)
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/b409406f-2dae-4c7d-8c0c-e8cd1f91fe9b)
+
 
 # Display a Nested Property Editor in a Detail View
 
@@ -2056,28 +2128,34 @@ Before you proceed, take a moment to review the following lesson:
     
 3.  The Model Editor displays a design surface that imitates the  **Contact**  Detail View. Right-click the View’s empty space and choose  **Customize Layout**.
     
-    ![Start layout customization](https://docs.devexpress.com/eXpressAppFramework/images/blazor-tutorial-customize-layout-context-menu.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/16711afa-641e-4e73-80c4-8477ab7ef308)
+
     
 4.  In the invoked  **Customization**  window, click the  **Add**  button.
     
-    ![Customization Window](https://docs.devexpress.com/eXpressAppFramework/images/blazor-tutorial-customization-window.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/28337034-4130-4129-860b-a517881f4ea6)
+
     
 5.  In the  **Object Model**  dialog, expand the  **Department**  node, check the  **Office**  checkbox, and click  **OK**.
     
-    ![Object Model Window](https://docs.devexpress.com/eXpressAppFramework/images/blazor-tutorial-object-model-window.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/6f85612d-0aeb-4a5b-80ac-0546415c962e)
+
     
 6.  The  **Office:**  item appears on the  **Hidden Items**  tab of the  **Customization**  window:
     
-    ![A new field is added to the Object Model Window](https://docs.devexpress.com/eXpressAppFramework/images/blazor-tutorial-customization-window-new-field.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/564888da-ddf5-49b3-8970-c526cb7680a3)
+
     
 7.  Drag the  **Office:**  item to the required position of the  **Contact**  Detail View.
     
-    ![Add Layout Item Department.Office](https://docs.devexpress.com/eXpressAppFramework/images/blazor-tutorial-add-property-layout.gif?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/eb746824-137d-4875-b32a-2b2bb810066d)
+
     
 
 8.  Run the application, open the  **Contact**  Detail View, and find the  **Office**  editor:
     
-    ![The new editor in the Detail View](https://docs.devexpress.com/eXpressAppFramework/images/blazor-tutorial-add-property-editor-result.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/adf3430d-4d76-4a0d-bd65-01885d6255d1)
+
 
 # Change Field Visibility in a List View
 
@@ -2093,7 +2171,8 @@ Before you proceed, take a moment to review the following lesson:
     
 2.  Click the  **Views**  |  **MySolution.Module.BusinessObjects**  |  **Contact_ListView**  |  **Columns**  node to open the  **Grid List Editor Designer**. Right-click the table header and select  **Column Chooser**.
     
-    ![Display Column Chooser](https://docs.devexpress.com/eXpressAppFramework/images/blazor-tutorial-change-field-layout.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/a3bd36c8-4020-417e-bdc2-18cc539481e9)
+
     
 3.  Drag items to and from the  **Customization**  window to display the following columns in the List View:  _FullName_,  _Department_,  _Position_, and  _Email_.
     
@@ -2103,7 +2182,8 @@ Before you proceed, take a moment to review the following lesson:
     
 4.  Run the application. The  **Contact**  List View displays the  _FullName_,  _Department_,  _Position_, and  _Email_  columns.
     
-    ![Result of the List View layout customization](https://docs.devexpress.com/eXpressAppFramework/images/blazor-tutorial-change-field-layout-result.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/c04a863a-2fcb-44c8-8756-6347f4e5b0a9)
+
 
     
 # Change List View Filters
@@ -2124,29 +2204,35 @@ This technique allows end users to apply predefined filters to a List View.
 
 1.  Open the  **Model.DesignedDiffs.xafml**  file in the  [Model Editor](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor?v=22.1). Navigate to the  **Views**  |  **MySolution.Module.BusinessObjects**  |  **Contact_ListView**  node. Right-click the  **Filters**  child node and select  **Add**  |  **ListViewFilterItem**. For the new node, set the  **Id**  property to  _Development Department Contacts_. Set the  **Criteria**  property to  `[Department.Title] = 'Development Department'`.
     
-    ![Development Department ListViewFilterItem properties](https://docs.devexpress.com/eXpressAppFramework/images/filter-list-views-filter-action.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/3b8c2b40-abdd-4a48-b92e-cdafe66d7de1)
+
     
     **Criteria**  properties use  [Criteria Language Syntax](https://docs.devexpress.com/CoreLibraries/4928/devexpress-data-library/criteria-language-syntax?v=22.1).
     
     You can also construct a filter criteria in the  **Filter Builder**  dialog. To open this dialog, click the ellipsis button (![EllipsisButton](https://docs.devexpress.com/eXpressAppFramework/images/ellipsisbutton116182.png?v=22.1)) to the right of the  **Criteria**  value.
     
-    ![Filter Builder](https://docs.devexpress.com/eXpressAppFramework/images/filter-list-views-filter-builder.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/d104aeaf-7ecd-451f-9230-f9c011a560bc)
+
     
 2.  Add another child node to the  **Filters**  node. Set the  **Id**  property to  _Developers_  and the  **Criteria**  property to  `[Position.Title] = 'Developer'`.
     
-    ![Developer ListViewFilterItem properties](https://docs.devexpress.com/eXpressAppFramework/images/filter-list-views-filter-action1.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/45a51e96-fb2b-4889-924d-491140833f31)
+
     
 3.  Add one more child node to the  **Filters**  node. Set the  **Id**  property to  _All Contacts_  and leave the  **Criteria**  property empty. This item will display all  **Contact**  objects in the List View.
     
-    ![All Contacts ListViewFilterItem properties](https://docs.devexpress.com/eXpressAppFramework/images/filter-list-views-filter-action2.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/a298bcf3-bab2-4341-95f5-db631c0832ff)
+
     
 4.  For the  **Filters**  node, set the  **CurrentFilter**  property to  _Developers_. The Developers filter will be initially applied to the  **Contact**  List View.
     
-    ![Filters node properties](https://docs.devexpress.com/eXpressAppFramework/images/filter-list-views-filter-action3.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/7a092d3b-f190-4618-b262-73541687fe0d)
+
     
 5.  Run the application and check that the  **SetFilter**  Action is available.
     
-    ![Filters node properties](https://docs.devexpress.com/eXpressAppFramework/images/filter-list-views-filter-action-result.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/aa8215f7-2dd6-469f-8965-618679afef6c)
+
     
 
 ## Set a Static Filter in the Model Editor
@@ -2155,11 +2241,13 @@ The  **Model Editor**  also allows you to filter List View records without any i
 
 1.  In the  _MySolution.Module_  project, open the  **Model.DesignedDiffs.xafml**  file in the  [Model Editor](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor?v=22.1). Navigate to the  **Views**  |  **MySolution.Module.BusinessObjects**  |  **Contact**  |  **Contact_ListView**  node. Set its  **Criteria**  property to  `Position.Title = 'Developer'`.
     
-    ![Apply filters in the Model Editor](https://docs.devexpress.com/eXpressAppFramework/images/filter-list-views-model-editor.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/adbe2c44-1f0f-4112-a3e5-6a73c7051e05)
+
     
 2.  Run the application and check that the  **Contact**  List View displays only developers.
     
-    ![Filtered List View](https://docs.devexpress.com/eXpressAppFramework/images/filter-list-views-model-editor-result.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/3a7f9da1-0c19-4125-ab94-c0dff071f9d0)
+
     
 
 ## Set a Filter in Code
@@ -2218,11 +2306,13 @@ Before you proceed, take a moment to review the following lesson:
     
 2.  Click the  **Views**  |  **MySolution.Module.BusinessObjects**  |  **Contact**  |  **Contact_ListView**  |  **Columns**  node to open the  **Grid List Editor Designer**. Right-click the table header and select the  **Show Group By Box**  item.
     
-    ![Show Group By Box](https://docs.devexpress.com/eXpressAppFramework/images/blazor-tutorial-show-group-box.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/5543e7ff-927c-4701-81d2-ec224628a432)
+
     
 3.  The  **Group Panel**  appears above the column headers.
     
-    ![Group Panel](https://docs.devexpress.com/eXpressAppFramework/images/blazor-tutorial-show-group-panel.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/f1412bb7-1e00-4aa0-a704-ad60bdb4ce15)
+
     
 4.  Drag the  **Department**  and  **Position**  column headers to the  **Group Panel**. Note that multiple columns in the group area create nested groups.
     
@@ -2232,10 +2322,12 @@ Before you proceed, take a moment to review the following lesson:
     
 5.  Run the application. The  **Contact**  List View is grouped by the  **Department**  and  **Position**  fields and the  **Group Panel**  is displayed.
     
-    ![The grouped Contact List View ](https://docs.devexpress.com/eXpressAppFramework/images/blazor-tutorial-show-group-result.png?v=22.1)
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/a4e05263-6406-4ded-a5ed-3c7060f85d05)
+
     
 6.  Users can also drag columns to and from the  **Group Panel**  to group and ungroup List View Data.
-![gif](https://docs.devexpress.com/eXpressAppFramework/images/blazor-tutorial-show-group-users.gif?v=22.1)
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/025eb8ed-fa25-453c-b67b-e981005185de)
+
 
 
 # Additional Modules
@@ -2443,7 +2535,8 @@ Before you proceed, take a moment to review the following lessons:
 10.  Add a migration and update the database. See the following section for details:  [Use a DBMS: Setup Migrations](https://docs.devexpress.com/eXpressAppFramework/404144/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-ef-core/create-a-solution-ef-core?v=22.1#use-a-dbms-setup-migrations).
     
 11.  Run the application. Open the  **Resume**  List View and create a new  **Resume**  object. Fill the  **Contact**  field and add a new  **Portfolio File Data**  object. In the  **Portfolio File Data**  window, specify the  **Document Type**  and select the file that you wish to attach.
-![](https://docs.devexpress.com/eXpressAppFramework/images/blazor-tutorial-file-attachment-add-file.gif?v=22.1)
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/339985b6-9843-43c7-8cec-d6b99564f544)
+
 
 Users can click the file link to download the resume file.
 
@@ -2484,24 +2577,23 @@ Before you proceed, take a moment to review the following lessons:
 3.  Build the project.
     
 4.  Invoke the  [Model Editor](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor?v=22.1)  for the  _MySolution.Module_  project. Right-click the  **Views**  node and select  **Add…**  |  **ListView**.
+   
+   
+6.  For the new node, set the  **Id**  property to  _Contact_ListView_AllColumns_  and the  **ModelClass**  property to  _MySolution.Module.BusinessObjects.Contact_.
     
-    ![Add ListView](https://docs.devexpress.com/eXpressAppFramework/images/tutorial-view-variants-module-add-view1.png?v=22.1)
     
-5.  For the new node, set the  **Id**  property to  _Contact_ListView_AllColumns_  and the  **ModelClass**  property to  _MySolution.Module.BusinessObjects.Contact_.
     
-    ![Add ListView](https://docs.devexpress.com/eXpressAppFramework/images/tutorial-view-variants-module-add-view.png?v=22.1)
-    
-6.  Right-click the newly created node and select  **Generate Content**. The Model Editor uses information from the  _Contact_  class (the  **BOModel**  |  **Contact**  node) and its ancestors to generate columns. As a result,  _Contact_ListView_AllColumns_  contains all  **Contact**  columns.
+7.  Right-click the newly created node and select  **Generate Content**. The Model Editor uses information from the  _Contact_  class (the  **BOModel**  |  **Contact**  node) and its ancestors to generate columns. As a result,  _Contact_ListView_AllColumns_  contains all  **Contact**  columns.
     
     ![Generate View content](https://docs.devexpress.com/eXpressAppFramework/images/tutorial-view-variants-module-generate-content.png?v=22.1)
     
-7.  Right-click the  **Views**  node and select  **Add…**  |  **ListView**. For the new node, set the  **Id**  property to  _Contact_ListView_Varied_  and the  **ModelClass**  property to  _MySolution.Module.BusinessObjects.Contact_. Do not generate content for this node.
+8.  Right-click the  **Views**  node and select  **Add…**  |  **ListView**. For the new node, set the  **Id**  property to  _Contact_ListView_Varied_  and the  **ModelClass**  property to  _MySolution.Module.BusinessObjects.Contact_. Do not generate content for this node.
     
-8.  Expand the newly added  **Contact_ListView_Varied**  node, right-click the  **Variants**  child node, and select  **Add…**  |  **Variant**.
+9.  Expand the newly added  **Contact_ListView_Varied**  node, right-click the  **Variants**  child node, and select  **Add…**  |  **Variant**.
     
     ![Generate View content](https://docs.devexpress.com/eXpressAppFramework/images/tutorial-view-variants-module-add-variant.png?v=22.1)
     
-9.  Set the  **View**  property to  `Contact_ListView`  and the  **Id**  and  **Caption**  properties to  `Multiple columns`.
+10.  Set the  **View**  property to  `Contact_ListView`  and the  **Id**  and  **Caption**  properties to  `Multiple columns`.
     
     ![Set Variant Properties](https://docs.devexpress.com/eXpressAppFramework/images/tutorial-view-variants-module-set-properties.png?v=22.1)
     

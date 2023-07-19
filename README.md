@@ -2542,23 +2542,28 @@ Users can click the file link to download the resume file.
 
 To get a file stored within a  `PortfolioFileData`  object in code, use the  `IFileData.SaveToStream`  method of its  `File`  property.
 
+
 # Create Multiple View Variants (.NET 6)
 
 This lesson explains how to create multiple customized variants of the same View, and allow a user to choose the desired View variant at runtime.
 
 Variants are available for List Views and Detail Views. In this lesson, we create two variants of the  **Contact**  List View in the  **Model Editor**. We reference the  **View Variants**  Module and add the  **Change Variant**  Action to switch between these View variants.
 
->NOTE
+NOTE
+
 Before you proceed, take a moment to review the following lessons:
->-   Inherit from the Business Class Library Class ([XPO](https://docs.devexpress.com/eXpressAppFramework/402166/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-xpo/inherit-from-the-business-class-library-class-xpo?v=22.1)/[EF](https://docs.devexpress.com/eXpressAppFramework/402981/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-ef-core/inherit-from-the-business-class-library-class-ef-core?v=22.1))
->-   [Change Field Layout and Visibility in a List View](https://docs.devexpress.com/eXpressAppFramework/403230/getting-started/in-depth-tutorial-blazor/ui-customization/change-field-visibility-in-a-list-view?v=22.1)
+
+-   Inherit from the Business Class Library Class ([XPO](https://docs.devexpress.com/eXpressAppFramework/402166/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-xpo/inherit-from-the-business-class-library-class-xpo?v=22.1)/[EF](https://docs.devexpress.com/eXpressAppFramework/402981/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-ef-core/inherit-from-the-business-class-library-class-ef-core?v=22.1))
+-   [Change Field Layout and Visibility in a List View](https://docs.devexpress.com/eXpressAppFramework/403230/getting-started/in-depth-tutorial-blazor/ui-customization/change-field-visibility-in-a-list-view?v=22.1)
 
 ## Step-by-Step Instructions
 
 1.  Add the  **DevExpress.ExpressApp.ViewVariantsModule**  NuGet package to the  _MySolution.Module_  project. See the following topic for more information on how to install DevExpress NuGet packages:  [Install DevExpress Controls Using NuGet Packages](https://docs.devexpress.com/GeneralInformation/115912/installation/install-devexpress-controls-using-nuget-packages?v=22.1).
     
 2.  In the  _MySolution.Module\Module.cs_  file, add the View Variants Module to the  [ModuleBase.RequiredModuleTypes](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ModuleBase.RequiredModuleTypes?v=22.1)  list:
-   
+    
+
+    
     ```csharp
     using DevExpress.ExpressApp.ViewVariantsModule;
     
@@ -2577,35 +2582,36 @@ Before you proceed, take a moment to review the following lessons:
 3.  Build the project.
     
 4.  Invoke the  [Model Editor](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor?v=22.1)  for the  _MySolution.Module_  project. Right-click the  **Views**  node and select  **Add…**  |  **ListView**.
-   
-   
-6.  For the new node, set the  **Id**  property to  _Contact_ListView_AllColumns_  and the  **ModelClass**  property to  _MySolution.Module.BusinessObjects.Contact_.
     
+    ![Add ListView](https://docs.devexpress.com/eXpressAppFramework/images/tutorial-view-variants-module-add-view1.png?v=22.1)
     
+5.  For the new node, set the  **Id**  property to  _Contact_ListView_AllColumns_  and the  **ModelClass**  property to  _MySolution.Module.BusinessObjects.Contact_.
     
-7.  Right-click the newly created node and select  **Generate Content**. The Model Editor uses information from the  _Contact_  class (the  **BOModel**  |  **Contact**  node) and its ancestors to generate columns. As a result,  _Contact_ListView_AllColumns_  contains all  **Contact**  columns.
+    ![Add ListView](https://docs.devexpress.com/eXpressAppFramework/images/tutorial-view-variants-module-add-view.png?v=22.1)
+    
+6.  Right-click the newly created node and select  **Generate Content**. The Model Editor uses information from the  _Contact_  class (the  **BOModel**  |  **Contact**  node) and its ancestors to generate columns. As a result,  _Contact_ListView_AllColumns_  contains all  **Contact**  columns.
     
     ![Generate View content](https://docs.devexpress.com/eXpressAppFramework/images/tutorial-view-variants-module-generate-content.png?v=22.1)
     
-8.  Right-click the  **Views**  node and select  **Add…**  |  **ListView**. For the new node, set the  **Id**  property to  _Contact_ListView_Varied_  and the  **ModelClass**  property to  _MySolution.Module.BusinessObjects.Contact_. Do not generate content for this node.
+7.  Right-click the  **Views**  node and select  **Add…**  |  **ListView**. For the new node, set the  **Id**  property to  _Contact_ListView_Varied_  and the  **ModelClass**  property to  _MySolution.Module.BusinessObjects.Contact_. Do not generate content for this node.
     
-9.  Expand the newly added  **Contact_ListView_Varied**  node, right-click the  **Variants**  child node, and select  **Add…**  |  **Variant**.
+8.  Expand the newly added  **Contact_ListView_Varied**  node, right-click the  **Variants**  child node, and select  **Add…**  |  **Variant**.
     
     ![Generate View content](https://docs.devexpress.com/eXpressAppFramework/images/tutorial-view-variants-module-add-variant.png?v=22.1)
     
-10.  Set the  **View**  property to  `Contact_ListView`  and the  **Id**  and  **Caption**  properties to  `Multiple columns`.
+9.  Set the  **View**  property to  `Contact_ListView`  and the  **Id**  and  **Caption**  properties to  `Multiple columns`.
     
     ![Set Variant Properties](https://docs.devexpress.com/eXpressAppFramework/images/tutorial-view-variants-module-set-properties.png?v=22.1)
     
-1.  Right-click the  **Variants**  node and select  **Add…**  |  **Variant**. For the new node, set the  **View**  property to  `Contact_ListView_AllColumns`, and the  **Id**  and  **Caption**  properties to  `All columns`.
+10.  Right-click the  **Variants**  node and select  **Add…**  |  **Variant**. For the new node, set the  **View**  property to  `Contact_ListView_AllColumns`, and the  **Id**  and  **Caption**  properties to  `All columns`.
     
     ![Add All Columns Variant](https://docs.devexpress.com/eXpressAppFramework/images/tutorial-view-variants-module-all-variant.png?v=22.1)
     
-2.  Navigate to the  **NavigationItems** | **Items** | **Default** | **Items**  |  **Contact**  node. Set its  **View**  property to  `Contact_ListView_Varied`.
+11.  Navigate to the  **NavigationItems** | **Items** | **Default** | **Items**  |  **Contact**  node. Set its  **View**  property to  `Contact_ListView_Varied`.
     
     ![Set Default View for the Navigation Item](https://docs.devexpress.com/eXpressAppFramework/images/tutorial-view-variants-module-nav-item.png?v=22.1)
     
-3.  Run the Blazor Application. Select the  **Contact**  item. The  **Contact**  List View contains the  **Change Variant**  Action. The  **Change Variant**  Action includes items specified in the  **Model Editor**.
+12.  Run the Blazor Application. Select the  **Contact**  item. The  **Contact**  List View contains the  **Change Variant**  Action. The  **Change Variant**  Action includes items specified in the  **Model Editor**.
     
     ![Result](https://docs.devexpress.com/eXpressAppFramework/images/tutorial-view-variants-module-result.png?v=22.1)
     
@@ -2623,7 +2629,3 @@ Invoke the  [Model Editor](https://docs.devexpress.com/eXpressAppFramework/11258
 ![Add View Variants to the Navigation Control](https://docs.devexpress.com/eXpressAppFramework/images/tutorial-view-variants-module-optional.png?v=22.1)
 
 As a result, the  **Contact**  navigation item exposes child items for each View variant.
-
-![View Variants in the Navigation Control](https://docs.devexpress.com/eXpressAppFramework/images/tutorial-view-variants-module-navigation.png?v=22.1)
-
-![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/3485e86c-3904-41fa-bef9-c56806650c16)

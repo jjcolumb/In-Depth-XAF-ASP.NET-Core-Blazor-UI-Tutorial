@@ -714,3 +714,728 @@ En este tutorial, el segundo parámetro se establece en  [SelectAll](https://doc
 ### [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/tree/master#the-datasourcecriteria-attribute)El atributo DataSourceCriteria
 
 Con el atributo  **DataSourceCriteria**  aplicado, el editor de búsquedas  **del Administrador**  contiene objetos  **Contact**  que satisfacen los criterios especificados en el parámetro attribute.
+
+
+# Implementar la validación del valor de la propiedad en el código (XPO)
+
+En esta lección se explica cómo establecer reglas de validación para las clases empresariales y sus propiedades. XAF aplica estas reglas cuando un usuario ejecuta la operación especificada (por ejemplo, guarda un objeto editado).
+
+En esta lección creará una regla que requiere que la propiedad  **Position.Title**  no esté vacía. La aplicación aplicará la regla cuando un usuario guarde un objeto  **Position**.
+
+> NOTA Antes de continuar, tómese un momento para repasar las siguientes lecciones:
+> 
+> -   [Heredar de la clase de biblioteca de clase empresarial (XPO)](https://docs.devexpress.com/eXpressAppFramework/402166/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-xpo/inherit-from-the-business-class-library-class-xpo?v=22.1)
+> -   [Implementar clases empresariales personalizadas y propiedades de referencia (XPO)](https://docs.devexpress.com/eXpressAppFramework/402163/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-xpo/implement-custom-business-classes-and-reference-properties-xpo?v=22.1)
+
+> NOTA Para usar la funcionalidad de validación de XAF, instale el paquete NuGet y  [registre](https://docs.devexpress.com/eXpressAppFramework/118047/application-shell-and-base-infrastructure/application-solution-components/ways-to-register-a-module?v=22.1)  el módulo de validación en el proyecto.`DevExpress.ExpressApp.Validation.Blazor`
+
+El asistente para proyectos agrega este paquete a todas las aplicaciones nuevas con las opciones de seguridad habilitadas.
+
+## [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/tree/master#step-by-step-instructions-8)Instrucciones paso a paso
+
+1.  Aplique el atributo  [RuleRequiredFieldAttribute](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.Validation.RuleRequiredFieldAttribute?v=22.1)  a la propiedad  **Title**  de la clase  **Position**. Como parámetro, especifique el contexto que desencadena la regla (por ejemplo, ):`DefaultContexts.Save`
+    ```csharp
+    using DevExpress.Persistent.Validation;
+    //...
+    [DefaultClassOptions]
+    [System.ComponentModel.DefaultProperty(nameof(Title))]
+    public class Position : BaseObject {
+       //...
+       private string title;
+       [RuleRequiredField(DefaultContexts.Save)]
+       public string Title {
+          get { return title; }
+          set { SetPropertyValue(nameof(Title), ref title, value); }
+       }
+    }
+    ```
+2.  Ejecute la aplicación.
+    
+    Haga clic en el botón  **Nuevo**  para crear un nuevo objeto  **Posición**. Deje vacía la propiedad  **Title**  y haga clic en  **Guardar**. Se muestra el mensaje de error:
+    
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/cb6f6154-a5ca-44c7-be9a-50d808702427)
+
+    
+
+## [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/tree/master#detailed-explanation-6)Explicación detallada
+
+El atributo  **RuleRequiredField**  define una regla de validación que garantiza que la propiedad Position.Title tiene un valor cuando se guarda el objeto  **Position.**
+
+El Sistema de Validación ofrece una serie de reglas y contextos. Para obtener más información, consulte el tema  [Reglas de validación](https://docs.devexpress.com/eXpressAppFramework/113008/validation/validation-rules?v=22.1). El modelo de aplicación almacena todas las reglas para que un administrador pueda agregar y editar reglas y contextos con el  [Editor de modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor?v=22.1)  (consulte el tema Implementar validación de  [valor de propiedad en el tema Modelo de aplicación](https://docs.devexpress.com/eXpressAppFramework/402142/getting-started/in-depth-tutorial-blazor/ui-customization/implement-property-value-validation-in-the-application-model?v=22.1)).
+
+# [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/tree/master#filter-data-source-for-a-lookup-editor-xpo)Filtrar origen de datos para un editor de búsquedas (XPO)
+
+En esta lección se explica cómo filtrar los datos mostrados en un editor de búsquedas. Este editor aparece en una vista de detalle para las propiedades de referencia y contiene una lista de objetos de otra clase relacionada.
+
+> NOTA Antes de continuar, tómese un momento para repasar las siguientes lecciones:
+> 
+> -   [Heredar de la clase de biblioteca de clase empresarial](https://docs.devexpress.com/eXpressAppFramework/402166/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-xpo/inherit-from-the-business-class-library-class-xpo?v=22.1)
+> -   [Implementar clases empresariales personalizadas y propiedades de referencia](https://docs.devexpress.com/eXpressAppFramework/402163/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-xpo/implement-custom-business-classes-and-reference-properties-xpo?v=22.1)
+> -   [Implementar propiedades de referencia dependientes](https://docs.devexpress.com/eXpressAppFramework/402164/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-xpo/implement-dependent-reference-properties-xpo?v=22.1)
+> -   [Establecer una relación de muchos a muchos](https://docs.devexpress.com/eXpressAppFramework/402168/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-xpo/set-a-many-to-many-relationship-xpo?v=22.1)
+
+## [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/tree/master#step-by-step-instructions-9)Instrucciones paso a paso
+
+1.  Especifique una relación de varios a varios entre las clases y. Para obtener más información, consulte el tema siguiente:  [Establecer una relación de varios a varios (XPO).](https://docs.devexpress.com/eXpressAppFramework/402168/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-xpo/set-a-many-to-many-relationship-xpo?v=22.1)`Position``Department`
+    ```csharp
+    [DefaultClassOptions]
+    [System.ComponentModel.DefaultProperty(nameof(Title))]
+     public class Department : BaseObject {
+       //...
+       [Association("Departments-Positions")]
+       public XPCollection<Position> Positions {
+          get { return GetCollection<Position>(nameof(Positions)); }
+       }
+    }
+    
+    [DefaultClassOptions]
+    [System.ComponentModel.DefaultProperty(nameof(Title))]
+    public class Position : BaseObject {
+          //...
+       [Association("Departments-Positions")]
+       public XPCollection<Department> Departments {
+          get { return GetCollection<Department>(nameof(Departments)); }
+       }
+    }
+    ```
+    ----------
+    
+2.  Abra el archivo  _Model.DesignedDiffs.xafml_  en el Editor de  [modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor?v=22.1). Vaya a la  **lista de materiales**  |  **Nodo MySolution.Module.BusinessObjects.**  Expanda el nodo secundario  **Contactar**  y seleccione  **OwnMembers**  |  **Colocar**  nodo secundario.
+    
+    Realice los siguientes cambios en las propiedades del nodo:
+    
+    -   Establezca la propiedad  **DataSourceProperty**  en .`Department.Positions`
+    -   Establezca la propiedad  **DataSourcePropertyIsNullMode**  en .`SelectAll`
+    
+    [![imagen](https://user-images.githubusercontent.com/126447472/254451029-e1864139-0986-4330-a74e-fc6e0bafe7d7.png)](https://user-images.githubusercontent.com/126447472/254451029-e1864139-0986-4330-a74e-fc6e0bafe7d7.png)
+    
+3.  En la  clase Contact (_BusinessObjects\Contact.cs_), reemplace la declaración de propiedad por el código siguiente:`Department`
+    ```csharp
+    [Association("Department-Contacts", typeof(Department)), ImmediatePostData]
+    public Department Department {
+       get {return department;}
+       set {
+          SetPropertyValue(nameof(Department), ref department, value);
+           // Clear Position and Manager properties if the Department has changed.
+          if(!IsLoading) {
+             Position = null;
+             if(Manager != null && Manager.Department != value) {
+                Manager = null;
+             }
+          }
+       }
+    }
+    ```
+    ----------
+    
+4.  Ejecute la aplicación. Abra la vista detallada de un departamento y vincule varios elementos de  **posición**  a este departamento.
+    
+5.  Abra la vista detallada de un contacto que pertenezca a este departamento. El menú desplegable Editor de posiciones enumera las  **posiciones**  que vinculaste en el paso anterior:
+    
+    [![imagen](https://user-images.githubusercontent.com/126447472/254451053-1f9d614c-0c38-4bb0-a8e7-a8233da681d9.png)](https://user-images.githubusercontent.com/126447472/254451053-1f9d614c-0c38-4bb0-a8e7-a8233da681d9.png)
+    
+
+# [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/tree/master#extend-functionality)Amplíe la funcionalidad
+
+Antes de continuar con esta sección del tutorial, debe familiarizarse con los siguientes conceptos básicos de  **eXpressApp Framework**.
+
+**Acción**
+
+Visualmente, Action es un elemento de la barra de herramientas u otro control que realiza el código asociado cuando un usuario final lo manipula. XAF tiene varios tipos de acción predefinidos. Puede elegir el tipo adecuado en función de cómo desee que se muestre la acción dentro de la interfaz de usuario. Todas las acciones exponen el evento  **Execute**  cuyo controlador se ejecuta cuando los usuarios finales manipulan el elemento correspondiente. Para obtener más información, consulte el tema  [Acciones](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions?v=22.1).
+
+**Controlador**
+
+Los controladores son clases heredadas de la clase  [Controller](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Controller?v=22.1). Esta clase tiene los siguientes descendientes que también pueden servir como clases base para controladores:
+
+-   ViewController y sus versiones genéricas: ViewController y  [ObjectViewController<ViewType, ObjectType>](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ObjectViewController-2?v=22.1)[](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ViewController?v=22.1)[](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ViewController-1?v=22.1)
+-   [WindowController](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.WindowController?v=22.1)
+
+Los controladores  [implementan la lógica empresarial en la](https://docs.devexpress.com/eXpressAppFramework/113711/data-manipulation-and-business-logic/create-read-update-and-delete-data?v=22.1)  aplicación. Esta lógica se ejecuta automáticamente (por ejemplo, al activar una vista) o se activa cuando un usuario ejecuta una acción declarada dentro del controlador. XAF utiliza la  [reflexión](https://docs.microsoft.com/en-us/dotnet/framework/reflection-and-codedom/reflection)  para recopilar automáticamente los controladores implementados dentro de los módulos. Las clases de controlador deben ser  _públicas_. Las propiedades del controlador y la clase base determinan una vista o una ventana donde este controlador está activo. Para obtener más información, consulte el tema  [Controladores](https://docs.devexpress.com/eXpressAppFramework/112621/ui-construction/controllers-and-actions/controllers?v=22.1).
+
+Los controladores y las acciones son instrumentos que implementan características personalizadas en una aplicación XAF. En esta sección del tutorial, aprenderá cómo agregar acciones de diferentes tipos, implementar controladores sin acciones y modificar el comportamiento de controladores y acciones existentes. Se recomienda que complete las lecciones en el siguiente orden:
+
+-   [Agregar una acción simple](https://docs.devexpress.com/eXpressAppFramework/402157/getting-started/in-depth-tutorial-blazor/extend-functionality/add-a-simple-action?v=22.1)
+-   [Agregar una acción parametrizada](https://docs.devexpress.com/eXpressAppFramework/402155/getting-started/in-depth-tutorial-blazor/extend-functionality/add-a-parametrized-action?v=22.1)
+-   [Agregar una acción que muestre una ventana emergente](https://docs.devexpress.com/eXpressAppFramework/402158/getting-started/in-depth-tutorial-blazor/extend-functionality/add-an-action-that-displays-a-pop-up-window?v=22.1)
+-   [Agregar una acción con selección de opción](https://docs.devexpress.com/eXpressAppFramework/402159/getting-started/in-depth-tutorial-blazor/extend-functionality/add-an-action-with-option-selection?v=22.1)
+-   [Agregar una acción simple mediante un atributo](https://docs.devexpress.com/eXpressAppFramework/402156/getting-started/in-depth-tutorial-blazor/extend-functionality/add-a-simple-action-using-an-attribute?v=22.1)
+-   [Configuración del editor de acceso](https://docs.devexpress.com/eXpressAppFramework/402153/getting-started/in-depth-tutorial-blazor/extend-functionality/access-editor-settings?v=22.1)
+-   [Configuración de control de cuadrícula de acceso](https://docs.devexpress.com/eXpressAppFramework/402154/getting-started/in-depth-tutorial-blazor/extend-functionality/access-data-grid-settings?v=22.1)
+
+# [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/tree/master#add-a-simple-action-net-6)Agregar una acción simple (.NET 6)
+
+Esta lección explica cómo crear una  **acción simple**.
+
+Una  **acción simple**  es un botón que ejecuta código personalizado cuando un usuario hace clic en él.
+
+Las instrucciones siguientes muestran cómo agregar el botón  **Borrar tareas**  a la Vista de detalles de  **contacto**. Un clic en este botón borra todas las  **tareas rastreadas**  del  **contacto**  específico.
+
+[![imagen](https://user-images.githubusercontent.com/126447472/254451291-2037b4c7-c3dd-4afc-88a1-13534022fcd3.png)](https://user-images.githubusercontent.com/126447472/254451291-2037b4c7-c3dd-4afc-88a1-13534022fcd3.png)
+
+> NOTA Antes de continuar, tómese un momento para repasar las lecciones anteriores:
+> 
+> -   Heredar de la clase de biblioteca de clase empresarial ([XPO)](https://docs.devexpress.com/eXpressAppFramework/402166/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-xpo/inherit-from-the-business-class-library-class-xpo?v=22.1))
+> -   Implementar clases empresariales personalizadas y propiedades de referencia ([XPO)](https://docs.devexpress.com/eXpressAppFramework/402163/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-xpo/implement-custom-business-classes-and-reference-properties-xpo?v=22.1))
+> -   Establecer una relación de varios a varios ([XPO](https://docs.devexpress.com/eXpressAppFramework/402168/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-xpo/set-a-many-to-many-relationship-xpo?v=22.1))
+
+## [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/tree/master#step-by-step-instructions-10)Instrucciones paso a paso
+
+1.  Agregar un controlador de vista. En el  **Explorador de soluciones**, haga clic con el botón secundario en la carpeta  _Controllers_  del proyecto  _MySolution.Module_  y elija  **Agregar elemento DevExpress**  |  **Nuevo artículo...**  para invocar la  [Galería de plantillas](https://docs.devexpress.com/eXpressAppFramework/113455/installation-upgrade-version-history/visual-studio-integration/template-gallery?v=22.1). Seleccione los  **controladores XAF**  |  **Controlador de vista**  Plantilla de Visual Studio, especifique  _ClearContactTasksController_  como nombre del nuevo elemento y haga clic en  **Agregar elemento**.
+
+[![imagen](https://user-images.githubusercontent.com/126447472/254451309-a09d959c-b02a-44ff-9f08-6e83585bcbf3.png)](https://user-images.githubusercontent.com/126447472/254451309-a09d959c-b02a-44ff-9f08-6e83585bcbf3.png)
+
+2.  Visual Studio muestra un archivo  _ClearContactTasksController.cs_  generado automáticamente con una sola declaración de View Controller. En el constructor del controlador, especifique las propiedades del controlador:
+    
+    using DevExpress.ExpressApp;
+    ```csharp
+    //...
+    public partial class ClearContactTasksController : ViewController {
+        public ClearContactTasksController() {
+            InitializeComponent();
+            //Activate the Controller only in the Detail View
+            TargetViewType = ViewType.DetailView;
+            //Specify the type of objects that can use the Controller
+            TargetObjectType = typeof(Contact);
+        }
+    // ...
+    ```
+    Si no especifica la propiedad, la aplicación muestra las acciones del controlador para cada formulario de detalle.`TargetObjectType`
+    
+
+> PROPINA También puede crear un objeto genérico ViewController u  [ObjectViewController<ViewType, ObjectType>](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ObjectViewController-2?v=22.1)  y especificar el tipo de destino como parámetro.[](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ViewController-1?v=22.1)  Para obtener más información sobre cómo personalizar la funcionalidad del controlador, consulte el tema siguiente:  [Definir el ámbito de los controladores y las acciones](https://docs.devexpress.com/eXpressAppFramework/113103/ui-construction/controllers-and-actions/define-the-scope-of-controllers-and-actions?v=22.1).`ViewType`
+
+3.  Agregue una nueva acción al controlador y un controlador para el evento de la acción:`Execute`
+    ```csharp
+    using DevExpress.ExpressApp;
+    using DevExpress.ExpressApp.Actions;
+    using DevExpress.Persistent.Base;
+    using MySolution.Module.BusinessObjects;
+     //...
+    public partial class ClearContactTasksController : ViewController {
+        public ClearContactTasksController() {
+            InitializeComponent();
+            TargetViewType = ViewType.DetailView;
+            TargetObjectType = typeof(Contact);
+    
+            SimpleAction clearTasksAction = new SimpleAction(this, "ClearTaskAction", PredefinedCategory.View) {
+                //Specify the Action's button caption.
+                Caption = "Clear tasks",
+                //Specify the confirmation message that pops up when a user executes an Action.
+                ConfirmationMessage = "Are you sure you want to clear the Tasks list?",
+                //Specify the icon of the Action's button in the interface.
+                ImageName = "Action_Clear"
+            };
+            //This event fires when a user clicks the Simple Action control.
+            clearTasksAction.Execute += ClearTasksAction_Execute;
+        }
+        private void ClearTasksAction_Execute(Object sender, SimpleActionExecuteEventArgs e) {
+            while(((Contact)View.CurrentObject).Tasks.Count > 0) {
+                ((Contact)View.CurrentObject).Tasks.Remove(((Contact)View.CurrentObject).Tasks[0]);
+                ObjectSpace.SetModified(View.CurrentObject);
+            }
+        }
+    // ...
+    ```
+    Puede  [utilizar una de las imágenes estándar](https://docs.devexpress.com/eXpressAppFramework/112745/getting-started/in-depth-tutorial-winforms-webforms/ui-customization/assign-a-standard-image?v=22.1)  como icono del botón de la acción o  [importar la suya propia](https://docs.devexpress.com/eXpressAppFramework/112744/getting-started/in-depth-tutorial-winforms-webforms/ui-customization/assign-a-custom-image?v=22.1).
+    
+    El punto de entrada principal de una acción simple es su evento  **Execute**. Controle este evento para ejecutar código personalizado.
+    
+4.  Ejecute la aplicación.
+    
+    Abra un formulario de detalles para un elemento  **de contacto**. Vincule varias tareas a este elemento y guárdelo.
+    
+    Haga clic en el botón  **Borrar tareas**. Aparecerá un mensaje de confirmación. Haga clic en  **Aceptar**  para eliminar todas las  **tareas**  del  **contacto**  actual.
+    
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/127eb34a-b18b-403e-84dd-7dbadba17108)
+
+    
+
+> TIP: Puede mostrar el botón de una acción en un diseño de vista detallada en lugar de en una barra de herramientas:  [Cómo: Incluir una acción en un diseño de vista detallada](https://docs.devexpress.com/eXpressAppFramework/112816/ui-construction/view-items-and-property-editors/include-an-action-to-a-detail-view-layout?v=22.1).
+
+
+# Agregar una acción parametrizada (.NET 6)
+
+En esta lección se explica cómo agregar una  **acción parametrizada**. La acción  **parametrizada**  muestra un editor que permite a los usuarios escribir un valor de parámetro antes de ejecutar la acción.
+
+Las instrucciones siguientes muestran cómo implementar un nuevo controlador de vista con una acción parametrizada. Esta acción busca un objeto  **DemoTask**  por su valor de propiedad  **Subject**  y muestra el formulario de detalle del objeto encontrado.
+
+> NOTA Antes de continuar, tómese un momento para repasar las lecciones anteriores:
+> 
+> -   **Heredar de la clase de biblioteca de clase empresarial**  (núcleo  [XPO/](https://docs.devexpress.com/eXpressAppFramework/402166/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-xpo/inherit-from-the-business-class-library-class-xpo?v=22.1)[EF](https://docs.devexpress.com/eXpressAppFramework/402981/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-ef-core/inherit-from-the-business-class-library-class-ef-core?v=22.1)))
+> -   **Inicialización de propiedades de objeto de negocio**  (núcleo  [XPO/](https://docs.devexpress.com/eXpressAppFramework/402167/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-xpo/initialize-a-property-after-creating-an-object-xpo?v=22.1)[EF](https://docs.devexpress.com/eXpressAppFramework/402982/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-ef-core/initialize-a-property-after-creating-an-object-ef-core?v=22.1)))
+> -   [Agregar una acción simple](https://docs.devexpress.com/eXpressAppFramework/402157/getting-started/in-depth-tutorial-blazor/extend-functionality/add-a-simple-action?v=22.1)
+
+## [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial#step-by-step-instructions-11)Instrucciones paso a paso
+
+1.  Agregue un nuevo controlador de View al proyecto  _MySolution.Module_, como se describe en la lección  [Agregar una acción simple](https://docs.devexpress.com/eXpressAppFramework/402157/getting-started/in-depth-tutorial-blazor/extend-functionality/add-a-simple-action?v=22.1). Asígnele  _el nombre FindBySubjectController_.
+    
+2.  En  _MySolution.Module_  |  _Controladores_  |  _FindBySubjectController.cs_  archivo, especifique las propiedades del controlador:
+    ```csharp
+    using DevExpress.ExpressApp;
+    // ...
+    public partial class FindBySubjectController : ViewController {
+        public FindBySubjectController() {
+            InitializeComponent();
+            //Activate the controller only in the List View.
+            TargetViewType = ViewType.ListView;
+            //Activate the controller only for root Views.
+            TargetViewNesting = Nesting.Root;
+            //Specify the type of objects that can use the controller.
+            TargetObjectType = typeof(DemoTask);
+        }
+        // ...
+    }
+    ```
+    Para obtener más información acerca de la vista raíz, consulte el tema siguiente:  [IsRoot](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.View.IsRoot?v=22.1).
+    
+3.  Agregue una acción parametrizada al controlador:
+    ```csharp
+    public partial class FindBySubjectController : ViewController {
+        public FindBySubjectController() {
+            InitializeComponent();
+            TargetViewType = ViewType.ListView;
+            TargetViewNesting = Nesting.Root;
+            TargetObjectType = typeof(DemoTask);
+    
+            ParametrizedAction findBySubjectAction =
+                new ParametrizedAction(this, "FindBySubjectAction", PredefinedCategory.View, typeof(string)) {
+                    ImageName= "Action_Search",
+                    NullValuePrompt = "Find task by subject..."
+                };
+            findBySubjectAction.Execute += FindBySubjectAction_Execute;
+        }
+    // ...
+    }
+    ```
+    Un usuario envía una cadena en el editor de la acción. Esto provoca el evento  [ParametrizedAction.Execute](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ParametrizedAction.Execute?v=22.1)  de la acción.
+    
+4.  Controlar el evento de la acción:`Execute`
+    ```csharp
+    public partial class FindBySubjectController : ViewController {
+        public FindBySubjectController() {
+         // ...
+            findBySubjectAction.Execute += FindBySubjectAction_Execute;
+        }
+        private void FindBySubjectAction_Execute(object sender, ParametrizedActionExecuteEventArgs e) {
+            var objectType = ((ListView)View).ObjectTypeInfo.Type;
+            IObjectSpace objectSpace = Application.CreateObjectSpace(objectType);
+            string paramValue = e.ParameterCurrentValue as string;
+            object obj = objectSpace.FindObject(objectType, 
+                CriteriaOperator.Parse("Contains([Subject], ?)",  paramValue));
+            if(obj != null) {
+                DetailView detailView = Application.CreateDetailView(objectSpace, obj);
+                detailView.ViewEditMode = DevExpress.ExpressApp.Editors.ViewEditMode.Edit;
+                e.ShowViewParameters.CreatedView = detailView;
+            }
+        }
+    // ...
+    }
+    ```
+    Para obtener más información sobre la implementación del controlador de eventos, consulte la sección  [Explicación detallada](https://docs.devexpress.com/eXpressAppFramework/402155/getting-started/in-depth-tutorial-blazor/extend-functionality/add-a-parametrized-action?v=22.1#detailed-explanation).
+    
+5.  Ejecute la aplicación.
+    
+    Seleccione el elemento  **Tarea**  en el control de navegación (el editor  **Buscar tarea por asunto**  es la acción que implementó). Escriba una palabra del  **asunto**  de una tarea existente en este editor y presione Entrar. La aplicación muestra un formulario de detalles con esta tarea.
+    
+    [![imagen](https://user-images.githubusercontent.com/126447472/254451574-2e578011-0306-4edd-abf2-46f927ba54bf.png)](https://user-images.githubusercontent.com/126447472/254451574-2e578011-0306-4edd-abf2-46f927ba54bf.png)
+    
+    ## [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial#detailed-explanation-7)Explicación detallada
+    
+
+### [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial#search-implementation)Implementación de búsqueda
+
+En XAF, se utiliza el  [espacio](https://docs.devexpress.com/eXpressAppFramework/113707/data-manipulation-and-business-logic/object-space?v=22.1)  de objetos para consultar y actualizar objetos persistentes. Llame al método estático  [XafApplication.CreateObjectSpace](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.XafApplication.CreateObjectSpace.overloads?v=22.1)  para crear un espacio de objetos.
+
+Utilice el método  [IObjectSpace.FindObject](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.IObjectSpace.FindObject.overloads?v=22.1)  para buscar un objeto. Este método tiene los siguientes parámetros:`DemoTask`
+
+-   Tipo de los objetos mostrados en la vista de lista actual. Utilice  [View.ObjectTypeInfo.](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.View.ObjectTypeInfo?v=22.1)
+-   Criterios de búsqueda. Para generar un criterio, cree un objeto y pase componentes de criterios como parámetros del constructor. Para obtener más información, consulte la siguiente documentación de XPO:  [Sintaxis de criterios simplificados](https://docs.devexpress.com/CoreLibraries/4928/devexpress-data-library/criteria-language-syntax?v=22.1).`BinaryOperator`
+
+### [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial#create-a-new-view)Crear una nueva vista
+
+Para mostrar el objeto encontrado en una vista de detalles independiente:
+
+1.  Llame al método  [XafApplication.CreateDetailView](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.XafApplication.CreateDetailView.overloads?v=22.1)  para crear una vista.
+2.  Asigne la vista a la propiedad  [e.ShowViewParameters.CreatedView](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ShowViewParameters.CreatedView?v=22.1)  del parámetro de evento.
+
+> PROPINA Puede inicializar la propiedad en el controlador de eventos de cualquier acción de cualquier tipo. Esto le permite mostrar siempre una vista después de ejecutar una acción.`ShowViewParameters.Execute`
+
+Para obtener más información sobre cómo mostrar una vista en una ventana independiente, consulte el tema siguiente:  [Formas de mostrar una vista](https://docs.devexpress.com/eXpressAppFramework/112803/ui-construction/views/ways-to-show-a-view/ways-to-show-a-view?v=22.1).
+
+### [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial#manage-an-xaf-application)Administrar una aplicación XAF
+
+El objeto  [XafApplication](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.XafApplication?v=22.1)  es útil cuando necesita crear una vista de lista, una vista detallada, un espacio de objetos, etc. Un usuario puede acceder a un objeto desde muchas ubicaciones en una aplicación XAF. En Controllers, use  [Controller.Application](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Controller.Application?v=22.1)  para obtener dicho acceso.`XafApplication`
+
+# [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial#add-an-action-that-displays-a-pop-up-window-net-6)Agregar una acción que muestra una ventana emergente (.NET 6)
+
+En esta lección se explica cómo crear una acción que muestre una ventana emergente. Este tipo de acción es útil cuando un usuario desea introducir varios parámetros en un cuadro de diálogo emergente antes de ejecutar una acción.
+
+> NOTA Antes de continuar, tómese un momento para repasar las siguientes lecciones:
+> 
+> -   Establecer una relación de varios a varios (núcleo  [XPO/](https://docs.devexpress.com/eXpressAppFramework/402168/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-xpo/set-a-many-to-many-relationship-xpo?v=22.1)[EF](https://docs.devexpress.com/eXpressAppFramework/402983/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-ef-core/set-a-many-to-many-relationship-ef-core?v=22.1)))
+> -   [Agregar una acción simple](https://docs.devexpress.com/eXpressAppFramework/402157/getting-started/in-depth-tutorial-blazor/extend-functionality/add-a-simple-action?v=22.1)
+
+En este tutorial, implementará la capacidad de agregar notas de una lista predefinida a las descripciones de tareas.
+
+## [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial#step-by-step-instructions-12)Instrucciones paso a paso
+
+1.  Agregue el objeto de negocio de la  [biblioteca de clase empresarial](https://docs.devexpress.com/eXpressAppFramework/112571/business-model-design-orm/built-in-business-classes-and-interfaces?v=22.1)  a la aplicación. Para ello, agregue el código siguiente a  _MySolution.Module_  |  _Módulo.cs_  archivo:`Note`
+    ```csharp
+    using DevExpress.Persistent.BaseImpl.EF;
+    // ...
+    public sealed partial class MySolutionModule : ModuleBase {
+        public MySolutionModule() {
+            // Adds a business object
+            AdditionalExportedTypes.Add(typeof(Note));
+        }
+        // ...
+    }
+    ```
+2.  Si está trabajando con  **EF Core**, registre el tipo en . Edite el archivo  _BusinessObjects\MySolutionDbContext.cs_  como se muestra a continuación:`Note``DbContext`
+    ```csharp
+    public class MySolutionEFCoreDbContext : DbContext {
+        //...
+        public DbSet<Note> Notes { get; set; }
+    }
+    ```
+3.  Si está trabajando con  **EF Core**, agregue una migración y actualice la base de datos. Consulte la siguiente sección para obtener más información:  [Usar un DBMS: Migraciones de configuración](https://docs.devexpress.com/eXpressAppFramework/404144/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-ef-core/create-a-solution-ef-core?v=22.1#use-a-dbms-setup-migrations).
+    
+4.  Agregue un nuevo controlador de vistas al proyecto  **MySolution.Module.**  Asígnele  _el nombre PopupNotesController_.
+    
+5.  En el archivo  _PopupNotesController.cs_, especifique las propiedades del controlador:
+    ```csharp
+    using DevExpress.ExpressApp;
+    using DevExpress.Persistent.BaseImpl.EF;
+    // ...
+    public partial class PopupNotesController : ViewController {
+        // ...
+        public PopupNotesController() {
+            InitializeComponent();
+            //Target the required Views and create their Actions
+            TargetObjectType = typeof(DemoTask);
+            TargetViewType = ViewType.DetailView;
+        }
+        // ...
+    }
+    ```
+6.  Agregue la acción y controle su evento:`ShowNotesAction``CustomizePopupWindowParams`
+    ```csharp
+    public partial class PopupNotesController : ViewController {
+        public PopupNotesController() {
+            InitializeComponent();
+            TargetObjectType = typeof(DemoTask);
+            TargetViewType = ViewType.DetailView;
+            /*Invoke a pop-up window with a specified View and execute custom code
+     when a user clicks the OK or Cancel button*/
+            PopupWindowShowAction showNotesAction = new PopupWindowShowAction(this, "ShowNotesAction", PredefinedCategory.Edit) {
+                Caption = "Show Notes"
+            };
+    
+            showNotesAction.CustomizePopupWindowParams += ShowNotesAction_CustomizePopupWindowParams;
+        }
+    
+        private void ShowNotesAction_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e) {
+            IObjectSpace objectSpace = Application.CreateObjectSpace(typeof(Note));
+            string noteListViewId = Application.FindLookupListViewId(typeof(Note));
+            CollectionSourceBase collectionSource = Application.CreateCollectionSource(objectSpace, typeof(Note), noteListViewId);
+            e.View = Application.CreateListView(noteListViewId, collectionSource, true);
+        }
+        // ...
+    }
+    ```
+    En este paso, controlará el evento  [PopupWindowShowAction.CustomizePopupWindowParams](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.PopupWindowShowAction.CustomizePopupWindowParams?v=22.1)  y establecerá la vista necesaria en el parámetro  [e.View](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.CustomizePopupWindowParamsEventArgs.View?v=22.1)  del controlador. Este código crea la vista de lista de  **notas**  cuando genera la ventana emergente.
+    
+7.  Controlar el evento de :`ShowNotesAction``Execute`
+    ```csharp
+    // ...
+    public PopupNotesController() {
+        // ...
+        showNotesAction.Execute += ShowNotesAction_Execute;
+    }
+    
+    private void ShowNotesAction_Execute(object sender, PopupWindowShowActionExecuteEventArgs e) {
+        DemoTask task = (DemoTask)View.CurrentObject;
+        foreach(Note note in e.PopupWindowViewSelectedObjects) {
+            if(!string.IsNullOrEmpty(task.Description)) {
+                task.Description += Environment.NewLine;
+            }
+            // Add selected notes' text to a Task's description
+            task.Description += note.Text;
+        }
+        View.ObjectSpace.CommitChanges();
+    }
+    ```
+    El evento se produce cuando un usuario hace clic en  **Aceptar**  en la ventana emergente. El código del controlador de eventos anexa el valor de la propiedad al valor de la propiedad.`Execute``Note.Text``Task.Description`
+    
+    El parámetro  [e.PopupWindowViewSelectedObjects](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.PopupWindowShowActionExecuteEventArgs.PopupWindowViewSelectedObjects?v=22.1)  del controlador de eventos proporciona un objeto que un usuario selecciona en la ventana emergente.
+    
+8.  Ejecute la aplicación.
+    
+    Abra la vista de detalles de un elemento de  **tarea**. La barra de herramientas Vista detallada muestra el botón  **Mostrar notas**. Esta es la acción implementada en esta lección.
+    
+    [![imagen](https://user-images.githubusercontent.com/126447472/254451654-c654db0e-e8e0-495f-afcd-a8a164c6e39f.png)](https://user-images.githubusercontent.com/126447472/254451654-c654db0e-e8e0-495f-afcd-a8a164c6e39f.png)
+    
+    Haga clic en el botón para abrir la ventana emergente. La ventana emergente muestra una vista de lista para los objetos  **Note**. Cree varios objetos  **Note**.
+    
+    [![imagen](https://user-images.githubusercontent.com/126447472/254451664-9356f45a-a4b7-45f6-ab68-3bde9689d43f.png)](https://user-images.githubusercontent.com/126447472/254451664-9356f45a-a4b7-45f6-ab68-3bde9689d43f.png)
+    
+    [![imagen](https://user-images.githubusercontent.com/126447472/254451684-84903b4b-a29c-45ed-b48f-0b09372a1663.png)](https://user-images.githubusercontent.com/126447472/254451684-84903b4b-a29c-45ed-b48f-0b09372a1663.png)
+    
+    Seleccione un objeto  **Note**  de la lista y haga clic en  **Aceptar**. Después de eso, el valor de la propiedad  **Task.Description cambia.**
+    
+    [![imagen](https://user-images.githubusercontent.com/126447472/254451832-678076e3-a6d1-4b87-9c59-22ba3524edcb.png)](https://user-images.githubusercontent.com/126447472/254451832-678076e3-a6d1-4b87-9c59-22ba3524edcb.png)
+    
+    > TIP: Para obtener un ejemplo de cómo crear y mostrar una vista detallada, consulte el tema  [Cómo: Crear y mostrar una vista detallada del objeto seleccionado en una ventana emergente](https://docs.devexpress.com/eXpressAppFramework/118760/ui-construction/ways-to-access-ui-elements-and-their-controls/how-to-create-and-show-a-detail-view-of-the-selected-object-in-a-popup-window?v=22.1)
+
+
+# Agregar una acción con selección de opciones (.NET 6)
+
+En esta lección se explica cómo crear una acción que admita la selección de opciones.
+
+En esta lección, implementará un nuevo controlador de vista con un archivo . Esta acción permitirá a los usuarios seleccionar valores para las propiedades `SingleChoiceAction`, `Task.Priority` y`Task.Status`.
+
+[![imagen](https://user-images.githubusercontent.com/126447472/254451814-3af3d0dc-8473-43b3-bd8e-e961a360539c.png)](https://user-images.githubusercontent.com/126447472/254451814-3af3d0dc-8473-43b3-bd8e-e961a360539c.png)
+
+> NOTA Antes de continuar, tómese un momento para repasar las siguientes lecciones:
+> 
+> -   [Agregar una acción simple](https://docs.devexpress.com/eXpressAppFramework/112737/getting-started/in-depth-tutorial-winforms-webforms/extend-functionality/add-a-simple-action?v=22.1)
+> -   [Agregar una acción que muestre una ventana emergente](https://docs.devexpress.com/eXpressAppFramework/112723/getting-started/in-depth-tutorial-winforms-webforms/extend-functionality/add-an-action-that-displays-a-pop-up-window?v=22.1)
+
+## [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial#step-by-step-instructions-13)Instrucciones paso a paso
+
+1.  Agregue un nuevo controlador de vistas al proyecto  _MySolution.Module._  Asígnele  _el nombre TaskActionsController_.
+    
+2.  En el archivo  _TaskActionsController.cs_, establezca el :`TargetObjectType`
+    ```csharp
+    using DevExpress.ExpressApp;
+    // ...
+    public partial class TaskActionsController : ViewController {
+        public TaskActionsController() {
+            InitializeComponent();
+            TargetObjectType = typeof(DemoTask);
+        }
+        // ...
+    }
+    ```
+3.  Agregue un y especifique sus propiedades:`SingleChoiceAction`
+    ```csharp
+    public partial class TaskActionsController : ViewController {
+        public TaskActionsController() {
+            InitializeComponent();
+            TargetObjectType = typeof(DemoTask);
+            SingleChoiceAction SetTaskAction = new SingleChoiceAction(this, "SetTaskAction", PredefinedCategory.Edit) {
+                Caption = "Set Task",
+                //Specify the display mode for the Action's items. Here the items are operations that you perform against selected records.
+                ItemType = SingleChoiceActionItemType.ItemIsOperation,
+                //Set the Action to become available in the Task List View when a user selects one or more objects.
+                SelectionDependencyType = SelectionDependencyType.RequireMultipleObjects
+            };
+        }
+        // ...
+    }
+    ```
+4.  Para rellenar la acción con elementos, rellene la colección  [ChoiceActionBase.Items](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ChoiceActionBase.Items?v=22.1)  de la acción en el constructor del controlador:
+    ``` csharp
+    public partial class TaskActionsController : ViewController {
+       private ChoiceActionItem setPriorityItem;
+       private ChoiceActionItem setStatusItem;
+       public TaskActionsController() {
+          // ...
+          setPriorityItem = 
+             new ChoiceActionItem(CaptionHelper.GetMemberCaption(typeof(DemoTask), "Priority"), null);
+          SetTaskAction.Items.Add(setPriorityItem);
+          FillItemWithEnumValues(setPriorityItem, typeof(Priority));
+    
+          setStatusItem = 
+             new ChoiceActionItem(CaptionHelper.GetMemberCaption(typeof(DemoTask), "Status"), null);
+          SetTaskAction.Items.Add(setStatusItem);
+          FillItemWithEnumValues(setStatusItem, typeof(DevExpress.Persistent.Base.General.TaskStatus));
+    
+       }
+       private void FillItemWithEnumValues(ChoiceActionItem parentItem, Type enumType) {
+            EnumDescriptor ed = new EnumDescriptor(enumType);
+            foreach(object current in ed.Values) {
+                ChoiceActionItem item = new ChoiceActionItem(ed.GetCaption(current), current);
+                item.ImageName = ImageLoader.Instance.GetEnumValueImageName(current);
+                parentItem.Items.Add(item);
+            }
+        }
+    }
+    ```
+    El ejemplo de código anterior organiza los elementos de la colección Action como un árbol:`Items`
+    
+    -   El nivel raíz contiene elementos cuyos títulos corresponden a los nombres de las propiedades y. El objeto  [CaptionHelper](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Utils.CaptionHelper?v=22.1)  devuelve títulos de elemento.`DemoTask.Priority``DemoTask.Status`
+    -   El nivel anidado contiene los valores y enumeración. El objeto  [EnumDescriptor](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Utils.EnumDescriptor?v=22.1)  devuelve títulos de elementos.`Priority``Status`
+    
+    [![imagen](https://user-images.githubusercontent.com/126447472/254451897-60c0f4db-c66b-46f8-8f28-19f3121b9c16.png)](https://user-images.githubusercontent.com/126447472/254451897-60c0f4db-c66b-46f8-8f28-19f3121b9c16.png)
+    
+    Al rellenar la colección  [ChoiceActionBase.Items](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ChoiceActionBase.Items?v=22.1)  en un constructor Controller, como se muestra en el código anterior, puede utilizar  **ActionDesign**  | del  [Editor de modelos](https://docs.devexpress.com/eXpressAppFramework/112830/installation-upgrade-version-history/visual-studio-integration/model-editor?v=22.1).  **Acciones**  |  |  **ChoiceActionItems**  para establecer un nombre de imagen, un acceso directo y un título localizado para los elementos agregados.
+    
+    Si rellena la colección en un controlador de eventos  [Controller.Activated](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Controller.Activated?v=22.1), el Editor de modelos no carga elementos.`Items`
+    
+5.  Abra el archivo  _Task.cs_  y asigne imágenes al valor de enumeración como en el ejemplo de código siguiente:`Priority`
+    ```csharp
+    public enum Priority {
+        [ImageName("State_Priority_Low")]
+        Low,
+        [ImageName("State_Priority_Normal")]
+        Normal,
+        [ImageName("State_Priority_High")]
+        High
+    }
+    ```
+    En este tutorial, los valores de enumeración tienen los atributos  [ImageNameAttribute](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.Base.ImageNameAttribute?v=22.1)  para establecer imágenes para estos valores en la interfaz de usuario.
+    
+    XAF se incluye con la biblioteca de imágenes estándar. La biblioteca incluye el `State_Priority_Low`, `State_Priority_Normal` y `State_Priority_High`, y las imágenes utilizadas en esta lección.`
+    
+6.  Controle el evento  [SingleChoiceAction.Execute](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.SingleChoiceAction.Execute?v=22.1)  que se produce cuando un usuario elige el elemento de la acción:
+    ```csharp
+    public partial class TaskActionsController : ViewController {
+        // ...
+        public TaskActionsController() {
+            // ...
+            SetTaskAction.Execute += SetTaskAction_Execute;
+        }    
+        private void SetTaskAction_Execute(object sender, SingleChoiceActionExecuteEventArgs e) {
+            /*Create a new ObjectSpace if the Action is used in List View
+     Use this ObjectSpace to manipulate the View's selected objects.*/
+            IObjectSpace objectSpace = View is ListView ?
+                Application.CreateObjectSpace(typeof(DemoTask)) : View.ObjectSpace;
+            ArrayList objectsToProcess = new ArrayList(e.SelectedObjects);
+            if(e.SelectedChoiceActionItem.ParentItem == setPriorityItem) {
+                foreach(Object obj in objectsToProcess) {
+                    DemoTask objInNewObjectSpace = (DemoTask)objectSpace.GetObject(obj);
+                    objInNewObjectSpace.Priority = (Priority)e.SelectedChoiceActionItem.Data;
+                }
+            } else
+                if(e.SelectedChoiceActionItem.ParentItem == setStatusItem) {
+                foreach(Object obj in objectsToProcess) {
+                    DemoTask objInNewObjectSpace = (DemoTask)objectSpace.GetObject(obj);
+                    objInNewObjectSpace.Status = (DevExpress.Persistent.Base.General.TaskStatus)e.SelectedChoiceActionItem.Data;
+                }
+            }
+            objectSpace.CommitChanges();
+            View.ObjectSpace.Refresh();
+        }
+    }    
+    ```
+    Para obtener acceso a un elemento de acción seleccionado, use el parámetro  [e.SelectedChoiceActionItem](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.SingleChoiceActionExecuteEventArgs.SelectedChoiceActionItem?v=22.1)  del controlador de eventos.
+    
+    Cree un elemento independiente para editar varios objetos que se muestran actualmente. Este enfoque mejora el rendimiento, ya que cada cambio de objeto no desencadena los eventos del control de cuadrícula.`ObjectSpace`
+    
+7.  Ejecute la aplicación. Seleccione el elemento  **Tarea**  en el control de navegación. Después de eso, la acción  **Establecer tarea**  se activa.
+    
+    Para cambiar la propiedad  **Priority**  o  **Status**  de los objetos  **Task**  seleccionados, seleccione un elemento en la lista desplegable Action:
+    
+    [![imagen](https://user-images.githubusercontent.com/126447472/254451927-3f964770-7678-4129-b0d1-473e0d6c6c68.png)](https://user-images.githubusercontent.com/126447472/254451927-3f964770-7678-4129-b0d1-473e0d6c6c68.png)
+    
+
+[![imagen](https://user-images.githubusercontent.com/126447472/254452043-2e0b1a5f-19b6-4e62-aa77-837af1307fde.png)](https://user-images.githubusercontent.com/126447472/254452043-2e0b1a5f-19b6-4e62-aa77-837af1307fde.png)
+
+# [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial#add-a-simple-action-using-an-attribute)Agregar una acción simple mediante un atributo
+
+En esta lección se explica cómo utilizar los métodos de un objeto de negocio para agregar una acción simple.
+
+Las instrucciones siguientes muestran cómo agregar un nuevo método con el atributo  [ActionAttribute](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.Base.ActionAttribute?v=22.1)  a la clase.`DemoTask`
+
+> NOTA Antes de continuar, tómese un momento para repasar las siguientes lecciones:
+> 
+> -   **Establecer una relación de varios a varios**  (núcleo  [XPO/](https://docs.devexpress.com/eXpressAppFramework/402168/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-xpo/set-a-many-to-many-relationship-xpo?v=22.1)[EF](https://docs.devexpress.com/eXpressAppFramework/402983/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-ef-core/set-a-many-to-many-relationship-ef-core?v=22.1)))
+> -   [Agregar una acción simple](https://docs.devexpress.com/eXpressAppFramework/402157/getting-started/in-depth-tutorial-blazor/extend-functionality/add-a-simple-action?v=22.1)
+
+## [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial#step-by-step-instructions-14)Instrucciones paso a paso
+
+1.  Agregue el método `Postpone` a la clase `DemoTask`:
+    ```csharp
+    namespace MySolution.Module.BusinessObjects
+    
+    [DefaultClassOptions]
+    [ModelDefault("Caption", "Task")]
+    public class DemoTask : DevExpress.Persistent.BaseImpl.EF.Task {
+        //...
+        /*Use this attribute to display the Postpone button in the UI
+     and call the Postpone() method when a user clicks this button*/
+        [Action(ToolTip = "Postpone the task to the next day")]
+        //Shift the task's due date forward by one day
+        public void Postpone() {
+            if(DueDate == DateTime.MinValue) {
+                DueDate = DateTime.Now;
+            }
+            DueDate = DueDate + TimeSpan.FromDays(1);
+        }
+    }
+    ```
+    > PROPINA Puede utilizar el atributo para implementar una acción que pida a un usuario que especifique parámetros en un cuadro de diálogo emergente (por ejemplo, el número de días para posponer una  **tarea**). Consulte el tema siguiente para obtener un ejemplo:  [Cómo: Crear una acción mediante el atributo action](https://docs.devexpress.com/eXpressAppFramework/112619/ui-construction/controllers-and-actions/actions/how-to-create-an-action-using-the-action-attribute?v=22.1).`Action`
+    
+2.  Muestre la columna  **Fecha de vencimiento**  en la Vista Lista de  **tareas**. Abra  **MySolution.Module**  |  **Archivo ModelDesignedDiffs.xafml.**  En el Editor de modelos, haga lo siguiente:
+    
+    -   Ir a  **Vistas | MySolution.Module.BusinessObjects | DemoTask | DemoTask_ListView | Columnas**.
+        
+    -   Haga clic con el botón secundario en el encabezado de cuadrícula y haga clic en el elemento  **Selector de columnas**.
+        
+    -   Arrastre la columna  **Fecha de vencimiento**  a la vista y guarde el archivo  **ModelDesignedDiffs.xafml.**
+        
+        [![Tutorial de Blazor mostrar columna listview](https://camo.githubusercontent.com/a85e46865fdb4cc963b5762667e8283f838ff88fb8a6e7a5f25d16d26f056c0c/68747470733a2f2f646f63732e646576657870726573732e636f6d2f655870726573734170704672616d65776f726b2f696d616765732f626c617a6f722d7475746f7269616c2d6174747269627574652d616374696f6e2d646973706c6179636f6c756d6e2e6769663f763d32322e31)](https://camo.githubusercontent.com/a85e46865fdb4cc963b5762667e8283f838ff88fb8a6e7a5f25d16d26f056c0c/68747470733a2f2f646f63732e646576657870726573732e636f6d2f655870726573734170704672616d65776f726b2f696d616765732f626c617a6f722d7475746f7269616c2d6174747269627574652d616374696f6e2d646973706c6179636f6c756d6e2e6769663f763d32322e31)
+        
+3.  Ejecute la aplicación. Seleccione el elemento  **Tarea**  en el control de navegación.
+    
+    Seleccione una o más tareas en la Vista Lista de  **tareas**. Aparecerá el botón  **Posponer**  acción. Haga clic en este botón. La fecha de vencimiento de las tareas seleccionadas se adelanta un día.
+    
+
+# [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial#access-the-settings-of-a-property-editor-in-a-detail-view)Acceder a la configuración de un editor de propiedades en una vista detallada
+
+En esta lección se explica cómo acceder a los editores en una  [vista detallada](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views?v=22.1)  y cambiar su configuración.
+
+Las instrucciones siguientes muestran cómo hacer que el editor de propiedades  **Cumpleaños**  muestre un selector de fecha desplazable en su ventana desplegable.
+
+> NOTA Antes de continuar, tómese un momento para repasar las siguientes lecciones:
+> 
+> -   **Heredar de la clase de biblioteca de clase empresarial**  (núcleo  [XPO/](https://docs.devexpress.com/eXpressAppFramework/402166/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-xpo/inherit-from-the-business-class-library-class-xpo?v=22.1)[EF](https://docs.devexpress.com/eXpressAppFramework/402981/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-ef-core/inherit-from-the-business-class-library-class-ef-core?v=22.1)))
+> -   [Agregar una acción simple](https://docs.devexpress.com/eXpressAppFramework/402157/getting-started/in-depth-tutorial-blazor/extend-functionality/add-a-simple-action?v=22.1)
+
+## [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial#step-by-step-instructions-15)Instrucciones paso a paso
+
+1.  En el proyecto  **MySolution.Blazor.Server**, agregue un controlador de View a la carpeta  _Controllers_. Asigne al nuevo controlador el nombre "_DateEditCalendarController_". Especifique la clase antecesora del controlador  [ObjectViewController<ViewType, ObjectType>](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ObjectViewController-2?v=22.1):
+    ```csharp
+    using DevExpress.ExpressApp;
+    // ...
+    
+    public partial class DateEditCalendarController : ObjectViewController<DetailView, Contact> {
+        public DateEditCalendarController() {
+            InitializeComponent();
+        }
+        // ...
+    }
+    ```
+    El hereda de la clase base  [ObjectViewController<ViewType, ObjectType>](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ObjectViewController-2?v=22.1). Los parámetros de la clase base habilitan el controlador solo para vistas detalladas que muestran y editan objetos.`DateEditCalendarController`
+    
+2.  Anule el método. Utilice el método  [DetailViewExtensions.CustomizeViewItemControl](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.DetailViewExtensions.CustomizeViewItemControl--1(DevExpress.ExpressApp.DetailView-DevExpress.ExpressApp.Controller-System.Action---0--System.String--)?v=22.1)  para tener acceso a la configuración del editor de propiedades:`OnActivated``Birthday`
+    ```csharp
+    namespace MySolution.Blazor.Server.Controllers {
+        public partial class DateEditCalendarController : ObjectViewController<DetailView, Contact> {
+            public DateEditCalendarController() {
+                InitializeComponent();
+            }
+            protected override void OnActivated() {
+                base.OnActivated();
+                //Access the Birthday property editor settings
+                View.CustomizeViewItemControl<DateTimePropertyEditor>(this, SetCalendarView, nameof(Contact.Birthday));
+            }
+            private void SetCalendarView(DateTimePropertyEditor propertyEditor) {
+                //Obtain the Component Adapter
+                var dateEditAdapter = (DxDateEditAdapter)propertyEditor.Control;
+                //Set the date picker display mode to scroll picker
+                dateEditAdapter.ComponentModel.PickerDisplayMode = DevExpress.Blazor.DatePickerDisplayMode.ScrollPicker;
+            }
+        }
+    }
+    ```
+    Utilice la propiedad  **Adaptador de componentes**  para tener acceso a las  [propiedades ASP.NET reales del componente Core Blazor.](https://docs.devexpress.com/eXpressAppFramework/113536/business-model-design-orm/data-types-supported-by-built-in-editors/date-and-time-properties?v=22.1#aspnet-core-blazor)`ComponentModel`
+    
+    Para obtener información general sobre la arquitectura del Editor de propiedades y los controles de interfaz de usuario usados por XAF, revise los siguientes artículos:
+    
+    -   [Implementar un editor de propiedades basado en un componente personalizado (Blazor)](https://docs.devexpress.com/eXpressAppFramework/402189/ui-construction/view-items-and-property-editors/property-editors/implement-a-property-editor-based-on-custom-components-blazor?v=22.1)
+    -   [Tipos de datos compatibles con editores integrados](https://docs.devexpress.com/eXpressAppFramework/113014/business-model-design-orm/data-types-supported-by-built-in-editors?v=22.1)
+3.  Ejecute la aplicación y abra la Vista de detalles de  **contacto**. El editor de  **cumpleaños**  muestra un selector de fecha desplazable en su ventana desplegable:
+    
+    [![imagen](https://user-images.githubusercontent.com/126447472/254452105-fdca1ad4-e231-41ea-b802-98ca7dec104f.png)](https://user-images.githubusercontent.com/126447472/254452105-fdca1ad4-e231-41ea-b802-98ca7dec104f.png)

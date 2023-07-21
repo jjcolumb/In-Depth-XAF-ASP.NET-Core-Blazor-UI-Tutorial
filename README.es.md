@@ -1439,3 +1439,637 @@ Las instrucciones siguientes muestran cómo hacer que el editor de propiedades  
 3.  Ejecute la aplicación y abra la Vista de detalles de  **contacto**. El editor de  **cumpleaños**  muestra un selector de fecha desplazable en su ventana desplegable:
     
     [![imagen](https://user-images.githubusercontent.com/126447472/254452105-fdca1ad4-e231-41ea-b802-98ca7dec104f.png)](https://user-images.githubusercontent.com/126447472/254452105-fdca1ad4-e231-41ea-b802-98ca7dec104f.png)
+
+
+# Obtener acceso al componente de cuadrícula en una vista de lista (.NET 6)
+
+En esta lección se explica cómo tener acceso a las propiedades de un componente de cuadrícula que se muestra en una vista de lista.
+
+Las instrucciones siguientes describen la implementación de un nuevo controlador de vista. Este controlador permite que las operaciones cambien el tamaño de las columnas.
+
+> NOTA Antes de continuar, tómese un momento para repasar la siguiente lección:
+> 
+> -   [Agregar una acción simple](https://docs.devexpress.com/eXpressAppFramework/402157/getting-started/in-depth-tutorial-blazor/extend-functionality/add-a-simple-action?v=22.1)
+
+## [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial#step-by-step-instructions-16)Instrucciones paso a paso
+
+1.  En el proyecto  **MySolution.Blazor.Server**, agregue un controlador de View a la carpeta  _Controllers_. Asigne a este controlador  _el nombre ColumnResizeModeViewController_.
+    
+2.  Especifique la clase antecesora del controlador y reemplace el método:`ViewController<ListView>` `OnViewControlsCreated`
+    ```csharp
+    using DevExpress.ExpressApp;
+    using DevExpress.ExpressApp.Blazor.Editors;
+    
+    namespace MySolution.Blazor.Server.Controllers {
+        public partial class ColumnResizeModeViewController : ViewController<ListView> {
+            public ColumnResizeModeViewController() {
+                InitializeComponent();
+            }
+            // ...
+            protected override void OnViewControlsCreated() {
+                base.OnViewControlsCreated();
+                if (View.Editor is DxGridListEditor gridListEditor) {
+                    //Obtain the Component Adapter
+                    IDxGridAdapter dataGridAdapter = gridListEditor.GetGridAdapter();
+                    //Access grid component properties and specify how exactly a user can resize columns
+                    dataGridAdapter.GridModel.ColumnResizeMode = DevExpress.Blazor.GridColumnResizeMode.ColumnsContainer;
+                }
+            }
+            // ...
+        }
+    }
+    ```
+3.  Ejecute la aplicación. Intente cambiar el tamaño de una columna en un componente de cuadrícula en cualquier vista de lista. El ancho del contenedor de cuadrícula cambia, mientras que las otras columnas conservan su ancho.
+    
+![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/bb8f6511-ecd3-4596-9e1f-616846a014f2)
+
+    
+
+# [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial#ui-customization)Personalización de la interfaz de usuario
+
+En esta sección del tutorial se explica cómo personalizar la interfaz de usuario generada automáticamente.
+
+Los elementos visuales de la aplicación XAF se basan en las clases de datos que se declaran y en la información de los ensamblados a los que hace referencia la aplicación. Toda la información recibida son metadatos: datos que definen la estructura de la base de datos y las características de la aplicación en un formato neutral que puede adoptar para cualquier plataforma de destino. Estos metadatos se denominan  [modelo de aplicación](https://docs.devexpress.com/eXpressAppFramework/112579/ui-construction/application-model-ui-settings-storage?v=22.1). Es una herramienta poderosa que le permite realizar cambios en su aplicación.
+
+Para personalizar el  **modelo de aplicación**  en tiempo de diseño, utilice el  [Editor de modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor?v=22.1). Se abre directamente desde Visual Studio.
+
+Las siguientes lecciones explican cómo usar el  **Editor de modelos**:
+
+-   [Colocar una acción en una ubicación diferente](https://docs.devexpress.com/eXpressAppFramework/402145/getting-started/in-depth-tutorial-blazor/ui-customization/place-an-action-in-a-different-location?v=22.1)
+-   [Especificar la configuración de la acción](https://docs.devexpress.com/eXpressAppFramework/402146/getting-started/in-depth-tutorial-blazor/ui-customization/specify-action-settings?v=22.1)
+-   [Dar formato a un título de objeto de negocio](https://docs.devexpress.com/eXpressAppFramework/402140/getting-started/in-depth-tutorial-blazor/ui-customization/format-a-business-object-caption?v=22.1)
+-   [Crear una propiedad calculada](https://docs.devexpress.com/eXpressAppFramework/402144/getting-started/in-depth-tutorial-blazor/ui-customization/create-calculated-property?v=22.1)
+-   [Dar formato a un valor de propiedad](https://docs.devexpress.com/eXpressAppFramework/402141/getting-started/in-depth-tutorial-blazor/ui-customization/format-a-property-value?v=22.1)
+-   [Usar un editor multilínea para las propiedades de cadena](https://docs.devexpress.com/eXpressAppFramework/402147/getting-started/in-depth-tutorial-blazor/ui-customization/use-a-multiline-editor-for-string-properties?v=22.1)
+-   [Agregar un elemento al control de navegación](https://docs.devexpress.com/eXpressAppFramework/402131/getting-started/in-depth-tutorial-blazor/ui-customization/add-an-item-to-the-navigation-control?v=22.1)
+-   [Implementar la validación del valor de la propiedad en el modelo de aplicación](https://docs.devexpress.com/eXpressAppFramework/402142/getting-started/in-depth-tutorial-blazor/ui-customization/implement-property-value-validation-in-the-application-model?v=22.1)
+-   [Personalizar el diseño Ver elementos](https://docs.devexpress.com/eXpressAppFramework/402137/getting-started/in-depth-tutorial-blazor/ui-customization/customize-the-view-items-layout?v=22.1)
+-   [Localizar elementos de la interfaz de usuario](https://docs.devexpress.com/eXpressAppFramework/403184/getting-started/in-depth-tutorial-blazor/ui-customization/localize-ui-elements?v=22.1)
+-   [Agregar un editor a una vista de detalles](https://docs.devexpress.com/eXpressAppFramework/403217/getting-started/in-depth-tutorial-blazor/ui-customization/add-an-editor-to-a-detail-view?v=22.1)
+-   [Cambiar la visibilidad de campo en una vista de lista](https://docs.devexpress.com/eXpressAppFramework/403230/getting-started/in-depth-tutorial-blazor/ui-customization/change-field-visibility-in-a-list-view?v=22.1)
+-   [Filtrar vistas de lista](https://docs.devexpress.com/eXpressAppFramework/403238/getting-started/in-depth-tutorial-blazor/ui-customization/change-list-view-filters?v=22.1)
+-   [Lista de grupos Ver datos](https://docs.devexpress.com/eXpressAppFramework/403248/getting-started/in-depth-tutorial-blazor/ui-customization/group-list-view-data?v=22.1)
+
+Si la opción requerida no está disponible en el Editor de modelos, puede acceder directamente a las opciones de los controles utilizados en la aplicación. Revise los siguientes temas para obtener más información:
+
+-   [Configuración del editor de acceso](https://docs.devexpress.com/eXpressAppFramework/402153/getting-started/in-depth-tutorial-blazor/extend-functionality/access-editor-settings?v=22.1)
+-   [Configuración de componentes de cuadrícula de vista de lista de acceso mediante un controlador](https://docs.devexpress.com/eXpressAppFramework/402154/getting-started/in-depth-tutorial-blazor/extend-functionality/access-data-grid-settings?v=22.1)
+
+# [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial#place-an-action-in-a-different-location)Colocar una acción en una ubicación diferente
+
+En esta lección se explica cómo mover una  [acción](https://docs.devexpress.com/eXpressAppFramework/112622/ui-construction/controllers-and-actions/actions?v=22.1)  a un  [contenedor de acciones](https://docs.devexpress.com/eXpressAppFramework/112610/ui-construction/action-containers?v=22.1)  diferente.
+
+Un contenedor de acciones es un control que muestra una acción o un conjunto de acciones.
+
+Las instrucciones siguientes explican cómo mover el del contenedor de acción de  **vista**  al contenedor de  **acción de edición**.`ClearTasksAction`
+
+[![image](https://user-images.githubusercontent.com/126447472/254452149-db05d3a4-f825-4fa2-b32f-c032a821b7b8.png)](https://user-images.githubusercontent.com/126447472/254452149-db05d3a4-f825-4fa2-b32f-c032a821b7b8.png)
+
+> NOTA Antes de continuar, tómese un momento para repasar las siguientes lecciones:
+> 
+> -   [Agregar una acción simple](https://docs.devexpress.com/eXpressAppFramework/402157/getting-started/in-depth-tutorial-blazor/extend-functionality/add-a-simple-action?v=22.1)
+> -   [Agregar una acción que muestre una ventana emergente](https://docs.devexpress.com/eXpressAppFramework/402158/getting-started/in-depth-tutorial-blazor/extend-functionality/add-an-action-that-displays-a-pop-up-window?v=22.1)
+
+## [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial#step-by-step-instructions-17)Instrucciones paso a paso
+
+1.  Abra el archivo  _Model.DesignedDiffs.xafml_  en el Editor de  [modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor?v=22.1).
+    
+2.  En el  **Editor de modelos**, vaya a  **ActionDesign**  |  **Nodo ActionToContainerMapping**. Expanda el nodo Vista que es el contenedor  de acciones de  **Vista**. Arrastre el nodo secundario  **ClearTasksAction**  al nodo  **Editar**.  **Establezca el índice**  del nodo en .`0`
+    
+    [![image](https://user-images.githubusercontent.com/126447472/254452353-c21d4f75-6b86-48a9-b1da-c329eb3ceab7.png)](https://user-images.githubusercontent.com/126447472/254452353-c21d4f75-6b86-48a9-b1da-c329eb3ceab7.png)
+    
+    Los nodos secundarios del nodo  **ActionToContainerMapping**  corresponden a los contenedores de acciones de la aplicación. Las acciones se asignan a contenedores de acciones según los valores de la propiedad  [Category](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.Category?v=22.1).
+    
+    Cuando definió el en la lección  [Agregar una acción simple](https://docs.devexpress.com/eXpressAppFramework/402157/getting-started/in-depth-tutorial-blazor/extend-functionality/add-a-simple-action?v=22.1), estableció la propiedad  [Category](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Actions.ActionBase.Category?v=22.1)  en . es un valor de la enumeración que corresponde al contenedor de acciones  **de vista**.`ClearTasksAction``View``View``DevExpress.Persistent.Base.PredefinedCategory`
+    
+3.  Ejecute la aplicación. En la vista Detalles del  **contacto**, el botón  **Borrar tarea**  aparece a la izquierda del botón  **Eliminar**.
+    
+    [![image](https://user-images.githubusercontent.com/126447472/254452500-234cd428-8bb5-477d-b846-534476a11baa.png)](https://user-images.githubusercontent.com/126447472/254452500-234cd428-8bb5-477d-b846-534476a11baa.png)
+    
+
+> PROPINA Puede controlar el evento  [ActionControlsSiteController.CustomizeContainerActions](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.SystemModule.ActionControlsSiteController.CustomizeContainerActions?v=22.1)  para cambiar la ubicación de una acción en el código.
+
+# [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial#specify-action-settings)Especificar la configuración de la acción
+
+En esta lección se explica cómo modificar las propiedades de Action.
+
+Las instrucciones siguientes explican cómo cambiar la información sobre herramientas y el mensaje de confirmación de  **ClearTasksAction**. Esta acción se definió en la lección  [Agregar una acción sencilla](https://docs.devexpress.com/eXpressAppFramework/402157/getting-started/in-depth-tutorial-blazor/extend-functionality/add-a-simple-action?v=22.1).
+
+> NOTA Antes de continuar, tómese un momento para repasar las siguientes lecciones:
+> 
+> -   [Agregar una acción simple](https://docs.devexpress.com/eXpressAppFramework/402157/getting-started/in-depth-tutorial-blazor/extend-functionality/add-a-simple-action?v=22.1)
+> -   [Colocar una acción en una ubicación diferente](https://docs.devexpress.com/eXpressAppFramework/402145/getting-started/in-depth-tutorial-blazor/ui-customization/place-an-action-in-a-different-location?v=22.1)
+
+## [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial#step-by-step-instructions-18)Instrucciones paso a paso
+
+1.  Abra el archivo  _Model.DesignedDiffs.xafml_  en el Editor de  [modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor?v=22.1).
+    
+2.  En el  **Editor de modelos**, vaya a  **ActionDesign**  |  **Nodo Acciones**. Cambie los valores de propiedad del nodo  **ClearTasksAction**  de la siguiente manera:
+    
+    -   Establezca la propiedad  **Información sobre herramientas**  en .`Clear the current Contact's tasks`
+    -   Establezca la propiedad  **ConfirmationMessage**  en .`Are you sure you want to clear all the tasks?`
+3.  Ejecute la aplicación y abra la Vista de detalles de  **contacto**. Desplace el puntero del mouse sobre el botón  **Borrar tareas**  para ver la información sobre herramientas.
+    
+    [![image](https://user-images.githubusercontent.com/126447472/254452567-884e74b9-b14b-4cee-a95b-2d9c68eabe15.png)](https://user-images.githubusercontent.com/126447472/254452567-884e74b9-b14b-4cee-a95b-2d9c68eabe15.png)
+    
+4.  Haga clic en el botón para mostrar el mensaje de confirmación.
+    
+    [![image](https://user-images.githubusercontent.com/126447472/254452583-df4821b0-9667-4352-a2a7-5ccb2b04eab5.png)](https://user-images.githubusercontent.com/126447472/254452583-df4821b0-9667-4352-a2a7-5ccb2b04eab5.png)
+    
+
+# [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial#format-a-business-object-caption)Dar formato a un título de objeto de negocio
+
+En esta lección se explica cómo dar formato a un título del formulario de detalles de un objeto de negocio.
+
+[![image](https://user-images.githubusercontent.com/126447472/254452592-2c8c36d2-ed5e-4aaf-a5da-0c8ddc77e409.png)](https://user-images.githubusercontent.com/126447472/254452592-2c8c36d2-ed5e-4aaf-a5da-0c8ddc77e409.png)
+
+> NOTA Antes de continuar, tómese un momento para repasar las siguientes lecciones:
+> 
+> -   Heredar de la clase de biblioteca de clase empresarial (núcleo  [XPO/](https://docs.devexpress.com/eXpressAppFramework/402166/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-xpo/inherit-from-the-business-class-library-class-xpo?v=22.1)[EF](https://docs.devexpress.com/eXpressAppFramework/402981/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-ef-core/inherit-from-the-business-class-library-class-ef-core?v=22.1)))
+> -   [Colocar una acción en una ubicación diferente](https://docs.devexpress.com/eXpressAppFramework/402145/getting-started/in-depth-tutorial-blazor/ui-customization/place-an-action-in-a-different-location?v=22.1)
+
+## [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial#step-by-step-instructions-19)Instrucciones paso a paso
+
+1.  Abra el archivo  _Model.DesignedDiffs.xafml_  en el Editor de  [modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor?v=22.1).
+2.  En el  **Editor de modelos**, desplácese hasta  **BOModel**  |  **Nodo MySolution.Module.BusinessObjects.**  Seleccione el nodo  **Contacto**.
+3.  Establezca el valor de la propiedad  **ObjectCaptionFormat**  en las propiedades de clase que se muestran a la derecha.`{0:FullName} from {0:Department}`
+
+[![image](https://user-images.githubusercontent.com/126447472/254452619-bc1335ae-47f3-4406-8022-3fdf2a287dd9.png)](https://user-images.githubusercontent.com/126447472/254452619-bc1335ae-47f3-4406-8022-3fdf2a287dd9.png)
+
+4.  Ejecute la aplicación. Abra el formulario de detalles de un objeto  **Contact**. Ahora puedes ver el título personalizado:
+
+[![image](https://user-images.githubusercontent.com/126447472/254452635-f899ed04-5cc0-4b7c-b1e0-fcb06c050dd7.png)](https://user-images.githubusercontent.com/126447472/254452635-f899ed04-5cc0-4b7c-b1e0-fcb06c050dd7.png)
+
+# [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial#create-a-calculated-property)Crear una propiedad calculada
+
+En esta lección se explica cómo crear propiedades calculadas.
+
+Las instrucciones siguientes explican cómo agregar una clase  **Payment**  con las siguientes propiedades:
+
+-   **Tasa**  (una propiedad persistente)
+-   **Horas**  (una propiedad persistente)
+-   **Importe**  (una propiedad calculada  [no persistente](https://docs.devexpress.com/eXpressAppFramework/116516/business-model-design-orm/non-persistent-objects?v=22.1): `Amount = Rate * Hours`)
+
+> NOTA Antes de continuar, tómese un momento para repasar las siguientes lecciones:
+> 
+> -   **Heredar de la clase de biblioteca de clase empresarial**  (núcleo  [XPO/](https://docs.devexpress.com/eXpressAppFramework/402166/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-xpo/inherit-from-the-business-class-library-class-xpo?v=22.1)[EF](https://docs.devexpress.com/eXpressAppFramework/402981/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-ef-core/inherit-from-the-business-class-library-class-ef-core?v=22.1)))
+> -   [Colocar una acción en una ubicación diferente](https://docs.devexpress.com/eXpressAppFramework/112741/getting-started/in-depth-tutorial-winforms-webforms/ui-customization/place-an-action-in-a-different-location?v=22.1)
+
+## [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial#step-by-step-instructions-20)Instrucciones paso a paso
+
+1.  Cree un objeto de negocio en el proyecto  _MySolution.Module._`Payment`
+    
+2.  Reemplace la declaración de clase generada por el código siguiente:
+    ```csharp
+    using DevExpress.Persistent.Base;
+    using DevExpress.Persistent.BaseImpl;
+    using DevExpress.Xpo;
+    // ...
+    [DefaultClassOptions]
+    public class Payment : BaseObject {
+        public Payment(Session session) : base(session) { }
+        private double rate;
+        public double Rate {
+            get {
+                return rate;
+            }
+            set {
+                if(SetPropertyValue(nameof(Rate), ref rate, value))
+                    OnChanged(nameof(Amount));
+            }
+        }
+        private double hours;
+        public double Hours {
+            get {
+                return hours;
+            }
+            set {
+                if(SetPropertyValue(nameof(Hours), ref hours, value))
+                    OnChanged(nameof(Amount));
+            }
+        }
+        /*Use this attribute to specify that the value of this property depends on the values of other fields.
+     The expression that you pass as a parameter calculates the property value.*/
+        [PersistentAlias("Rate * Hours")]
+        public double Amount {
+            get { return (double)(EvaluateAlias(nameof(Amount)) ?? 0); }
+        }
+    }
+    ```
+    La propiedad no tiene descriptor de acceso. Su cálculo del valor tiene lugar en el descriptor de acceso.`Amount``set``get`
+    
+3.  Para aplicaciones basadas en EF Core, registre el tipo `Payment` en el `DbContext` :
+    ```csharp
+    public class MySolutionEFCoreDbContext : DbContext {
+        //...
+        public DbSet<Payment> Payments { get; set; }
+    }
+    ```
+4.  Para aplicaciones basadas en EF Core, agregue una migración y actualice la base de datos. Consulte la siguiente sección para obtener más información:  [Usar un DBMS: Migraciones de configuración](https://docs.devexpress.com/eXpressAppFramework/404144/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-ef-core/create-a-solution-ef-core?v=22.1#use-a-dbms-setup-migrations).
+    
+5.  Ejecute la aplicación. Seleccione el elemento de pago en el control  **de**  navegación y haga clic en "Nuevo". En la vista Detalles de pago, cambie las propiedades  **Tarifa**  y  **Horas**  para ver cómo afecta esto  **a la propiedad**  **Importe**.
+    
+
+[![image](https://user-images.githubusercontent.com/126447472/254452664-4ea6c08c-9c8b-493f-8988-aa98c5304182.png)](https://user-images.githubusercontent.com/126447472/254452664-4ea6c08c-9c8b-493f-8988-aa98c5304182.png)
+
+
+# Dar formato a un valor de propiedad
+
+En esta lección se explica cómo dar formato a una propiedad de clase empresarial y especificar su configuración de  [máscara de entrada](https://docs.devexpress.com/WindowsForms/583/controls-and-libraries/editors-and-simple-controls/common-editor-features-and-concepts/input-mask?v=22.1).
+
+En esta lección, personalizará el formato de presentación para el `Task.StartDate` `Task.DueDate` `Task.PercentCompleted`, y las propiedades en el  [Editor de modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor?v=22.1).
+
+> NOTA Antes de continuar, tómese un momento para repasar las siguientes lecciones:
+> 
+> -   Heredar de la clase de biblioteca de clase empresarial (núcleo  [XPO/](https://docs.devexpress.com/eXpressAppFramework/402166/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-xpo/inherit-from-the-business-class-library-class-xpo?v=22.1)[EF](https://docs.devexpress.com/eXpressAppFramework/402981/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-ef-core/inherit-from-the-business-class-library-class-ef-core?v=22.1)))
+> -   [Colocar una acción en una ubicación diferente](https://docs.devexpress.com/eXpressAppFramework/402145/getting-started/in-depth-tutorial-blazor/ui-customization/place-an-action-in-a-different-location?v=22.1)
+
+## [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial#step-by-step-instructions-21)Instrucciones paso a paso
+
+1.  Abra el archivo  _Model.DesignedDiffs.xafml_  en el Editor de  [modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor?v=22.1).
+    
+2.  Vaya a la  **lista de materiales**  |  **DevExpress.Persistent.BaseImpl.EF**  |  **Tarea**  |  **Nodo OwnMembers**.
+    
+3.  Para los nodos secundarios  **DueDate**  y  **StartDate**, establezca el valor de la propiedad  [DisplayFormat](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Editors.PropertyEditor.DisplayFormat?v=22.1)  en - un patrón de fecha largo.`D`
+    
+    [![image](https://user-images.githubusercontent.com/126447472/254452686-2a5b8d65-6bdd-49a3-90fd-e160d1fde644.png)](https://user-images.githubusercontent.com/126447472/254452686-2a5b8d65-6bdd-49a3-90fd-e160d1fde644.png)
+    
+    Tenga en cuenta que el valor de la propiedad  **EditMask**  es - un patrón de día corto.`d`
+    
+4.  Para el nodo secundario  **PercentCompleted**, establezca la propiedad  **DisplayFormat**  en .`{0:N0}%`
+    
+
+[![image](https://user-images.githubusercontent.com/126447472/254452804-28600895-28f3-488c-8108-73f21e71f60a.png)](https://user-images.githubusercontent.com/126447472/254452804-28600895-28f3-488c-8108-73f21e71f60a.png)
+
+5.  Ejecute la aplicación. Invoque una lista de detalles para la clase  **DemoTask**.
+    
+    [![image](https://user-images.githubusercontent.com/126447472/254452818-acdddb78-85b7-498c-8b57-edab09c05e8a.png)](https://user-images.githubusercontent.com/126447472/254452818-acdddb78-85b7-498c-8b57-edab09c05e8a.png)
+    
+    Note how text format changes when  **StartDate**  and  **DueDate**  editors receive or lose focus. If you focus an editor, its  **EditMask**  takes effect (  - short date pattern). If an editor loses input focus, its  **DisplayFormat**  takes over (  - long date pattern).`d``D`
+    
+    The  **PercentCompleted**  display text includes the percentage sign: ‘%’.
+    
+
+> NOTE In .NET 5, the libraries used for globalization functionality has been changed. Refer to the following topic for details:  [Globalization APIs use ICU libraries on Windows](https://docs.microsoft.com/en-us/dotnet/core/compatibility/globalization/5.0/icu-globalization-api). If a current thread’s culture is set to a culture that includes only the language and not the country (for example, “de” or “en”), the currency symbol renders as an international currency symbol (), for example:  . Refer to the following topics for details:`¤``100,00 ¤`
+> 
+> -   [ICU Localization - Currency symbol](https://docs.microsoft.com/en-us/dotnet/core/compatibility/globalization/5.0/icu-globalization-api#currency-symbol).
+> -   [CurrencySymbol](https://docs.microsoft.com/dotnet/api/system.globalization.numberformatinfo.currencysymbol#System_Globalization_NumberFormatInfo_CurrencySymbol).
+
+# [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial#use-a-multiline-editor-for-string-properties)Use a Multiline Editor for String Properties
+
+This lesson explains how to display a multiline editor for string properties.
+
+The instructions below explain how to enable a multiline text box for the  **Web Page Address**  property editor in the  **Contact**  Detail View.
+
+## [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial#step-by-step-instructions-22)Step-by-Step Instructions
+
+1.  Open the  _Model.DesignedDiffs.xafml_  file in the  [Model Editor](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor?v=22.1).
+    
+2.  Navigate to the  **BOModel**  |  **MySolutuon.Module.BusinessObjects**  |  **Contact**  |  **OwnMembers**  node.
+    
+3.  For the  **WebPageAddress**  child node, set the properties as follows:
+    
+    -   Set the  **RowCount**  property to  .`2`
+        
+        This creates a two-line editor for the  **WebPageAddress**  property.
+        
+    -   Set the  **Size**  property to  .`100`
+        
+        This allows a user to enter up to 100 symbols.
+        
+        You can also apply the  [FieldSize](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.DC.FieldSizeAttribute?v=22.1)  attribute in code.
+        
+    
+    [![XAF ASP.NET Core Blazor multiline text box](https://camo.githubusercontent.com/84570efe8c3fbc2b7525b6e350b53270b1ad6fff5aa1f9816dd2ea3587cae4a6/68747470733a2f2f646f63732e646576657870726573732e636f6d2f655870726573734170704672616d65776f726b2f696d616765732f7475746f7269616c5f7569635f6d756c74696c696e655f74657874656469742e706e673f763d32322e31)](https://camo.githubusercontent.com/84570efe8c3fbc2b7525b6e350b53270b1ad6fff5aa1f9816dd2ea3587cae4a6/68747470733a2f2f646f63732e646576657870726573732e636f6d2f655870726573734170704672616d65776f726b2f696d616765732f7475746f7269616c5f7569635f6d756c74696c696e655f74657874656469742e706e673f763d32322e31)
+    
+4.  Ejecute la aplicación. Abra una lista de detalles para un objeto  **Contact**. La propiedad  **Dirección de página Web**  utiliza un editor de cuadros de texto de dos líneas.
+    
+    [![XAF ASP.NET Core Blazor multiline text box](https://camo.githubusercontent.com/2147c09d5f2d2e4f76f85c5209aafd253285de659c061b8a8e079fb6298fe8c6/68747470733a2f2f646f63732e646576657870726573732e636f6d2f655870726573734170704672616d65776f726b2f696d616765732f626c617a6f725f7475746f7269616c5f7569635f6d756c74696c696e655f746578742e706e673f763d32322e31)](https://camo.githubusercontent.com/2147c09d5f2d2e4f76f85c5209aafd253285de659c061b8a8e079fb6298fe8c6/68747470733a2f2f646f63732e646576657870726573732e636f6d2f655870726573734170704672616d65776f726b2f696d616765732f626c617a6f725f7475746f7269616c5f7569635f6d756c74696c696e655f746578742e706e673f763d32322e31)
+    
+
+# [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial#add-an-item-to-the-navigation-control)Agregar un elemento al control de navegación
+
+En esta lección se explica cómo agregar un elemento al control de navegación.
+
+Las instrucciones siguientes describen cómo agregar el elemento  **Notas**  al control de navegación. Cuando un usuario hace clic en este elemento, la aplicación muestra una vista de lista para la clase empresarial  **Note**  agregada en la lección siguiente:  [Agregar una acción que muestre una ventana emergente](https://docs.devexpress.com/eXpressAppFramework/402158/getting-started/in-depth-tutorial-blazor/extend-functionality/add-an-action-that-displays-a-pop-up-window?v=22.1).
+
+[![image](https://user-images.githubusercontent.com/126447472/254452928-3131bafd-64af-4320-a26d-d68f90d4a020.png)](https://user-images.githubusercontent.com/126447472/254452928-3131bafd-64af-4320-a26d-d68f90d4a020.png)
+
+## [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial#step-by-step-instructions-23)Instrucciones paso a paso
+
+1.  Abra el archivo  _Model.DesignedDiffs.xafml_  en el Editor de  [modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor?v=22.1). En la vista de árbol, navegue hasta  **NavigationItems**  |  **Artículos**  |  **Predeterminado**  |  **Nodo Elementos**. Para agregar un elemento secundario a un elemento de navegación, haga clic con el botón secundario en el nodo  **Elementos**  y seleccione  **Agregar...**  |  **NavigationItem**  en el menú contextual:
+    
+    [![image](https://user-images.githubusercontent.com/126447472/254452964-a062d659-ec87-4aa6-905b-2c2a7f153243.png)](https://user-images.githubusercontent.com/126447472/254452964-a062d659-ec87-4aa6-905b-2c2a7f153243.png)
+    
+2.  Especifique las siguientes propiedades para el nuevo elemento:
+    
+    -   Establezca la propiedad  **View**  en .`Note_ListView`
+    -   Establezca la propiedad  **Caption**  en .`Notes`
+    -   Establezca la propiedad  **Id**  en .`Note`
+    
+    [![image](https://user-images.githubusercontent.com/126447472/254452981-917b083f-d3cf-4b03-adec-6af0721ddcec.png)](https://user-images.githubusercontent.com/126447472/254452981-917b083f-d3cf-4b03-adec-6af0721ddcec.png)
+    
+3.  Ejecute la aplicación. Puede ver el nuevo elemento de navegación que le permite agregar y editar notas de texto sin formato.
+    
+    [![image](https://user-images.githubusercontent.com/126447472/254452996-84f18b78-6dd4-40cc-aafa-7821cf6b6044.png)](https://user-images.githubusercontent.com/126447472/254452996-84f18b78-6dd4-40cc-aafa-7821cf6b6044.png)
+    
+
+# [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial#implement-property-value-validation-in-the-application-model)Implementar la validación del valor de la propiedad en el modelo de aplicación
+
+En esta lección se explica cómo comprobar si el valor de una propiedad cumple unos criterios predefinidos. Esta funcionalidad estará disponible si instala el  **módulo de validación**.
+
+Las instrucciones siguientes explican cómo evitar que un usuario marque una tarea como completada antes de que la tarea haya comenzado ( es ).`DemoTask.Status` `NotStarted`
+
+> NOTA Antes de continuar, tómese un momento para repasar la siguiente lección:
+> 
+> -   Implementar la validación del valor de la propiedad en el código (núcleo  [de XPO/](https://docs.devexpress.com/eXpressAppFramework/402165/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-xpo/implement-property-value-validation-in-code-xpo?v=22.1)[EF](https://docs.devexpress.com/eXpressAppFramework/402980/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-ef-core/implement-property-value-validation-in-code-ef-core?v=22.1)))
+
+## [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial#step-by-step-instructions-24)Instrucciones paso a paso
+
+1.  Abra el archivo  _Model.DesignedDiffs.xafml_  en el Editor de  [modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor?v=22.1). Vaya a la  **Validación**  |  **Nodo Reglas**. Agregar una nueva regla de validación: haga clic con el botón derecho en el nodo  **Reglas**  y seleccione  **Agregar...**  |  **RuleCriteria**.
+    
+    [![image](https://user-images.githubusercontent.com/126447472/254453031-f7c51984-42da-499e-a125-c6ac63985f4d.png)](https://user-images.githubusercontent.com/126447472/254453031-f7c51984-42da-499e-a125-c6ac63985f4d.png)
+    
+2.  Establezca los valores de las siguientes propiedades para el nodo:
+    
+    -   **TargetType**  a "MySolution.Module.BusinessObjects.DemoTask"
+    -   **Criterios**  para `Status != 'NotStarted'`
+    -   **ID**  a `TaskStarted`
+    -   **TargetContextIDs**  a `MarkCompleted`
+    -   **CustomMessageTemplate**  para `Cannot set the task as completed because it has not started.`
+    
+    [![image](https://user-images.githubusercontent.com/126447472/254453050-5aa88f53-3657-4a53-b01a-217ab2450910.png)](https://user-images.githubusercontent.com/126447472/254453050-5aa88f53-3657-4a53-b01a-217ab2450910.png)
+    
+    El  valor de la propiedad Criteria debe respetar la  [sintaxis del lenguaje Criteria](https://docs.devexpress.com/CoreLibraries/4928/devexpress-data-library/criteria-language-syntax?v=22.1). Para definir los criterios, haga clic en el botón de puntos suspensivos ([![EllipsisButton](https://camo.githubusercontent.com/2ba2ee67a57b7dcbfd265715bf94f4bda1e01aa2f93fefc791fba5c403cd0bc0/68747470733a2f2f646f63732e646576657870726573732e636f6d2f655870726573734170704672616d65776f726b2f696d616765732f656c6c6970736973627574746f6e3131363138322e706e673f763d32322e31)](https://camo.githubusercontent.com/2ba2ee67a57b7dcbfd265715bf94f4bda1e01aa2f93fefc791fba5c403cd0bc0/68747470733a2f2f646f63732e646576657870726573732e636f6d2f655870726573734170704672616d65776f726b2f696d616765732f656c6c6970736973627574746f6e3131363138322e706e673f763d32322e31)) situado a la derecha del valor  **Criterios**  e invoque el cuadro de diálogo  **Generador de filtros**. En este cuadro de diálogo, puede diseñar visualmente una expresión de criterio.
+    
+3.  En el  **ActionDesign**  |  **Acciones**  |  **Task.MarkCompleted**, establezca la propiedad  **ValidationContexts**  en .`MarkCompleted`
+    
+    [![image](https://user-images.githubusercontent.com/126447472/254453069-0af8cd3b-0ef6-46ba-a772-01a15fde9352.png)](https://user-images.githubusercontent.com/126447472/254453069-0af8cd3b-0ef6-46ba-a772-01a15fde9352.png)
+    
+    > PROPINA Puede utilizar los contextos  **Guardar**  o  **Eliminar**. La validación de reglas con estos contextos se produce cuando un usuario guarda o elimina un objeto (consulte  [Reglas de validación](https://docs.devexpress.com/eXpressAppFramework/113008/validation/validation-rules?v=22.1)).
+    
+4.  Cambie el título de la acción  **MarkCompleted**  a .`Mark Completed`
+    
+5.  Ejecute la aplicación. Asigne el valor "Not Started" a la propiedad  **Status**  de uno de los objetos  **DemoTask**  existentes. Haga clic en el botón  **Marcar completado**. Aparece el siguiente cuadro de diálogo  **Error de validación**:
+    
+    [![image](https://user-images.githubusercontent.com/126447472/254453117-77a0e858-6e6d-4827-962b-3280028e0d3d.png)](https://user-images.githubusercontent.com/126447472/254453117-77a0e858-6e6d-4827-962b-3280028e0d3d.png)
+    
+
+También puede agregar una regla a una clase o propiedad en el código. Para obtener información adicional, consulte el tema siguiente:  [Implementar la validación del valor de la propiedad en el código (XPO).](https://docs.devexpress.com/eXpressAppFramework/402165/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-xpo/implement-property-value-validation-in-code-xpo?v=22.1)
+
+En el tema siguiente se enumeran todos los tipos de reglas disponibles y sus descripciones:  [Reglas de validación](https://docs.devexpress.com/eXpressAppFramework/113008/validation/validation-rules?v=22.1).
+
+# [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial#customize-the-view-items-layout)Personalizar el diseño Ver elementos
+
+En esta lección se explica cómo personalizar el diseño predeterminado del editor en una vista de detalles. Las instrucciones siguientes utilizan la vista de detalles de contacto como ejemplo.
+
+## [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial#step-by-step-instructions-25)Instrucciones paso a paso
+
+1.  Abra el archivo  _Model.DesignedDiffs.xafml_  en el Editor de  [modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor?v=22.1).
+    
+2.  Navegar a las  **vistas**  |  **MySolution.Module.BusinessObjects**  |  **Contacto**  |  **Contact_DetailView**  |  **Nodo de diseño**.
+    
+3.  El Editor de modelos muestra una superficie de diseño que imita la vista Detalles de contacto. Para cambiar el diseño del editor, haga clic con el botón derecho en el espacio vacío de la vista y elija  **Personalizar diseño**.
+    
+    [![image](https://user-images.githubusercontent.com/126447472/254453090-ce3cbbae-254a-4a60-8674-2ba48cb8f0eb.png)](https://user-images.githubusercontent.com/126447472/254453090-ce3cbbae-254a-4a60-8674-2ba48cb8f0eb.png)
+    
+    El formulario  **Personalización**  le permite agregar, quitar y reordenar elementos.
+    
+    -   Para quitar un elemento, arrástrelo desde la Vista de detalles al  **formulario de personalización**.
+        
+    -   Para agregar un elemento, arrástrelo desde el  **formulario de personalización**  a la  **vista de detalles**.
+        
+    -   Para reordenar los elementos, arrastre los editores para crear un nuevo diseño y guardar los cambios.
+        
+        [![image](https://user-images.githubusercontent.com/126447472/254453143-593cca75-88a3-484c-8ffd-b1739b4edb1a.png)](https://user-images.githubusercontent.com/126447472/254453143-593cca75-88a3-484c-8ffd-b1739b4edb1a.png)
+        
+    
+    Para obtener más información sobre el formulario  **Personalización**  y la ficha  **Vista de árbol de diseño**  y su menú contextual, consulte el tema Personalización predeterminada en  [tiempo de ejecución](https://docs.devexpress.com/WindowsForms/2307/controls-and-libraries/form-layout-managers/layout-and-data-layout-controls/design-time-and-runtime-customization/default-runtime-customization?v=22.1).
+    
+4.  Explore las opciones adicionales de personalización de diseño disponibles en el menú contextual. Haga clic en la ficha  **Vista de árbol de diseño**  del  **formulario de personalización**. Haga clic con el botón secundario en un nodo de árbol para invocar un menú contextual.
+    
+    [![image](https://user-images.githubusercontent.com/126447472/254453156-3671b596-80d3-4972-a269-775be9cbc9ab.png)](https://user-images.githubusercontent.com/126447472/254453156-3671b596-80d3-4972-a269-775be9cbc9ab.png)
+    
+5.  Ejecute la aplicación para ver el nuevo diseño de la vista de detalles de  **contacto**.
+    
+    [![image](https://user-images.githubusercontent.com/126447472/254453168-760f6b00-d589-4f0b-9b05-6365ebd931fd.png)](https://user-images.githubusercontent.com/126447472/254453168-760f6b00-d589-4f0b-9b05-6365ebd931fd.png)
+    
+
+> PROPINA Para restablecer los cambios realizados en el diseño, haga clic con el botón derecho en  **Contact_DetailView**  |  **Diseño**  y elija  **Restablecer diferencias**.
+
+# [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial#localize-ui-elements)Localizar elementos de la interfaz de usuario
+
+En esta lección se explica cómo localizar una aplicación XAF ASP.NET Core Blazor. Describe cómo traducir elementos de la interfaz de usuario al alemán y crear una aplicación multilingüe.
+
+> NOTA Para obtener más información sobre la localización, revise los siguientes temas:
+> 
+> -   [Cómo: Localizar una aplicación XAF .NET 6](https://docs.devexpress.com/eXpressAppFramework/402956/localization/localize-an-xaf-net6-application?v=22.1)
+> -   [Conceptos básicos de localización](https://docs.devexpress.com/eXpressAppFramework/112595/localization/localization-basics?v=22.1)
+
+## [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial#step-by-step-instructions-26)Instrucciones paso a paso
+
+1.  [Agregue](https://docs.microsoft.com/en-us/nuget/consume-packages/install-use-packages-visual-studio)  los paquetes  _DevExpress.ExpressApp.de_,  _DevExpress.ExpressApp.Blazor.de_  y  _DevExpress.ExpressApp.Security.de_  al proyecto  **MySolution.Blazor.Server.**
+    
+    [![image](https://user-images.githubusercontent.com/126447472/254453187-7b47f1a9-6904-4d58-9345-f533d15f3cfc.png)](https://user-images.githubusercontent.com/126447472/254453187-7b47f1a9-6904-4d58-9345-f533d15f3cfc.png)
+    
+    Los paquetes están disponibles solo para los siguientes idiomas: alemán (de), español (es) y japonés (ja). Para otros idiomas, utilice el  [servicio de localización](https://docs.devexpress.com/LocalizationService/16235/localization-service?v=22.1)  para descargar ensamblados satélite. Consulte el tema  [Localizar módulos XAF estándar y controles DevExpress utilizados en una aplicación](https://docs.devexpress.com/eXpressAppFramework/113301/localization/localize-standard-xaf-modules-and-devexpress-controls-used-in-an-application?v=22.1)  para obtener más información sobre cómo usar este servicio para localizar módulos XAF.
+    
+2.  En el proyecto  **MySolution.Blazor.Server**, abra el archivo  _appsettings.json._  Agregue el idioma alemán a la sección  _DevExpress:ExpressApp:Languages_  y habilite el  [selector de idioma en tiempo de ejecución](https://docs.devexpress.com/eXpressAppFramework/403027/localization/runtime-language-switcher?v=22.1):
+    ```json
+    { 
+        // ... 
+        "DevExpress": { 
+            "ExpressApp": { 
+                "Languages": "en;de",
+                "ShowLanguageSwitcher": true,  
+                 // ...
+            } 
+        } 
+    }  
+    ```
+    Consulte la sección de ayuda Referencia cultural actual en aplicaciones XAF ASP.NET Core Blazor para obtener más información sobre cómo una aplicación  [XAF ASP.NET Core Blazor](https://docs.devexpress.com/eXpressAppFramework/402956/localization/localize-an-xaf-net6-application?v=22.1#current-culture-in-xaf-aspnet-core-blazor-applications)  determina el idioma predeterminado.
+    
+3.  Abra el archivo  _Model.DesignedDiffs.xafml_  en el Editor de  [modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor?v=22.1). Enfoque el nodo  _MiSolución_  y haga clic en  **Administrador de idiomas...**  en el cuadro combinado  **Idioma**  de la barra de  [herramientas del Editor de modelos](https://docs.devexpress.com/eXpressAppFramework/113327/ui-construction/application-model-ui-settings-storage/model-editor/menu-toolbars?v=22.1).
+    
+    [![image](https://user-images.githubusercontent.com/126447472/254453211-99515ef0-43a1-44fa-bb0e-693f7608d660.png)](https://user-images.githubusercontent.com/126447472/254453211-99515ef0-43a1-44fa-bb0e-693f7608d660.png)
+    
+4.  Agregue el idioma de destino en el cuadro de diálogo invocado y haga clic en  **Aceptar**.
+    
+    [![image](https://user-images.githubusercontent.com/126447472/254453222-d5a7e757-07b5-4986-9a77-3058c555e2a1.png)](https://user-images.githubusercontent.com/126447472/254453222-d5a7e757-07b5-4986-9a77-3058c555e2a1.png)
+    
+5.  Reinicie Visual Studio para cargar valores localizados de ensamblados satélite.
+    
+6.  En el Explorador de soluciones, haga clic con el botón secundario en el archivo  _Model.DesignedDiffs.Localization.de.xafml_  y abra la ventana  **Propiedades**. Asegúrese de que el campo  **Acción de compilación**  esté establecido en  **Recurso incrustado**.
+    
+7.  Seleccione el idioma recién agregado en el cuadro combinado  **Idioma**.
+    
+    [![image](https://user-images.githubusercontent.com/126447472/254453240-065ee6f9-ec7c-4c07-92cb-933f7f289fe7.png)](https://user-images.githubusercontent.com/126447472/254453240-065ee6f9-ec7c-4c07-92cb-933f7f289fe7.png)
+    
+8.  Los paquetes de localización traducen cadenas/mensajes estándar utilizados en XAF. También debe traducir las cadenas que son exclusivas de la aplicación actual (como los nombres de objetos o propiedades). Para ello, localice las propiedades indicadas por el glifo "globo" en todos los nodos y nodos secundarios y asígneles una traducción al alemán.
+    
+    [![image](https://user-images.githubusercontent.com/126447472/254453259-208d1481-b28b-4388-9aec-25f5f533a6d8.png)](https://user-images.githubusercontent.com/126447472/254453259-208d1481-b28b-4388-9aec-25f5f533a6d8.png)
+    
+9.  Ejecute la aplicación. Haga clic en el icono de engranaje para mostrar el menú de configuración y cambiar el idioma a alemán.
+    
+    [![image](https://user-images.githubusercontent.com/126447472/254453278-f6f5086e-a2b1-436f-926e-5aca09805324.png)](https://user-images.githubusercontent.com/126447472/254453278-f6f5086e-a2b1-436f-926e-5aca09805324.png)
+    
+10.  Compruebe si ha traducido todos los elementos necesarios. [![image](https://user-images.githubusercontent.com/126447472/254453302-b409406f-2dae-4c7d-8c0c-e8cd1f91fe9b.png)](https://user-images.githubusercontent.com/126447472/254453302-b409406f-2dae-4c7d-8c0c-e8cd1f91fe9b.png)
+
+
+# Mostrar un editor de propiedades anidadas en una vista detallada
+
+En esta lección se explica cómo hacer que una propiedad (su editor) sea visible en una  [vista de detalles](https://docs.devexpress.com/eXpressAppFramework/112611/ui-construction/views?v=22.1). Las instrucciones siguientes muestran cómo localizar la propiedad anidada  **Department.Office**  y hacerla visible en la Vista de detalles de  **contacto**.
+
+> NOTA Antes de continuar, tómese un momento para repasar la siguiente lección:
+> 
+> -   [Colocar una acción en una ubicación diferente](https://docs.devexpress.com/eXpressAppFramework/402145/getting-started/in-depth-tutorial-blazor/ui-customization/place-an-action-in-a-different-location?v=22.1)
+
+## [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial#step-by-step-instructions-27)Instrucciones paso a paso
+
+1.  Abra el archivo  _Model.DesignedDiffs.xafml_  en el Editor de  [modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor?v=22.1).
+    
+2.  Navegar a las  **vistas**  |  **MySolution.Module.BusinessObjects**  |  **Nodo de contacto**. Expanda el nodo secundario  **Contact_DetailView**  y haga clic en el nodo  **Diseño**.
+    
+3.  El Editor de modelos muestra una superficie de diseño que imita la vista Detalles de  **contacto**. Haga clic con el botón derecho en el espacio vacío de la vista y elija  **Personalizar diseño**.
+    
+    [![image](https://user-images.githubusercontent.com/126447472/254453339-16711afa-641e-4e73-80c4-8477ab7ef308.png)](https://user-images.githubusercontent.com/126447472/254453339-16711afa-641e-4e73-80c4-8477ab7ef308.png)
+    
+4.  En la ventana  **Personalización**  invocada, haga clic en el botón  **Agregar**.
+    
+    [![image](https://user-images.githubusercontent.com/126447472/254453354-28337034-4130-4129-860b-a517881f4ea6.png)](https://user-images.githubusercontent.com/126447472/254453354-28337034-4130-4129-860b-a517881f4ea6.png)
+    
+5.  En el cuadro de diálogo  **Modelo de objetos**, expanda el nodo  **Departamento**, active la casilla  **Office**  y haga clic en  **Aceptar**.
+    
+    [![image](https://user-images.githubusercontent.com/126447472/254453372-6f85612d-0aeb-4a5b-80ac-0546415c962e.png)](https://user-images.githubusercontent.com/126447472/254453372-6f85612d-0aeb-4a5b-80ac-0546415c962e.png)
+    
+6.  El elemento Office: aparece en la pestaña  **Elementos ocultos**  de la ventana  **Personalización:**
+    
+    [![image](https://user-images.githubusercontent.com/126447472/254453384-564888da-ddf5-49b3-8970-c526cb7680a3.png)](https://user-images.githubusercontent.com/126447472/254453384-564888da-ddf5-49b3-8970-c526cb7680a3.png)
+    
+7.  Arrastre el elemento  **Office:**  a la posición requerida de la Vista de detalles de  **contacto**.
+    
+    [![image](https://user-images.githubusercontent.com/126447472/254453406-eb746824-137d-4875-b32a-2b2bb810066d.png)](https://user-images.githubusercontent.com/126447472/254453406-eb746824-137d-4875-b32a-2b2bb810066d.png)
+    
+8.  Ejecute la aplicación, abra la Vista de detalles de  **contacto**  y busque el editor de  **Office**:
+    
+    [![image](https://user-images.githubusercontent.com/126447472/254453443-adf3430d-4d76-4a0d-bd65-01885d6255d1.png)](https://user-images.githubusercontent.com/126447472/254453443-adf3430d-4d76-4a0d-bd65-01885d6255d1.png)
+    
+
+# [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial#change-field-visibility-in-a-list-view)Cambiar la visibilidad de campo en una vista de lista
+
+En esta lección se explica cómo seleccionar las columnas mostradas en una vista de lista. Los pasos siguientes describen cómo personalizar la vista Lista de  **contactos**  en tiempo de diseño.
+
+> NOTA Antes de continuar, tómese un momento para repasar la siguiente lección:
+> 
+> -   [Colocar una acción en una ubicación diferente](https://docs.devexpress.com/eXpressAppFramework/402145/getting-started/in-depth-tutorial-blazor/ui-customization/place-an-action-in-a-different-location?v=22.1)
+
+## [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial#step-by-step-instructions-28)Instrucciones paso a paso
+
+1.  Abra el archivo  _Model.DesignedDiffs.xafml_  en el Editor de  [modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor?v=22.1).
+    
+2.  Haga clic en el  **botón Vistas**  |  **MySolution.Module.BusinessObjects**  |  **Contact_ListView**  |  **Nodo Columnas**  para abrir el  **Diseñador del Editor de listas de cuadrículas**. Haga clic con el botón derecho en el encabezado de la tabla y seleccione  **Selector de columnas**.
+    
+    [![image](https://user-images.githubusercontent.com/126447472/254453422-a3bd36c8-4020-417e-bdc2-18cc539481e9.png)](https://user-images.githubusercontent.com/126447472/254453422-a3bd36c8-4020-417e-bdc2-18cc539481e9.png)
+    
+3.  Arrastre los elementos hacia y desde la ventana  **Personalización**  para mostrar las siguientes columnas en la vista de lista:  _Nombre completo_,  _Departamento_,  _Puesto_  y  _Correo electrónico_.
+    
+    También puede cambiar el tamaño y agrupar columnas en el  **Diseñador del editor de listas de cuadrículas**. Consulte la siguiente sección de ayuda para obtener más información:  [Personalización en tiempo de diseño](https://docs.devexpress.com/eXpressAppFramework/113679/ui-construction/views/layout/list-view-columns-customization?v=22.1#1).
+    
+    Para restablecer la configuración de columna, haga clic con el botón derecho en  **Vistas**  |  **MySolution.Module.BusinessObjects**  |  **Contact_ListView**  |  **Columnas**  y seleccione  **Restablecer diferencias**.
+    
+4.  Ejecute la aplicación. La vista Lista de  **contactos**  muestra las columnas  _Nombre completo_,  _Departamento_,  _Puesto_  y  _Correo electrónico_.
+    
+    [![image](https://user-images.githubusercontent.com/126447472/254453457-c04a863a-2fcb-44c8-8756-6347f4e5b0a9.png)](https://user-images.githubusercontent.com/126447472/254453457-c04a863a-2fcb-44c8-8756-6347f4e5b0a9.png)
+    
+
+# [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial#change-list-view-filters)Cambiar filtros de vista de lista
+
+En esta lección se describen tres técnicas utilizadas para filtrar una vista de lista. Los filtros se aplicarán a la vista Lista de  **contactos**.
+
+> NOTA Antes de continuar, tómese un momento para repasar las siguientes lecciones:
+> 
+> -   Heredar de la clase de biblioteca de clase empresarial (núcleo  [XPO/](https://docs.devexpress.com/eXpressAppFramework/402166/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-xpo/inherit-from-the-business-class-library-class-xpo?v=22.1)[EF](https://docs.devexpress.com/eXpressAppFramework/402981/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-ef-core/inherit-from-the-business-class-library-class-ef-core?v=22.1)))
+> -   Implementar clases empresariales personalizadas y propiedades de referencia (núcleo  [XPO/](https://docs.devexpress.com/eXpressAppFramework/402163/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-xpo/implement-custom-business-classes-and-reference-properties-xpo?v=22.1)[EF](https://docs.devexpress.com/eXpressAppFramework/402978/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-ef-core/implement-custom-business-classes-and-reference-properties-ef-core?v=22.1)))
+> -   Establecer una relación de uno a varios ([XPO/](https://docs.devexpress.com/eXpressAppFramework/402169/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-xpo/set-a-one-to-many-relationship-xpo?v=22.1)[EF](https://docs.devexpress.com/eXpressAppFramework/402984/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-ef-core/set-a-one-to-many-relationship-ef-core?v=22.1))
+> -   Filtrar origen de datos para un editor de búsquedas ([XPO](https://docs.devexpress.com/eXpressAppFramework/404170/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-xpo/filter-data-source-for-lookup-editor-xpo?v=22.1)[EF Core](https://docs.devexpress.com/eXpressAppFramework/402139/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-ef-core/filter-lookup-editor-data-source-ef-core?v=22.1)
+> -   [Colocar una acción en una ubicación diferente](https://docs.devexpress.com/eXpressAppFramework/402145/getting-started/in-depth-tutorial-blazor/ui-customization/place-an-action-in-a-different-location?v=22.1)
+
+## [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial#show-a-filter-action)Mostrar una acción de filtro
+
+Esta técnica permite a los usuarios finales aplicar filtros predefinidos a una vista de lista.
+
+1.  Abra el archivo  **Model.DesignedDiffs.xafml**  en el Editor de  [modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor?v=22.1). Navegar a las  **vistas**  |  **MySolution.Module.BusinessObjects**  |  **Contact_ListView**  nodo. Haga clic con el botón derecho en el nodo secundario  **Filtros**  y seleccione  **Agregar**  |  **ListViewFilterItem**. Para el nuevo nodo, establezca la propiedad  **Id**  en  _Contactos del departamento de desarrollo_. Establezca la propiedad  **Criteria**  en .`[Department.Title] = 'Development Department'`
+    
+    [![image](https://user-images.githubusercontent.com/126447472/254453478-3b8c2b40-abdd-4a48-b92e-cdafe66d7de1.png)](https://user-images.githubusercontent.com/126447472/254453478-3b8c2b40-abdd-4a48-b92e-cdafe66d7de1.png)
+    
+    **Las propiedades Criteria**  utilizan  [la sintaxis del lenguaje de criterios](https://docs.devexpress.com/CoreLibraries/4928/devexpress-data-library/criteria-language-syntax?v=22.1).
+    
+    También puede crear un criterio de filtro en el cuadro de diálogo  **Generador de filtros**. Para abrir este cuadro de diálogo, haga clic en el botón de puntos suspensivos ([![EllipsisButton](https://camo.githubusercontent.com/2ba2ee67a57b7dcbfd265715bf94f4bda1e01aa2f93fefc791fba5c403cd0bc0/68747470733a2f2f646f63732e646576657870726573732e636f6d2f655870726573734170704672616d65776f726b2f696d616765732f656c6c6970736973627574746f6e3131363138322e706e673f763d32322e31)](https://camo.githubusercontent.com/2ba2ee67a57b7dcbfd265715bf94f4bda1e01aa2f93fefc791fba5c403cd0bc0/68747470733a2f2f646f63732e646576657870726573732e636f6d2f655870726573734170704672616d65776f726b2f696d616765732f656c6c6970736973627574746f6e3131363138322e706e673f763d32322e31)) situado a la derecha del valor  **Criterios**.
+    
+    [![image](https://user-images.githubusercontent.com/126447472/254453530-d104aeaf-7ecd-451f-9230-f9c011a560bc.png)](https://user-images.githubusercontent.com/126447472/254453530-d104aeaf-7ecd-451f-9230-f9c011a560bc.png)
+    
+2.  Agregue otro nodo secundario al nodo  **Filtros**. Establezca la propiedad  **Id**  en  _Developers_  y la propiedad  **Criteria**  en .`[Position.Title] = 'Developer'`
+    
+    [![image](https://user-images.githubusercontent.com/126447472/254453553-45a51e96-fb2b-4889-924d-491140833f31.png)](https://user-images.githubusercontent.com/126447472/254453553-45a51e96-fb2b-4889-924d-491140833f31.png)
+    
+3.  Agregue un nodo secundario más al nodo  **Filtros**. Establezca la propiedad  **Id**  en  _Todos los contactos_  y deje vacía la propiedad  **Criterios**. Este elemento mostrará todos los objetos  **Contact**  en la vista de lista.
+    
+    [![image](https://user-images.githubusercontent.com/126447472/254453573-a298bcf3-bab2-4341-95f5-db631c0832ff.png)](https://user-images.githubusercontent.com/126447472/254453573-a298bcf3-bab2-4341-95f5-db631c0832ff.png)
+    
+4.  Para el nodo  **Filters**, establezca la propiedad  **CurrentFilter**  en  _Developers_. El filtro Desarrolladores se aplicará inicialmente a la vista Lista de  **contactos**.
+    
+    [![image](https://user-images.githubusercontent.com/126447472/254453588-7a092d3b-f190-4618-b262-73541687fe0d.png)](https://user-images.githubusercontent.com/126447472/254453588-7a092d3b-f190-4618-b262-73541687fe0d.png)
+    
+5.  Ejecute la aplicación y compruebe que la acción  **SetFilter**  está disponible.
+    
+    [![image](https://user-images.githubusercontent.com/126447472/254453608-aa8215f7-2dd6-469f-8965-618679afef6c.png)](https://user-images.githubusercontent.com/126447472/254453608-aa8215f7-2dd6-469f-8965-618679afef6c.png)
+    
+
+## [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial#set-a-static-filter-in-the-model-editor)Establecer un filtro estático en el editor de modelos
+
+El  **Editor de modelos**  también permite filtrar los registros de la vista de lista sin ninguna indicación en la interfaz de usuario.
+
+1.  En el proyecto  _MySolution.Module_, abra el archivo  **Model.DesignedDiffs.xafml**  en el  [Editor de modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor?v=22.1). Navegar a las  **vistas**  |  **MySolution.Module.BusinessObjects**  |  **Contacto**  |  **Contact_ListView**  nodo. Establezca su propiedad  **Criteria**  en .`Position.Title = 'Developer'`
+    
+    [![image](https://user-images.githubusercontent.com/126447472/254453629-adbe2c44-1f0f-4112-a3e5-6a73c7051e05.png)](https://user-images.githubusercontent.com/126447472/254453629-adbe2c44-1f0f-4112-a3e5-6a73c7051e05.png)
+    
+2.  Ejecute la aplicación y compruebe que la vista Lista de  **contactos**  muestra solo desarrolladores.
+    
+    [![image](https://user-images.githubusercontent.com/126447472/254453636-3a7f9da1-0c19-4125-ab94-c0dff071f9d0.png)](https://user-images.githubusercontent.com/126447472/254453636-3a7f9da1-0c19-4125-ab94-c0dff071f9d0.png)
+    
+
+## [](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial#set-a-filter-in-code)Establecer un filtro en el código
+
+Puede crear filtros que no se pueden deshabilitar en la interfaz de usuario de la aplicación ni en el Editor de modelos.
+
+1.  En el  **Explorador de soluciones**, haga clic con el botón secundario en la carpeta  _Controllers_  del proyecto  _MySolution.Module_  y elija  **Agregar elemento DevExpress**  |  **Nuevo artículo...**  para invocar la  [Galería de plantillas](https://docs.devexpress.com/eXpressAppFramework/113455/installation-upgrade-version-history/visual-studio-integration/template-gallery?v=22.1).
+    
+2.  Seleccione los  **controladores XAF**  |  **Controlador de vista**  Plantilla de Visual Studio. Especifique  _FilterListViewController_  como nombre del nuevo elemento y haga clic en  **Agregar elemento**.
+    
+3.  En el archivo  _FilterListViewController.cs_  generado automáticamente, herede el controlador de  [ObjectViewController<ViewType, ObjectType>](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.ObjectViewController-2?v=22.1):
+    ```csharp
+    using DevExpress.Data.Filtering;
+    using DevExpress.ExpressApp;
+    using MySolution.Module.BusinessObjects;
+    // ...
+    
+    public partial class FilterListViewController : ObjectViewController<DetailView, Contact> {
+        public FilterListViewController() {
+            InitializeComponent();
+        }
+        // ...
+    }
+    ```
+4.  Anule el método:`OnActivated`
+    ```csharp
+    public partial class FilterListViewController : ObjectViewController<DetailView, Contact> {
+        // ... 
+        protected override void OnActivated() {
+            base.OnActivated();
+            //Specify a filter criteria.
+            View.CollectionSource.Criteria["Developers"] = CriteriaOperator.FromLambda<Contact>(c => c.Position.Title == "Developer");
+        }
+        // ...
+    }
+    ```
+5.  Ejecute la aplicación y compruebe el filtro en la vista Lista de  **contactos**.

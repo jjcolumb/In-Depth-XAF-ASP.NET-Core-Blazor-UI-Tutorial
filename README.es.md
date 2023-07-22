@@ -1,5 +1,5 @@
 [![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/edit/master/README.md)
-# In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial (En español)
+# Tutorial detallado de la interfaz de usuario de XAF ASP.NET Core Blazor (demostración principal)
 
 Mientras continuamos ampliando las capacidades de la interfaz de usuario de ASP.NET Core Blazor de XAF, puede ofrecer experiencias de usuario intuitivas para la plataforma ASP.NET Core Blazor. Este tutorial documenta cómo crear una aplicación para almacenar contactos y otros objetos relacionados utilizando la interfaz de usuario de ASP.NET Core Blazor de XAF.
 
@@ -2073,3 +2073,255 @@ Puede crear filtros que no se pueden deshabilitar en la interfaz de usuario de l
     }
     ```
 5.  Ejecute la aplicación y compruebe el filtro en la vista Lista de  **contactos**.
+
+
+# Agrupar datos de ListView
+
+En este tema se explica cómo agrupar datos de vista de lista y se usan las propiedades  **Departamento**  y  **Posición**  creadas en los pasos anteriores para agrupar los datos de la vista de lista de  **contactos**.
+
+>NOTA
+Antes de continuar, tómese un momento para repasar la siguiente lección:
+>-   [Colocar una acción en una ubicación diferente](https://docs.devexpress.com/eXpressAppFramework/402145/getting-started/in-depth-tutorial-blazor/ui-customization/place-an-action-in-a-different-location?v=22.1)
+
+## Instrucciones paso a paso
+
+1.  Abra el archivo  _Model.DesignedDiffs.xafml_  en el Editor de  [modelos](https://docs.devexpress.com/eXpressAppFramework/112582/ui-construction/application-model-ui-settings-storage/model-editor?v=22.1).
+    
+2.  Haga clic en el  **botón Vistas**  |  **MySolution.Module.BusinessObjects**  |  **Contacto**  |  **Contact_ListView**  |  **Nodo Columnas**  para abrir el  **Diseñador del Editor de listas de cuadrículas**. Haga clic con el botón secundario en el encabezado de la tabla y seleccione el elemento  **Mostrar grupo por cuadro**.
+    
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/e0c02b5a-f476-4122-b2f2-190924b7fa21)
+
+    
+3.  El  **panel Grupo**  aparece encima de los encabezados de columna.
+    
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/bc7951ed-10d9-48fb-8c98-93fbd48eab6c)
+
+    
+4.  Arrastre los encabezados de columna  **Departamento**  y  **Posición**  al  **Panel Grupo**. Tenga en cuenta que varias columnas en el área de grupo crean grupos anidados.
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/cf0a70d1-91c6-44f9-be9a-e8b3f7969e76)
+
+    Cuando se agrega una columna al  **Panel de grupos**, el valor de la propiedad de la columna cambia. También puede especificar directamente la propiedad de una columna para agrupar los datos de la vista de lista. Consulte el tema siguiente para obtener más información:  [Personalización de columnas de vista de lista](https://docs.devexpress.com/eXpressAppFramework/113679/ui-construction/views/layout/list-view-columns-customization?v=22.1).`GroupIndex` `GroupIndex`
+    
+    Puede ocultar el Panel de grupo para evitar que los usuarios cambien de  **grupo**. Navegar a las  **vistas**  |  **MySolution.Module.BusinessObjects**  |  **Contacto**  |  **Contact_ListView**  nodo y establezca su propiedad  **IsGroupPanelVisible**  en .`False`
+    
+5.  Ejecute la aplicación. La vista Lista de  **contactos**  se agrupa por los campos  **Departamento**  y  **Posición**  y se muestra el  **Panel de grupo**.
+    
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/dc155d62-0423-4237-b974-67f91d2c2fad)
+
+    
+6.  Users can also drag columns to and from the  **Group Panel**  to group and ungroup List View Data.
+    
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/7e4da169-bdbe-487a-95d8-890d85179e7e)
+
+
+# Módulos adicionales
+
+
+**eXpressApp Framework**  proporciona algunas características en ensamblajes separados llamados  [módulos](https://docs.devexpress.com/eXpressAppFramework/118046/application-shell-and-base-infrastructure/application-solution-components/modules?v=22.1#modules-shipped-with-xaf). Para obtener información sobre cómo agregar y usar estas características en las aplicaciones, vea las siguientes lecciones:
+
+-   [Adjuntar archivos a objetos](https://docs.devexpress.com/eXpressAppFramework/403288/getting-started/in-depth-tutorial-blazor/additional-modules/attach-files-to-objects?v=22.1)
+-   [Crear varias variantes de vista](https://docs.devexpress.com/eXpressAppFramework/403380/getting-started/in-depth-tutorial-blazor/additional-modules/create-multiple-view-variants?v=22.1)
+
+
+
+# Adjuntar archivos a objetos (.NET 6)
+
+En esta lección se describe cómo adjuntar colecciones de archivos a objetos de negocio. En este tutorial, agregaremos el módulo de archivos  [adjuntos](https://docs.devexpress.com/eXpressAppFramework/112781/document-management/file-attachments-module?v=22.1)  a una aplicación ASP.NET Core Blazor, e implementaremos nuevas clases de negocio: para almacenar la información del currículum de un contacto y para guardar elementos de recopilación de datos de archivos.`Resume` `PortfolioFileData`
+
+>NOTA
+>Antes de continuar, tómese un momento para repasar las siguientes lecciones:
+>-   Implementar clases empresariales personalizadas y propiedades de referencia ([XPO/](https://docs.devexpress.com/eXpressAppFramework/402163/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-xpo/implement-custom-business-classes-and-reference-properties-xpo?v=22.1)[EF](https://docs.devexpress.com/eXpressAppFramework/402978/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-ef-core/implement-custom-business-classes-and-reference-properties-ef-core?v=22.1))
+>-   Heredar de la clase de biblioteca de clase empresarial ([XPO/](https://docs.devexpress.com/eXpressAppFramework/402166/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-xpo/inherit-from-the-business-class-library-class-xpo?v=22.1)[EF](https://docs.devexpress.com/eXpressAppFramework/402981/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-ef-core/inherit-from-the-business-class-library-class-ef-core?v=22.1))
+>-   Establecer una relación de uno a varios ([XPO/](https://docs.devexpress.com/eXpressAppFramework/402169/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-xpo/set-a-one-to-many-relationship-xpo?v=22.1)[EF](https://docs.devexpress.com/eXpressAppFramework/402984/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-ef-core/set-a-one-to-many-relationship-ef-core?v=22.1))
+>-   Implementar la validación del valor de la propiedad en el código ([XPO/](https://docs.devexpress.com/eXpressAppFramework/402165/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-xpo/implement-property-value-validation-in-code-xpo?v=22.1)[EF](https://docs.devexpress.com/eXpressAppFramework/402980/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-ef-core/implement-property-value-validation-in-code-ef-core?v=22.1))
+
+## Instrucciones paso a paso
+
+1.  Agregue el paquete NuGet  **DevExpress.ExpressApp.FileAttachment.Blazor**  al proyecto  _MySolution.Blazor.Server._  Consulte el tema siguiente para obtener más información sobre cómo instalar paquetes NuGet de DevExpress:  [Instalar controles de DevExpress mediante paquetes NuGet.](https://docs.devexpress.com/GeneralInformation/115912/installation/install-devexpress-controls-using-nuget-packages?v=22.1)
+    
+2.  En el archivo  _Startup.cs_, llame al método  [AddFileAttachments(IModuleBuilder<IBlazorApplicationBuilder>, Action<FileAttachmentsOptions>)](https://docs.devexpress.com/eXpressAppFramework/DevExpress.ExpressApp.Blazor.ApplicationBuilder.FileAttachmentsApplicationBuilderExtensions.------n-Y-----j-?v=22.1)  para agregar el módulo de datos adjuntos de archivo a la aplicación:
+
+    ```csharp
+    public class Startup {
+    // ...
+        public void ConfigureServices(IServiceCollection services) {
+            // ...
+            services.AddXaf(Configuration, builder => {
+                builder.UseApplication<MySolutionBlazorApplication>();
+                builder.Modules
+                    .AddConditionalAppearance()
+                    // ...
+                    .AddFileAttachments()
+                // ...
+            });
+            // ...
+        }
+    }
+    
+    ```
+    
+    Si agrega el módulo de datos adjuntos de archivos al crear una aplicación XAF, el Asistente para  [soluciones](https://docs.devexpress.com/eXpressAppFramework/113624/installation-upgrade-version-history/visual-studio-integration/solution-wizard?v=22.1)  genera el código utilizado para agregar automáticamente el módulo de  [datos adjuntos de archivos](https://docs.devexpress.com/eXpressAppFramework/112781/document-management/file-attachments-module?v=22.1).
+    
+3.  Haga clic con el botón secundario en la carpeta  _Business Objects_  del proyecto  _MySolution.Module_  y elija  **Agregar elemento**  |  **Clase...**  Especifique  _Reanudar.cs_  como el nuevo nombre de archivo y haga clic en  **Agregar**.
+    
+4.  Reemplace la declaración de clase generada por el código siguiente:
+    
+ 
+    ```csharp
+    using DevExpress.Persistent.Base;
+    using DevExpress.Persistent.BaseImpl;
+    using DevExpress.Xpo;
+    using MySolution.Module.BusinessObjects;
+    
+    namespace MySolution.Module.BusinessObjects {
+        [DefaultClassOptions]
+        [ImageName("BO_Resume")]
+        public class Resume : BaseObject {
+            public Resume(Session session) : base(session) {}
+            private Contact contact;
+            [Association("Contact-Resumes")]
+            public Contact Contact {
+                get { return contact; }
+                set { SetPropertyValue(nameof(Contact), ref contact, value); }
+            }
+            [Aggregated, Association("Resume-PortfolioFileData")]
+            public XPCollection<PortfolioFileData> Portfolio {
+                get { return GetCollection<PortfolioFileData>(nameof(Portfolio)); }
+            }
+        }
+    }   
+    
+    ```
+    
+5.  Agregue la propiedad a la clase:`Resume``Contact`
+
+    
+    ```csharp
+    namespace MySolution.Module.BusinessObjects {
+        [DefaultClassOptions]
+        public class Contact : Person {
+            // ...
+            [Association("Contact-Resumes")]
+            public XPCollection<Resume> Resumes {
+                get { return GetCollection<Resume>(nameof(Resumes)); }
+            }
+        }
+    } 
+    
+    ```
+    
+6.  Agregue otra clase al proyecto  _MySolution.Module_  y asígnele  _el nombre PortfolioFileData_. Reemplace la declaración de clase generada por el código siguiente:
+    
+
+    ```csharp
+    using DevExpress.Persistent.BaseImpl;
+    using DevExpress.Xpo;
+    
+    namespace MySolution.Module.BusinessObjects {
+        public class PortfolioFileData : FileAttachmentBase {
+            public PortfolioFileData(Session session) : base(session) { }
+            private Resume resume;
+            [Association("Resume-PortfolioFileData")]
+            public Resume Resume {
+                get { return resume; }
+                set { SetPropertyValue(nameof(Resume), ref resume, value); }
+            }
+            public override void AfterConstruction() {
+                base.AfterConstruction();
+                documentType = DocumentType.Unknown;
+            }
+            private DocumentType documentType;
+            public DocumentType DocumentType {
+                get { return documentType; }
+                set { SetPropertyValue(nameof(DocumentType), ref documentType, value); }
+            }
+        }
+        public enum DocumentType {
+            SourceCode = 1, Tests = 2, Documentation = 3,
+            Diagrams = 4, ScreenShots = 5, Unknown = 6
+        };
+    }    
+    
+    ```
+    
+    En esta lección, derivamos de la clase en la aplicación basada en XPO y de la clase en la aplicación basada en EF Core. y son clases  [de Business Class Library](https://docs.devexpress.com/eXpressAppFramework/112571/business-model-design-orm/built-in-business-classes-and-interfaces?v=22.1). Estas clases pueden almacenar archivos en la base de datos. Para obtener más información acerca de las propiedades de datos adjuntos de archivo, consulte los siguientes temas:  **Propiedades de datos adjuntos de archivo en**  [XPO/](https://docs.devexpress.com/eXpressAppFramework/113549/business-model-design-orm/data-types-supported-by-built-in-editors/file-attachment-properties/file-attachment-properties-in-xpo?v=22.1)[EF Core](https://docs.devexpress.com/eXpressAppFramework/113550/business-model-design-orm/data-types-supported-by-built-in-editors/file-attachment-properties/file-attachment-properties-in-entity-framework?v=22.1).`PortfolioFileData``FileAttachmentBase``FileAttachment``FileAttachmentBase``FileAttachment`
+    
+    En la aplicación basada en XPO, inicializamos la propiedad en el método  [AfterConstruction()](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.BaseImpl.BaseObject.AfterConstruction?v=22.1)  al que se llama después de la creación del objeto correspondiente. Consulte el tema siguiente para obtener más información:  [Cómo: Inicializar objetos de negocio con valores de propiedad predeterminados en XPO](https://docs.devexpress.com/eXpressAppFramework/113258/business-model-design-orm/business-model-design-with-xpo/initialize-business-objects-with-default-property-values-in-xpo?v=22.1).`PortfolioFileData.DocumentType`
+    
+7.  En aplicaciones basadas en EF Core, agregue el atributo  [Required](https://docs.microsoft.com/dotnet/api/system.componentmodel.dataannotations.requiredattribute) a la propiedad de la clase.`Resume``PortfolioFileData`
+    
+
+    ```csharp
+    using DevExpress.Persistent.BaseImpl.EF;
+    
+    namespace MySolution.Module.BusinessObjects {
+        [ImageName("BO_FileAttachment")]
+        public class PortfolioFileData : FileAttachment {
+            public PortfolioFileData()
+                : base() {
+                DocumentType = DocumentType.Unknown;
+            }
+            //..           
+            [Required]
+            public virtual Resume Resume { get; set; }
+            //...
+            }
+        }
+        //...
+    }
+    
+    ```
+    
+    Las clases y están conectadas con una relación de Uno a Muchos. Para obtener más información sobre cómo crear una relación de uno a varios entre objetos de negocio, consulte los siguientes temas:  **Establecer una relación de uno a varios**  ([XPO/](https://docs.devexpress.com/eXpressAppFramework/402169/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-xpo/set-a-one-to-many-relationship-xpo?v=22.1)[EF Core](https://docs.devexpress.com/eXpressAppFramework/402984/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-ef-core/set-a-one-to-many-relationship-ef-core?v=22.1)).`Resume` `PortfolioFileData`
+    
+    En la aplicación basada en EF Core, una eliminación de un objeto maestro no elimina los objetos relacionados. En esta lección, usamos el atributo  [Required](https://docs.microsoft.com/dotnet/api/system.componentmodel.dataannotations.requiredattribute) para configurar las asociaciones entre clases. De esta manera, puede eliminar los objetos a los que se hace referencia con el objeto maestro y evitar la violación de la integridad.
+    
+    Como alternativa, puede usar la API Fluent y especificar el método OnDelete para la relación - como se describe en el tema siguiente:  [El método  OnDelete](https://www.learnentityframeworkcore.com/configuration/fluent-api/ondelete-method) [](https://learn.microsoft.com/dotnet/api/microsoft.entityframeworkcore.metadata.builders.referencecollectionbuilder.ondelete) de la  [API  Fluent](https://docs.microsoft.com/en-us/ef/core/modeling/#use-fluent-api-to-configure-a-model).`Portfolio``Resume`
+    
+8.  Agregue el atributo  [RuleRequiredFieldAttribute](https://docs.devexpress.com/eXpressAppFramework/DevExpress.Persistent.Validation.RuleRequiredFieldAttribute?v=22.1)  a la propiedad para implementar la validación del valor de la propiedad:`Resume`
+    
+
+    ```csharp
+    using DevExpress.Persistent.BaseImpl;
+    using DevExpress.Xpo;
+    
+    namespace MySolution.Module.BusinessObjects {
+        public class PortfolioFileData : FileAttachmentBase {
+            public PortfolioFileData(Session session) : base(session) { }
+            private Resume resume;
+            [Association("Resume-PortfolioFileData")]
+            [RuleRequiredField(DefaultContexts.Save)]
+            public Resume Resume {
+                get { return resume; }
+                set { SetPropertyValue(nameof(Resume), ref resume, value); }
+            }
+            //...
+        }
+        //..
+    }    
+    
+    ```
+    
+    Para obtener información adicional sobre la validación, consulte el artículo siguiente:  [Validación (evitar errores de datos)](https://docs.devexpress.com/eXpressAppFramework/113684/validation-module?v=22.1).
+    
+9.  En aplicaciones basadas en EF Core, abra el archivo  _MySolution.Module.BusinessObjects\MySolutionDbContext.cs_  y agregue las propiedades de , y tipos a :`Resume``PortfolioFileData``FileAttachments``DbContext`
+    
+
+    ```csharp
+    public class MySolutionDbContext : DbContext {
+        //...
+        public DbSet<Resume> Resumes { get; set; }
+        public DbSet<PortfolioFileData> PortfolioFileData { get; set; }
+        public DbSet<FileAttachment> FileAttachments { get; set; }
+    }
+    
+    ```
+    
+10.  Agregue una migración y actualice la base de datos. Consulte la siguiente sección para obtener más información:  [Usar un DBMS: Migraciones de configuración](https://docs.devexpress.com/eXpressAppFramework/404144/getting-started/in-depth-tutorial-blazor/business-model-design/business-model-design-with-ef-core/create-a-solution-ef-core?v=22.1#use-a-dbms-setup-migrations).
+    
+11.  Ejecute la aplicación. Abra la vista  **Lista de reanudación**  y cree un nuevo objeto  **Reanudar**. Rellene el campo  **Contacto**  y agregue un nuevo objeto  **Datos de archivo de cartera**. En la ventana  **Datos de archivo de cartera**, especifique el Tipo de  **documento**  y seleccione el archivo que desea adjuntar.
+    ![image](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/assets/126447472/b1f7d27d-4100-4198-9a08-eb5ea2eface3)
+
+Los usuarios pueden hacer clic en el vínculo del archivo para descargar el archivo de currículum.
+    
+Para obtener un archivo almacenado dentro de un objeto en código, utilice el método de su propiedad.`PortfolioFileData``IFileData.SaveToStream``File`

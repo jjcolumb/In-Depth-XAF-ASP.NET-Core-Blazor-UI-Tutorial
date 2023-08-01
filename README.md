@@ -1,5 +1,4 @@
-[![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial#readme)
-[![es](https://img.shields.io/badge/lang-es-yellow.svg)](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/blob/master/README.es.md)
+[![es](https://img.shields.io/badge/lang-es-yellow.svg)](https://github.com/jjcolumb/In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial/blob/master/README.md)
 # In-Depth-XAF-ASP.NET-Core-Blazor-UI-Tutorial
 
 While we continue to extend the capabilities of XAF’s ASP.NET Core Blazor UI, you can deliver intuitive user experiences for the ASP.NET Core Blazor platform today. This tutorial documents how to build an application to store contacts and other related objects using XAF’s ASP.NET Core Blazor UI. 
